@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S1 Viernes — JavaScript Básico + Skills y Agents | Power Fox</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  :root{--navy:#0B1D3A;--blue:#1565C0;--blue-light:#42A5F5;--accent:#FF6D00;--accent-soft:#FFF3E0;--bg:#F5F7FA;--card:#FFF;--text:#1A2332;--text-mid:#546E7A;--text-light:#90A4AE;--border:#E8EDF2;--code-bg:#1E1E2E;--green:#2E7D32;--green-soft:#E8F5E9;--red:#C62828;--red-soft:#FFEBEE;--purple:#6A1B9A;--purple-soft:#F3E5F5;--claude:#7C3AED;--r:12px}
+  *{margin:0;padding:0;box-sizing:border-box}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+  .nav{display:flex;justify-content:space-between;align-items:center;padding:.75rem 1.5rem;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}.nav-logo{font-weight:700;font-size:.9rem;color:var(--navy);letter-spacing:1px}.nav-links{display:flex;gap:1rem}.nav-links a{font-size:.8rem;color:var(--text-mid);text-decoration:none;font-weight:500}
+  .hero{background:var(--navy);color:#fff;padding:3rem 2rem 2.5rem;position:relative;overflow:hidden}.hero::after{content:'';position:absolute;top:0;right:0;width:40%;height:100%;background:linear-gradient(135deg,transparent,rgba(124,58,237,.15),rgba(46,125,50,.1))}.hero-meta{display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem;position:relative;z-index:1}.hero-badge{background:var(--claude);color:#fff;padding:.25rem .75rem;border-radius:4px;font-size:.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}.hero-week{font-size:.85rem;opacity:.7}.hero h1{font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:.5rem;position:relative;z-index:1}.hero-sub{font-size:1rem;opacity:.75;position:relative;z-index:1;max-width:700px}.hero-time{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.1);padding:.3rem .75rem;border-radius:6px;font-size:.85rem;margin-top:.75rem;position:relative;z-index:1}
+  .container{max-width:1100px;margin:0 auto;padding:2rem 1.5rem}
+  .agenda{display:grid;grid-template-columns:60px 1fr;gap:0;background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:2.5rem}.agenda-title{grid-column:1/-1;padding:1rem 1.5rem;font-weight:700;font-size:1.1rem;border-bottom:2px solid var(--border)}.agenda-time{padding:.75rem .5rem;text-align:center;font-size:.78rem;font-weight:700;color:var(--blue);border-right:2px solid var(--border);border-bottom:1px solid var(--border)}.agenda-item{padding:.75rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.75rem}.agenda-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}.dot-blue{background:var(--blue)}.dot-orange{background:var(--accent)}.dot-green{background:var(--green)}.dot-purple{background:var(--claude)}.dot-red{background:var(--red)}.agenda-label{font-size:.9rem}.agenda-label strong{font-weight:600}.agenda-tag{font-size:.65rem;padding:.15rem .45rem;border-radius:3px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-left:auto;flex-shrink:0}.tag-key{background:var(--blue);color:#fff}.tag-ia{background:var(--claude);color:#fff}.tag-break{background:var(--red);color:#fff}.tag-star{background:var(--accent);color:#fff}.agenda-break{background:#FFF3E0}
+  .section{margin-bottom:3rem}.section-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:2px solid var(--border)}.section-num{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;color:#fff;flex-shrink:0}.section-header h2{font-size:1.3rem;font-weight:700}.section-header .duration{margin-left:auto;font-size:.8rem;color:var(--text-light);font-weight:500}
+  .content-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}@media(max-width:768px){.content-grid{grid-template-columns:1fr}}
+  .card{background:var(--card);border-radius:var(--r);padding:1.5rem;box-shadow:0 1px 4px rgba(0,0,0,.05);border:1px solid var(--border)}.card h3{font-size:1.05rem;font-weight:700;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}.card p,.card li{font-size:.88rem;color:var(--text-mid)}.card ul{padding-left:1.25rem}.card li{margin-bottom:.35rem}.card-full{grid-column:1/-1}
+  .highlight-box{border-left:4px solid var(--accent);background:var(--accent-soft);padding:1rem 1.25rem;border-radius:0 var(--r) var(--r) 0;margin:1rem 0}.highlight-box p{font-size:.88rem;color:var(--text)}.tip-box{border-left:4px solid var(--green);background:var(--green-soft);padding:1rem 1.25rem;border-radius:0 var(--r) var(--r) 0;margin:1rem 0}.tip-box p{font-size:.88rem}.warn-box{border-left:4px solid var(--red);background:var(--red-soft);padding:1rem 1.25rem;border-radius:0 var(--r) var(--r) 0;margin:1rem 0}.warn-box p{font-size:.88rem}
+  .code-block{background:var(--code-bg);color:#CDD6F4;border-radius:8px;padding:1.25rem;font-family:'JetBrains Mono',monospace;font-size:.78rem;overflow-x:auto;margin:1rem 0;line-height:1.6;white-space:pre}.comment{color:#6C7086}.keyword{color:#CBA6F7}.string{color:#A6E3A1}.func{color:#89B4FA}.num{color:#FAB387}.prop{color:#F9E2AF}
+  .diagram{background:var(--card);border-radius:var(--r);padding:1.5rem;border:1px solid var(--border);margin:1rem 0;text-align:center}.diagram-title{font-size:.8rem;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem}.diagram-row{display:flex;justify-content:center;gap:.75rem;flex-wrap:wrap;margin-bottom:.75rem}.diagram-box{padding:.6rem 1rem;border-radius:8px;font-size:.8rem;font-weight:600;min-width:120px;text-align:center}.db-navy{background:var(--navy);color:#fff}.db-blue{background:var(--blue);color:#fff}.db-orange{background:var(--accent);color:#fff}.db-green{background:var(--green);color:#fff}.db-purple{background:var(--claude);color:#fff}.db-light{background:#E3F2FD;color:var(--blue);border:1px solid var(--blue)}.diagram-arrow{font-size:1.2rem;color:var(--text-light)}
+  .qa-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}@media(max-width:768px){.qa-grid{grid-template-columns:1fr}}.qa-card{background:var(--purple-soft);border-radius:var(--r);padding:1.25rem;border:1px solid #CE93D8}.qa-card p{font-size:.88rem;color:var(--claude);font-weight:500}
+  .table-wrap{overflow-x:auto;margin:1rem 0}table{width:100%;border-collapse:collapse;font-size:.85rem}th{background:var(--navy);color:#fff;padding:.6rem 1rem;text-align:left;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px}td{padding:.6rem 1rem;border-bottom:1px solid var(--border)}tr:hover td{background:#F8FAFC}
+  .footer{text-align:center;padding:2rem;font-size:.8rem;color:var(--text-light);border-top:1px solid var(--border);margin-top:2rem}.footer strong{color:var(--navy)}
+  .prompt-anchor{display:inline-flex;align-items:center;gap:.4rem;background:var(--claude);color:#fff;padding:.35rem .85rem;border-radius:6px;font-size:.78rem;font-weight:700;letter-spacing:.5px;margin:1.25rem 0 .5rem;font-family:'JetBrains Mono',monospace}.prompt-anchor::before{content:'⚡'}
+  .real-system{border:2px solid var(--accent);border-radius:var(--r);padding:1.5rem;background:linear-gradient(135deg,#FFF8E1,#FFF3E0);margin:1rem 0}.real-system::before{content:'📍 NUESTRO SISTEMA';display:block;font-size:.7rem;font-weight:700;letter-spacing:1.5px;color:var(--accent);margin-bottom:.75rem}.real-system h3{font-size:1.05rem;font-weight:700;margin-bottom:.75rem}.real-system p,.real-system li{font-size:.88rem;color:var(--text-mid)}.real-system ul{padding-left:1.25rem}.real-system li{margin-bottom:.35rem}
+  .ai-spotlight{background:linear-gradient(135deg,#1A1A2E,#2D2D4E);color:#fff;border-radius:var(--r);padding:2rem;margin:1.5rem 0;position:relative;overflow:hidden}.ai-spotlight::before{content:'🤖 BLOQUE ESTRELLA';display:block;font-size:.7rem;font-weight:700;letter-spacing:2px;color:#A78BFA;margin-bottom:.75rem}.ai-spotlight h3{font-size:1.3rem;font-weight:700;margin-bottom:.75rem;color:#fff}.ai-spotlight p{font-size:.95rem;color:#CDD6F4;margin-bottom:.5rem}
+  .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0}@media(max-width:768px){.compare-grid{grid-template-columns:1fr}}.compare-col{background:var(--card);border-radius:var(--r);padding:1.25rem;border:1px solid var(--border)}.compare-col h4{font-size:.9rem;font-weight:700;margin-bottom:.5rem;padding:.3rem .6rem;border-radius:4px;display:inline-block}.compare-bad h4{background:var(--red-soft);color:var(--red)}.compare-good h4{background:var(--green-soft);color:var(--green)}
+  .skill-agent-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin:1.5rem 0}@media(max-width:768px){.skill-agent-grid{grid-template-columns:1fr}}
+  .skill-card,.agent-card{background:var(--card);border-radius:var(--r);padding:1.5rem;border:2px solid var(--claude);position:relative}.skill-card::before,.agent-card::before{position:absolute;top:-10px;left:1rem;padding:.2rem .75rem;border-radius:4px;font-size:.65rem;font-weight:700;letter-spacing:1px;color:#fff}.skill-card::before{content:'SKILL';background:#7C3AED}.agent-card::before{content:'AGENT';background:#DB2777}.skill-card h4,.agent-card h4{font-size:1rem;font-weight:700;margin:.5rem 0 .75rem}
+  .badge-list{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.5rem}.badge{background:#EDE9FE;color:var(--claude);padding:.2rem .55rem;border-radius:4px;font-size:.72rem;font-weight:600}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-logo">POWER FOX — Formación</div><div class="nav-links"><a href="#">S1</a><a href="#">Viernes</a><a href="#">Día 3 de 12</a></div></nav>
+
+<div class="hero">
+  <div class="hero-meta"><span class="hero-badge">Semana 1 · Sesión Estrella</span><span class="hero-week">Viernes · Día 3 de 12</span></div>
+  <h1>JavaScript en Model-Driven Apps + Skills y Agents en vivo</h1>
+  <p class="hero-sub">Fundamentos de JavaScript para formularios, formContext, Xrm.WebApi y las librerías compartidas. Cierre: creamos Skills y Agents de Claude Code en directo.</p>
+  <div class="hero-time">⏱ 3 horas · JS básico + demo en vivo de Skills/Agents</div>
+</div>
+
+<div class="container">
+
+  <!-- AGENDA -->
+  <div class="agenda">
+    <div class="agenda-title">📋 Agenda del día</div>
+    <div class="agenda-time">0:00</div><div class="agenda-item"><div class="agenda-dot dot-green"></div><span class="agenda-label"><strong>Recap miércoles</strong> + preguntas pendientes</span></div>
+    <div class="agenda-time">0:15</div><div class="agenda-item"><div class="agenda-dot dot-blue"></div><span class="agenda-label"><strong>¿Qué es JavaScript en MDA?</strong> Cuándo usarlo, cuándo no</span></div>
+    <div class="agenda-time">0:35</div><div class="agenda-item"><div class="agenda-dot dot-blue"></div><span class="agenda-label"><strong>Los 3 eventos</strong> + formContext básico</span><span class="agenda-tag tag-key">CLAVE</span></div>
+    <div class="agenda-time">1:00</div><div class="agenda-item"><div class="agenda-dot dot-blue"></div><span class="agenda-label"><strong>Cómo vincular JS</strong> a un formulario paso a paso</span></div>
+    <div class="agenda-time">1:20</div><div class="agenda-item agenda-break"><div class="agenda-dot dot-red"></div><span class="agenda-label"><strong>☕ BREAK — 10 minutos</strong></span><span class="agenda-tag tag-break">PAUSA</span></div>
+    <div class="agenda-time">1:30</div><div class="agenda-item"><div class="agenda-dot dot-blue"></div><span class="agenda-label"><strong>Xrm.WebApi básico:</strong> leer datos de otras tablas</span></div>
+    <div class="agenda-time">1:50</div><div class="agenda-item"><div class="agenda-dot dot-orange"></div><span class="agenda-label"><strong>pfx_Common y pfx_Common_Helpers:</strong> qué son, por qué</span></div>
+    <div class="agenda-time">2:05</div><div class="agenda-item"><div class="agenda-dot dot-purple"></div><span class="agenda-label"><strong>Skills y Agents de Claude Code</strong> — creación en vivo</span><span class="agenda-tag tag-star">EN VIVO</span></div>
+    <div class="agenda-time">2:50</div><div class="agenda-item"><div class="agenda-dot dot-green"></div><span class="agenda-label"><strong>Cierre</strong> + preview S2-Lunes (avanzado)</span></div>
+  </div>
+
+  <!-- ========== BLOQUE 1: ¿QUÉ ES JS EN MDA? ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--blue)">01</div><h2>¿Qué es JavaScript en Model-Driven Apps?</h2><span class="duration">20 min</span></div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>💡 La idea</h3>
+        <p>JavaScript en MDA es el código que se ejecuta <strong>en el navegador del usuario</strong> mientras usa la aplicación. Permite que el formulario reaccione en tiempo real a lo que hace el usuario: cambiar un campo, ocultar una sección, validar datos, consultar otra tabla, mostrar un mensaje.</p>
+        <p>Vive en <strong>Web Resources</strong> de tipo JavaScript dentro de una solución. Se asocia a formularios específicos y se dispara con eventos.</p>
+      </div>
+      <div class="card">
+        <h3>🎯 ¿Cuándo usar JavaScript?</h3>
+        <ul>
+          <li><strong>Mostrar/ocultar</strong> campos o secciones según condiciones</li>
+          <li><strong>Validar</strong> datos antes de guardar (ej: fecha fin &gt; fecha inicio)</li>
+          <li><strong>Calcular</strong> valores en tiempo real al cambiar un campo</li>
+          <li><strong>Consultar</strong> datos de otras tablas y mostrarlos</li>
+          <li><strong>Notificar</strong> al usuario con mensajes o alertas</li>
+          <li><strong>Filtrar lookups</strong> dinámicamente según contexto</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-grid" style="margin-top:1.25rem">
+      <div class="card card-full">
+        <h3>⚖️ JavaScript vs Business Rules vs Power Automate</h3>
+        <div class="table-wrap"><table>
+          <tr><th>Necesidad</th><th>Mejor herramienta</th><th>Por qué</th></tr>
+          <tr><td>Ocultar campo si otro campo tiene valor X</td><td>Business Rule</td><td>Sin código, visual, suficiente</td></tr>
+          <tr><td>Validación compleja con condiciones múltiples</td><td>JavaScript</td><td>Lógica más flexible que BR</td></tr>
+          <tr><td>Consultar otra tabla al abrir el formulario</td><td>JavaScript (Xrm.WebApi)</td><td>BR no puede consultar datos</td></tr>
+          <tr><td>Enviar email al guardar</td><td>Power Automate</td><td>Mejor en server-side que client</td></tr>
+          <tr><td>Calcular campo siempre (UI + API)</td><td>Plugin o Formula Column</td><td>JS solo funciona en formulario</td></tr>
+          <tr><td>Filtrar lookup según otro campo</td><td>JavaScript</td><td>Solo JS puede manipular PreSearch</td></tr>
+        </table></div>
+        <div class="highlight-box"><p><strong>Regla de oro:</strong> Si Business Rule puede hacerlo, usa Business Rule. Si se repite en muchos formularios y necesita complejidad, pásalo a JavaScript. Si necesita ejecutarse desde API o flujos, ya estás hablando de Plugin o Power Automate.</p></div>
+      </div>
+    </div>
+
+    <div class="warn-box"><p>⚠️ <strong>JavaScript solo se ejecuta en el formulario.</strong> Si alguien crea/modifica un registro desde la API, un flow, o un import de datos, tu JavaScript NO se ejecuta. Si la lógica tiene que aplicarse siempre, necesitas Plugin o Power Automate.</p></div>
+  </div>
+
+  <!-- ========== BLOQUE 2: LOS 3 EVENTOS + FORMCONTEXT ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--blue)">02</div><h2>Los 3 Eventos Principales + formContext</h2><span class="duration">25 min · CLAVE</span></div>
+
+    <div class="content-grid">
+      <div class="card card-full">
+        <h3>⚡ Los 3 eventos básicos</h3>
+        <div class="table-wrap"><table>
+          <tr><th>Evento</th><th>Cuándo se dispara</th><th>Uso típico</th></tr>
+          <tr><td><strong>OnLoad</strong></td><td>Al abrir el formulario (crear o editar)</td><td>Inicializar, ocultar campos según rol, pre-rellenar, validar permisos</td></tr>
+          <tr><td><strong>OnChange</strong></td><td>Al modificar un campo específico y salir de él</td><td>Calcular, auto-rellenar otro campo, filtrar lookup, validar</td></tr>
+          <tr><td><strong>OnSave</strong></td><td>Al guardar (antes de guardar realmente)</td><td>Validar datos, prevenir guardado si hay error</td></tr>
+        </table></div>
+      </div>
+    </div>
+
+    <div class="content-grid" style="margin-top:1.25rem">
+      <div class="card">
+        <h3>🎁 ¿Qué es formContext?</h3>
+        <p>Es el "mando a distancia" del formulario. Con formContext puedes:</p>
+        <ul>
+          <li>Leer o escribir valores de campos</li>
+          <li>Ocultar o mostrar campos, secciones y pestañas</li>
+          <li>Hacer campos obligatorios o de solo lectura</li>
+          <li>Mostrar notificaciones al usuario</li>
+          <li>Refrescar el formulario o un subgrid</li>
+        </ul>
+        <div class="warn-box"><p>⚠️ <strong>Xrm.Page está deprecado.</strong> Siempre usa formContext obtenido desde executionContext.</p></div>
+      </div>
+      <div class="card">
+        <h3>🔑 Patrón básico</h3>
+        <div class="code-block"><span class="keyword">function</span> <span class="func">onLoad</span>(executionContext) {
+    <span class="comment">// Paso 1: obtener formContext</span>
+    <span class="keyword">var</span> formContext = executionContext.<span class="func">getFormContext</span>();
+
+    <span class="comment">// Paso 2: usar los métodos</span>
+    <span class="keyword">var</span> nombre = formContext
+      .<span class="func">getAttribute</span>(<span class="string">"pfx_name"</span>)
+      .<span class="func">getValue</span>();
+
+    <span class="keyword">if</span> (nombre === <span class="keyword">null</span>) {
+        formContext.<span class="prop">ui</span>.<span class="func">setFormNotification</span>(
+            <span class="string">"Falta el nombre"</span>,
+            <span class="string">"WARNING"</span>
+        );
+    }
+}</div>
+      </div>
+    </div>
+
+    <div class="content-grid" style="margin-top:1.25rem">
+      <div class="card card-full">
+        <h3>🛠️ Las 5 operaciones más comunes con formContext</h3>
+        <div class="code-block"><span class="comment">// 1. Leer un valor</span>
+<span class="keyword">var</span> valor = formContext.<span class="func">getAttribute</span>(<span class="string">"pfx_campo"</span>).<span class="func">getValue</span>();
+
+<span class="comment">// 2. Escribir un valor</span>
+formContext.<span class="func">getAttribute</span>(<span class="string">"pfx_campo"</span>).<span class="func">setValue</span>(<span class="string">"Nuevo valor"</span>);
+
+<span class="comment">// 3. Ocultar o mostrar un campo</span>
+formContext.<span class="func">getControl</span>(<span class="string">"pfx_campo"</span>).<span class="func">setVisible</span>(<span class="keyword">false</span>);
+
+<span class="comment">// 4. Hacer obligatorio un campo</span>
+formContext.<span class="func">getAttribute</span>(<span class="string">"pfx_campo"</span>).<span class="func">setRequiredLevel</span>(<span class="string">"required"</span>);
+
+<span class="comment">// 5. Mostrar una notificación</span>
+formContext.<span class="prop">ui</span>.<span class="func">setFormNotification</span>(<span class="string">"Mensaje al usuario"</span>, <span class="string">"INFO"</span>, <span class="string">"id_notif"</span>);</div>
+        <div class="tip-box"><p>💡 <strong>attribute</strong> = el dato del campo. <strong>control</strong> = la parte visual del campo en el formulario. Un mismo campo puede tener múltiples controles (si aparece en varias pestañas).</p></div>
+      </div>
+    </div>
+
+    <div class="prompt-anchor">P1 — Claude Code: Ejemplos prácticos de los 3 eventos con pfx_project_activity</div>
+  </div>
+
+  <!-- ========== BLOQUE 3: CÓMO VINCULAR JS ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--blue)">03</div><h2>Cómo Vincular JavaScript a un Formulario</h2><span class="duration">20 min</span></div>
+
+    <div class="diagram">
+      <div class="diagram-title">Flujo: de tu código al formulario</div>
+      <div class="diagram-row">
+        <div class="diagram-box db-green">1. Escribir JS<br><small>En VS Code</small></div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-box db-blue">2. Subir Web Resource<br><small>Maker Portal</small></div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-box db-orange">3. Añadir al formulario<br><small>Form Properties</small></div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-box db-purple">4. Vincular evento<br><small>Event Handlers</small></div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-box db-navy">5. Publicar<br><small>Disponible</small></div>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>📝 Paso a paso detallado</h3>
+        <ul>
+          <li><strong>1.</strong> Crear Web Resource tipo JavaScript (.js) — nombre: pfx_/js/entityname.js</li>
+          <li><strong>2.</strong> Subir el archivo o pegar el código en el editor</li>
+          <li><strong>3.</strong> Abrir el formulario donde aplicará — Form Properties</li>
+          <li><strong>4.</strong> Libraries → Add Library → seleccionar tu JS</li>
+          <li><strong>5.</strong> Event Handlers → elegir evento (OnLoad / OnSave)</li>
+          <li><strong>6.</strong> Add → especificar la función (ej: LITOCLEAN.Projeto.onLoad)</li>
+          <li><strong>7.</strong> ✅ Marcar "Pass execution context as first parameter"</li>
+          <li><strong>8.</strong> Save + Publish</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>⚠️ Errores comunes al vincular</h3>
+        <ul>
+          <li><strong>"Execution context is undefined"</strong> — olvidaste marcar el checkbox del paso 7</li>
+          <li><strong>"Function X is not defined"</strong> — el nombre del namespace en Event Handler no coincide con el del JS</li>
+          <li><strong>"Library not found"</strong> — subiste el web resource pero no lo publicaste</li>
+          <li><strong>El código no se ejecuta</strong> — caché del navegador, Ctrl+F5 para forzar recarga</li>
+          <li><strong>Cambios no aparecen</strong> — el web resource no se re-subió después de editarlo localmente</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="real-system">
+      <h3>🏗️ Patrón que usamos en nuestro sistema</h3>
+      <p>Todos los scripts del sistema siguen este patrón <strong>namespace</strong>:</p>
+      <div class="code-block"><span class="keyword">if</span> (<span class="keyword">typeof</span> ProjectForm === <span class="string">"undefined"</span>) 
+    ProjectForm = { __namespace: <span class="keyword">true</span> };
+
+ProjectForm.Events = {
+    <span class="func">OnLoad</span>: <span class="keyword">function</span>(executionContext) { <span class="comment">/* ... */</span> },
+    <span class="func">OnSave</span>: <span class="keyword">function</span>(executionContext) { <span class="comment">/* ... */</span> }
+};
+
+ProjectForm.Functions = {
+    <span class="func">CalculateTotals</span>: <span class="keyword">function</span>() { <span class="comment">/* ... */</span> },
+    <span class="func">ApplyVisibilityRules</span>: <span class="keyword">function</span>() { <span class="comment">/* ... */</span> }
+};</div>
+      <p>El <strong>Events</strong> contiene los handlers que se vinculan al formulario. <strong>Functions</strong> contiene la lógica reutilizable. Esta separación facilita mantenimiento.</p>
+    </div>
+  </div>
+
+  <!-- ========== BLOQUE 4: XRM.WEBAPI BÁSICO ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--blue)">04</div><h2>Xrm.WebApi Básico — Leer Datos de Otras Tablas</h2><span class="duration">20 min</span></div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>🔌 ¿Qué es Xrm.WebApi?</h3>
+        <p>Es la puerta para que tu JavaScript hable con Dataverse. Permite leer, crear, actualizar y eliminar registros desde el formulario.</p>
+        <p>Hoy vemos los dos métodos que más se usan:</p>
+        <ul>
+          <li><strong>retrieveRecord</strong> — Leer UN registro específico por su ID</li>
+          <li><strong>retrieveMultipleRecords</strong> — Leer VARIOS registros con filtros</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>📖 retrieveRecord</h3>
+        <div class="code-block"><span class="comment">// Leer un proyecto específico</span>
+Xrm.WebApi.<span class="func">retrieveRecord</span>(
+    <span class="string">"pfx_project"</span>,
+    <span class="string">"guid-del-registro"</span>,
+    <span class="string">"?$select=pfx_project_code,pfx_project_name"</span>
+).<span class="func">then</span>(
+    <span class="keyword">function</span> <span class="func">success</span>(result) {
+        console.<span class="func">log</span>(result.pfx_project_name);
+    },
+    <span class="keyword">function</span> <span class="func">error</span>(e) {
+        console.<span class="func">log</span>(e.message);
+    }
+);</div>
+      </div>
+    </div>
+
+    <div class="content-grid" style="margin-top:1.25rem">
+      <div class="card card-full">
+        <h3>📚 retrieveMultipleRecords</h3>
+        <div class="code-block"><span class="comment">// Leer actividades de un proyecto específico</span>
+<span class="keyword">var</span> projectId = <span class="string">"guid-del-proyecto"</span>;
+<span class="keyword">var</span> query = <span class="string">"?$select=pfx_activity_name,pfx_total_estimated_hours"</span> +
+            <span class="string">"&$filter=_pfx_project_id_value eq "</span> + projectId +
+            <span class="string">"&$orderby=pfx_activity_name asc"</span>;
+
+Xrm.WebApi.<span class="func">retrieveMultipleRecords</span>(<span class="string">"pfx_project_activity"</span>, query).<span class="func">then</span>(
+    <span class="keyword">function</span> <span class="func">success</span>(result) {
+        <span class="comment">// result.entities es un array con todos los registros</span>
+        <span class="keyword">for</span> (<span class="keyword">var</span> i = 0; i &lt; result.entities.length; i++) {
+            console.<span class="func">log</span>(result.entities[i].pfx_activity_name);
+        }
+    },
+    <span class="keyword">function</span> <span class="func">error</span>(e) {
+        console.<span class="func">log</span>(e.message);
+    }
+);</div>
+        <div class="highlight-box"><p><strong>Los 3 parámetros de la query:</strong> $select dice qué campos traer (menos es más rápido), $filter filtra con condiciones, $orderby ordena. Más opciones en la sesión avanzada.</p></div>
+      </div>
+    </div>
+
+    <div class="warn-box"><p>⚠️ <strong>Gotcha importante:</strong> Para filtrar por un campo lookup, se usa <code>_nombre_value</code> (con underscore delante y _value detrás). No usas el nombre del campo directamente.</p></div>
+
+    <div class="prompt-anchor">P2 — Claude Code: Generar consulta Xrm.WebApi real del sistema</div>
+  </div>
+
+  <!-- ========== BLOQUE 5: PFX_COMMON ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--accent)">05</div><h2>pfx_Common y pfx_Common_Helpers</h2><span class="duration">15 min</span></div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>🧰 ¿Qué son las librerías compartidas?</h3>
+        <p>Son <strong>Web Resources de JavaScript</strong> que NO están vinculados a un formulario específico, sino que contienen funciones que <strong>todos los formularios pueden usar</strong>.</p>
+        <p>En vez de escribir el mismo código en 20 formularios, lo escribes una vez en una librería común y todos lo llaman.</p>
+      </div>
+      <div class="card">
+        <h3>📦 Las dos librerías del sistema</h3>
+        <ul>
+          <li><strong>pfx_Common</strong> — Helpers genéricos que valen para cualquier formulario: leer/escribir campos, notificaciones, navegación, operaciones CRUD con Xrm.WebApi envueltas</li>
+          <li><strong>pfx_Common_Helpers</strong> — Helpers específicos del negocio de Project Hub: cálculos de horas, conversión de divisas, lógica de totales</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="real-system">
+      <h3>📦 Lo que hay dentro de pfx_Common</h3>
+      <p>La librería expone varios namespaces con funciones listas para usar:</p>
+      <ul>
+        <li><strong>Common.Api</strong> — Retrieve, UpdateRecord, CreateRecord, RetrieveMultipleRecords, DeleteRecord (wrappers de Xrm.WebApi)</li>
+        <li><strong>Common.FormContext</strong> — Init, GetValue, SetValue, TabVisible, SectionVisible, setFieldDisabled, AddFilterToLookup, setFormNotification</li>
+        <li><strong>Common.GlobalContext</strong> — GetUserSettings, GetUserSecurityRoles</li>
+      </ul>
+      <p>Y <strong>pfx_Common_Helpers</strong> contiene funciones específicas del negocio:</p>
+      <ul>
+        <li><strong>Common_Helpers.Custom_Action</strong> — Execute (llamadas a Custom API)</li>
+        <li><strong>Common_Helpers.Custom_Functions</strong> — CalculateHoursTotalsSummary, CalculateAndConvertTotals, GetTotalSumHours</li>
+      </ul>
+    </div>
+
+    <div class="content-grid" style="margin-top:1.25rem">
+      <div class="card card-full">
+        <h3>🎯 Cómo se usa desde un formulario</h3>
+        <div class="compare-grid">
+          <div class="compare-col compare-bad">
+            <h4>❌ Sin librería común</h4>
+            <div class="code-block"><span class="comment">// Cada formulario repite esto</span>
+<span class="keyword">var</span> fc = executionContext.<span class="func">getFormContext</span>();
+<span class="keyword">var</span> attr = fc.<span class="func">getAttribute</span>(<span class="string">"pfx_campo"</span>);
+<span class="keyword">if</span> (attr !== <span class="keyword">null</span>) {
+    <span class="keyword">var</span> val = attr.<span class="func">getValue</span>();
+    <span class="comment">// ... usar val</span>
+}</div>
+          </div>
+          <div class="compare-col compare-good">
+            <h4>✅ Con pfx_Common</h4>
+            <div class="code-block"><span class="comment">// Una línea, con null check incluido</span>
+Common.FormContext.<span class="func">Init</span>(executionContext);
+<span class="keyword">var</span> val = Common.FormContext.<span class="func">GetValue</span>(<span class="string">"pfx_campo"</span>);</div>
+          </div>
+        </div>
+        <div class="tip-box"><p>💡 Una librería compartida bien hecha <strong>reduce el código de cada formulario un 40-60%</strong> y elimina bugs repetidos en varios sitios.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== BLOQUE 6: SKILLS Y AGENTS ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--claude)">06</div><h2>Skills y Agents de Claude Code — En Vivo</h2><span class="duration">45 min · BLOQUE ESTRELLA</span></div>
+
+    <div class="ai-spotlight">
+      <h3>🤖 Dos momentos, dos herramientas</h3>
+      <p>Hay dos momentos muy distintos cuando trabajas con código:</p>
+      <p><strong>1. Cuando escribes código nuevo</strong> → Las <strong>Skills</strong> se aplican automáticamente y hacen que el código nazca ya con las buenas prácticas.</p>
+      <p><strong>2. Cuando revisas o mantienes código existente</strong> → Los <strong>Agents</strong> son especialistas que analizan y proponen mejoras concretas.</p>
+      <p>En los próximos 45 minutos vamos a <strong>crear una skill y dos agents en directo</strong>, y los aplicaremos a código real para ver la diferencia.</p>
+    </div>
+
+    <!-- El problema -->
+    <div class="card card-full" style="margin-top:1.5rem">
+      <h3>🎬 El punto de partida — Un código real</h3>
+      <p>Este es un script de ejemplo de un formulario Account. Funciona, pero tiene oportunidades de mejora. ¿Cuáles detectas?</p>
+      <div class="code-block"><span class="keyword">var</span> LITOCLEAN = LITOCLEAN || {};
+
+LITOCLEAN.Account = (<span class="keyword">function</span>() {
+
+    <span class="keyword">function</span> <span class="func">onLoad</span>(executionContext) {
+        <span class="keyword">var</span> formContext = executionContext.<span class="func">getFormContext</span>();
+        <span class="func">_checkRating</span>(formContext);
+    }
+
+    <span class="keyword">function</span> <span class="func">_checkRating</span>(formContext) {
+        <span class="keyword">var</span> avgRating = formContext.<span class="func">getAttribute</span>(<span class="string">"cr_mediacalificacion"</span>).<span class="func">getValue</span>();
+
+        <span class="keyword">if</span> (avgRating !== <span class="keyword">null</span> && avgRating &lt; 5) {
+            <span class="comment">// Notificación visual en el formulario</span>
+            formContext.<span class="prop">ui</span>.<span class="func">setFormNotification</span>(
+                <span class="string">"⚠️ La media de calificación de contactos es menor a 5"</span>,
+                <span class="string">"WARNING"</span>,
+                <span class="string">"low_rating"</span>
+            );
+
+            <span class="comment">// Popup de alerta</span>
+            Xrm.Navigation.<span class="func">openAlertDialog</span>({
+                text: <span class="string">"La calificación media de los contactos es "</span> + avgRating +
+                      <span class="string">". Se recomienda revisar."</span>,
+                title: <span class="string">"Advertencia de Calificación"</span>
+            });
+        } <span class="keyword">else</span> {
+            formContext.<span class="prop">ui</span>.<span class="func">clearFormNotification</span>(<span class="string">"low_rating"</span>);
+        }
+    }
+
+    <span class="keyword">return</span> { onLoad: onLoad };
+
+})();</div>
+      <div class="highlight-box"><p><strong>Ejercicio en vivo:</strong> Antes de continuar, ¿qué mejoras veis? Toma 2 minutos para que el equipo las enumere. Vamos a ver si Claude Code detecta las mismas (y más).</p></div>
+    </div>
+
+    <!-- SKILLS -->
+    <div class="section-header" style="margin-top:2rem"><div class="section-num" style="background:#7C3AED">✨</div><h2>Creando la Skill en vivo</h2></div>
+
+    <div class="skill-agent-grid">
+      <div class="skill-card">
+        <h4>🎨 Skill: MDA JavaScript Writer</h4>
+        <p style="font-size:.88rem;color:var(--text-mid);margin-bottom:.75rem">Instrucciones que Claude Code aplicará SIEMPRE que genere JavaScript para MDA.</p>
+        <div class="badge-list">
+          <span class="badge">const/let, nunca var</span>
+          <span class="badge">formContext, nunca Xrm.Page</span>
+          <span class="badge">Namespace pattern</span>
+          <span class="badge">Null checks</span>
+          <span class="badge">async/await</span>
+          <span class="badge">JSDoc</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h4>🎯 Cuándo se activa</h4>
+        <p style="font-size:.88rem;color:var(--text-mid)">Cada vez que pidas a Claude Code generar código JavaScript nuevo para un formulario Model-Driven, la skill se aplica automáticamente en background.</p>
+        <p style="font-size:.88rem;color:var(--text-mid);margin-top:.5rem">No tienes que recordarle las reglas en cada prompt. El código nace ya correcto.</p>
+      </div>
+    </div>
+
+    <div class="prompt-anchor">P3 — Crear la Skill "MDA JavaScript Writer" en vivo</div>
+
+    <div class="card card-full" style="margin-top:1rem">
+      <h3>🔄 Antes y después con la Skill activa</h3>
+      <p>Una vez creada la skill, le pedimos a Claude Code que <strong>regenere el mismo script del Account</strong>. Observad las diferencias:</p>
+      <div class="compare-grid">
+        <div class="compare-col compare-bad">
+          <h4>❌ Original (sin skill)</h4>
+          <ul style="font-size:.82rem;color:var(--text-mid);padding-left:1.1rem">
+            <li><code>var</code> en todas las declaraciones</li>
+            <li>Sin null check en <code>getAttribute</code></li>
+            <li>Magic number <code>5</code> sin constante</li>
+            <li>Sin JSDoc</li>
+            <li>Mezcla notification + dialog sin criterio</li>
+          </ul>
+        </div>
+        <div class="compare-col compare-good">
+          <h4>✅ Con Skill (regenerado)</h4>
+          <ul style="font-size:.82rem;color:var(--text-mid);padding-left:1.1rem">
+            <li><code>const</code> por defecto, <code>let</code> solo si reasigna</li>
+            <li>Null check antes de <code>.getValue()</code></li>
+            <li><code>const MIN_RATING = 5</code> al inicio</li>
+            <li>JSDoc con @param executionContext</li>
+            <li>Una única forma de notificar al usuario</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- AGENTS -->
+    <div class="section-header" style="margin-top:2.5rem"><div class="section-num" style="background:#DB2777">🤖</div><h2>Creando los Agents en vivo</h2></div>
+
+    <div class="skill-agent-grid">
+      <div class="agent-card">
+        <h4>🔍 Agent: MDA Code Reviewer</h4>
+        <p style="font-size:.88rem;color:var(--text-mid);margin-bottom:.75rem">Analiza código existente y genera un reporte con issues y propuestas. <strong>No modifica nada.</strong></p>
+        <div class="badge-list">
+          <span class="badge">Detecta var</span>
+          <span class="badge">Detecta Xrm.Page</span>
+          <span class="badge">Null checks faltantes</span>
+          <span class="badge">GUIDs hardcoded</span>
+          <span class="badge">console.log olvidados</span>
+          <span class="badge">Código duplicado</span>
+        </div>
+      </div>
+      <div class="agent-card">
+        <h4>🔧 Agent: MDA Refactor Assistant</h4>
+        <p style="font-size:.88rem;color:var(--text-mid);margin-bottom:.75rem">Toma código existente y lo reescribe aplicando las mejoras. Siempre explica qué cambió y por qué.</p>
+        <div class="badge-list">
+          <span class="badge">var → const/let</span>
+          <span class="badge">Xrm.Page → formContext</span>
+          <span class="badge">callbacks → async/await</span>
+          <span class="badge">Añade null checks</span>
+          <span class="badge">Extrae constantes</span>
+          <span class="badge">Añade JSDoc</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="prompt-anchor">P4 — Crear el Agent "MDA Code Reviewer" en vivo</div>
+    <div class="prompt-anchor">P5 — Aplicar Reviewer + Refactor al código del Account</div>
+
+    <div class="card card-full" style="margin-top:1rem">
+      <h3>📊 Lo que el Code Reviewer detectará en el Account</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Hallazgo</th><th>Severidad</th><th>Propuesta</th></tr>
+        <tr><td>Uso de <code>var</code></td><td style="color:var(--accent)"><strong>Warning</strong></td><td>Migrar a <code>const</code> / <code>let</code></td></tr>
+        <tr><td><code>getAttribute</code> sin null check</td><td style="color:var(--red)"><strong>Error</strong></td><td>Verificar que el atributo existe antes de <code>.getValue()</code></td></tr>
+        <tr><td>Magic number <code>5</code></td><td style="color:var(--blue)"><strong>Info</strong></td><td>Extraer a constante <code>MIN_RATING</code></td></tr>
+        <tr><td>Notification + AlertDialog juntos</td><td style="color:var(--blue)"><strong>Info</strong></td><td>Elegir una de las dos (mejor UX)</td></tr>
+        <tr><td>Falta JSDoc en función pública</td><td style="color:var(--blue)"><strong>Info</strong></td><td>Añadir @param executionContext</td></tr>
+      </table></div>
+    </div>
+
+    <div class="ai-spotlight" style="margin-top:1.5rem;background:linear-gradient(135deg,#0F2A1F,#1D4E36)">
+      <h3 style="color:#A7F3D0">🎁 El resultado: tu propio "desarrollador senior virtual"</h3>
+      <p style="color:#D1FAE5">Al final de este bloque, el equipo tendrá:</p>
+      <p style="color:#D1FAE5">• Una <strong>skill</strong> que aplicará buenas prácticas a todo el código nuevo que Claude Code genere.</p>
+      <p style="color:#D1FAE5">• Un <strong>agent reviewer</strong> que analiza código existente y lo audita.</p>
+      <p style="color:#D1FAE5">• Un <strong>agent refactor</strong> que aplica las mejoras del reviewer automáticamente.</p>
+      <p style="color:#D1FAE5">Esto significa que cualquier script que alguien del equipo escriba, va a pasar por estos filtros. No importa el nivel de experiencia — la calidad del código sube.</p>
+    </div>
+  </div>
+
+  <!-- PREGUNTAS -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--navy)">💬</div><h2>Preguntas Abiertas</h2></div>
+    <div class="qa-grid">
+      <div class="qa-card"><p>❓ ¿Qué lógica del día a día podríamos automatizar con JavaScript que ahora hacéis manualmente?</p></div>
+      <div class="qa-card"><p>❓ ¿Qué reglas o convenciones del equipo deberían estar en una Skill para aplicarse siempre?</p></div>
+      <div class="qa-card"><p>❓ ¿Qué otros agents especializados nos serían útiles? (ej: uno de Web API, uno de migración)</p></div>
+      <div class="qa-card"><p>❓ ¿Cómo imagináis el flujo de trabajo con estas herramientas en vuestro día a día?</p></div>
+    </div>
+  </div>
+
+  <!-- TAKEAWAYS -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--accent)">🎯</div><h2>Takeaways del Día</h2></div>
+    <div class="card card-full"><ul>
+      <li><strong>JavaScript en MDA vive en Web Resources</strong> y reacciona a eventos del formulario (OnLoad, OnChange, OnSave).</li>
+      <li><strong>formContext es el mando a distancia</strong> del formulario — lee, escribe, oculta, muestra, notifica.</li>
+      <li><strong>Xrm.WebApi</strong> permite leer datos de otras tablas desde el formulario. Hoy los básicos, el lunes vemos OData avanzado.</li>
+      <li><strong>pfx_Common y pfx_Common_Helpers</strong> son el código compartido del equipo — úsalas siempre antes de reescribir algo.</li>
+      <li><strong>Skills + Agents = calidad garantizada.</strong> Código nuevo nace correcto, código existente se puede auditar y refactorizar.</li>
+      <li><strong>Lunes:</strong> JavaScript avanzado — triggers completos, OData gotchas, async/await profesional, TypeScript con @types/xrm.</li>
+    </ul></div>
+  </div>
+
+</div>
+<div class="footer"><strong>POWER FOX</strong> · Formación Power Platform · Semana 1 — Viernes · Abril 2026</div>
+</body>
+</html>

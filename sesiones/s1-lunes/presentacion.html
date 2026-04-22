@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S1 Lunes — Arquitectura y Ecosistema | Power Fox</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  :root {
+    --navy: #0B1D3A;
+    --blue: #1565C0;
+    --blue-light: #42A5F5;
+    --accent: #FF6D00;
+    --accent-soft: #FFF3E0;
+    --bg: #F5F7FA;
+    --card: #FFFFFF;
+    --text: #1A2332;
+    --text-mid: #546E7A;
+    --text-light: #90A4AE;
+    --border: #E8EDF2;
+    --code-bg: #1E1E2E;
+    --green: #2E7D32;
+    --green-soft: #E8F5E9;
+    --red: #C62828;
+    --red-soft: #FFEBEE;
+    --purple: #6A1B9A;
+    --purple-soft: #F3E5F5;
+    --r: 12px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'DM Sans',sans-serif; background:var(--bg); color:var(--text); line-height:1.7; }
+  .nav{display:flex;justify-content:space-between;align-items:center;padding:.75rem 1.5rem;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}.nav-logo{font-weight:700;font-size:.9rem;color:var(--navy);letter-spacing:1px}.nav-links{display:flex;gap:1rem}.nav-links a{font-size:.8rem;color:var(--text-mid);text-decoration:none;font-weight:500}
+  .hero{background:var(--navy);color:white;padding:3rem 2rem 2.5rem;position:relative;overflow:hidden}.hero::after{content:'';position:absolute;top:0;right:0;width:40%;height:100%;background:linear-gradient(135deg,transparent 0%,rgba(21,101,192,.15) 50%,rgba(255,109,0,.1) 100%)}.hero-meta{display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem;position:relative;z-index:1}.hero-badge{background:var(--accent);color:white;padding:.25rem .75rem;border-radius:4px;font-size:.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}.hero-week{font-size:.85rem;opacity:.7}.hero h1{font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:.5rem;position:relative;z-index:1}.hero-sub{font-size:1rem;opacity:.75;position:relative;z-index:1;max-width:700px}.hero-time{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.1);padding:.3rem .75rem;border-radius:6px;font-size:.85rem;margin-top:.75rem;position:relative;z-index:1}
+  .container{max-width:1100px;margin:0 auto;padding:2rem 1.5rem}
+  /* AGENDA */
+  .agenda{display:grid;grid-template-columns:60px 1fr;gap:0;background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:2.5rem}.agenda-title{grid-column:1/-1;padding:1rem 1.5rem;font-weight:700;font-size:1.1rem;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:.5rem}.agenda-time{padding:.75rem .5rem;text-align:center;font-size:.78rem;font-weight:700;color:var(--blue);border-right:2px solid var(--border);border-bottom:1px solid var(--border)}.agenda-item{padding:.75rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.75rem}.agenda-item:last-child,.agenda-time:last-of-type{border-bottom:none}.agenda-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}.dot-blue{background:var(--blue)}.dot-orange{background:var(--accent)}.dot-green{background:var(--green)}.dot-purple{background:var(--purple)}.dot-red{background:var(--red)}.agenda-label{font-size:.9rem}.agenda-label strong{font-weight:600}.agenda-tag{font-size:.65rem;padding:.15rem .45rem;border-radius:3px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-left:auto;flex-shrink:0}.tag-key{background:var(--blue);color:white}.tag-ia{background:#7C3AED;color:white}.tag-break{background:var(--red);color:white}.tag-practice{background:var(--green);color:white}.agenda-break{background:#FFF3E0}
+  /* SECTIONS */
+  .section{margin-bottom:3rem}.section-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:2px solid var(--border)}.section-num{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;color:white;flex-shrink:0}.section-header h2{font-size:1.3rem;font-weight:700}.section-header .duration{margin-left:auto;font-size:.8rem;color:var(--text-light);font-weight:500}
+  .content-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}@media(max-width:768px){.content-grid{grid-template-columns:1fr}}
+  .card{background:var(--card);border-radius:var(--r);padding:1.5rem;box-shadow:0 1px 4px rgba(0,0,0,.05);border:1px solid var(--border)}.card h3{font-size:1.05rem;font-weight:700;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}.card p,.card li{font-size:.88rem;color:var(--text-mid)}.card ul{padding-left:1.25rem}.card li{margin-bottom:.35rem}.card-full{grid-column:1/-1}
+  .highlight-box{border-left:4px solid var(--accent);background:var(--accent-soft);padding:1rem 1.25rem;border-radius:0 var(--r) var(--r) 0;margin:1rem 0}.highlight-box p{font-size:.88rem;color:var(--text)}.highlight-box strong{color:var(--accent)}.tip-box{border-left:4px solid var(--green);background:var(--green-soft);padding:1rem 1.25rem;border-radius:0 var(--r) var(--r) 0;margin:1rem 0}.tip-box p{font-size:.88rem}.warn-box{border-left:4px solid var(--red);background:var(--red-soft);padding:1rem 1.25rem;border-radius:0 var(--r) var(--r) 0;margin:1rem 0}.warn-box p{font-size:.88rem}
+  .code-block{background:var(--code-bg);color:#CDD6F4;border-radius:8px;padding:1.25rem;font-family:'JetBrains Mono',monospace;font-size:.8rem;overflow-x:auto;margin:1rem 0;line-height:1.6}
+  .diagram{background:var(--card);border-radius:var(--r);padding:1.5rem;border:1px solid var(--border);margin:1rem 0;text-align:center}.diagram-title{font-size:.8rem;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem}.diagram-row{display:flex;justify-content:center;gap:.75rem;flex-wrap:wrap;margin-bottom:.75rem}.diagram-box{padding:.6rem 1rem;border-radius:8px;font-size:.8rem;font-weight:600;min-width:120px;text-align:center}.db-navy{background:var(--navy);color:white}.db-blue{background:var(--blue);color:white}.db-orange{background:var(--accent);color:white}.db-green{background:var(--green);color:white}.db-purple{background:var(--purple);color:white}.db-light{background:#E3F2FD;color:var(--blue);border:1px solid var(--blue)}.diagram-arrow{font-size:1.2rem;color:var(--text-light)}
+  .qa-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}@media(max-width:768px){.qa-grid{grid-template-columns:1fr}}.qa-card{background:var(--purple-soft);border-radius:var(--r);padding:1.25rem;border:1px solid #CE93D8}.qa-card p{font-size:.88rem;color:var(--purple);font-weight:500}
+  .table-wrap{overflow-x:auto;margin:1rem 0}table{width:100%;border-collapse:collapse;font-size:.85rem}th{background:var(--navy);color:white;padding:.6rem 1rem;text-align:left;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px}td{padding:.6rem 1rem;border-bottom:1px solid var(--border)}tr:hover td{background:#F8FAFC}
+  .prompt-anchor{display:inline-flex;align-items:center;gap:.4rem;background:#7C3AED;color:#fff;padding:.35rem .85rem;border-radius:6px;font-size:.78rem;font-weight:700;letter-spacing:.5px;margin:1.25rem 0 .5rem;font-family:'JetBrains Mono',monospace}.prompt-anchor::before{content:'⚡'}
+  .footer{text-align:center;padding:2rem;font-size:.8rem;color:var(--text-light);border-top:1px solid var(--border);margin-top:2rem}.footer strong{color:var(--navy)}
+  /* REAL SYSTEM highlight */
+  .real-system{border:2px solid var(--accent);border-radius:var(--r);padding:1.5rem;background:linear-gradient(135deg,#FFF8E1,#FFF3E0);margin:1rem 0}
+  .real-system::before{content:'📍 NUESTRO SISTEMA';display:block;font-size:.7rem;font-weight:700;letter-spacing:1.5px;color:var(--accent);margin-bottom:.75rem}
+  .real-system h3{font-size:1.05rem;font-weight:700;margin-bottom:.75rem}.real-system p,.real-system li{font-size:.88rem;color:var(--text-mid)}.real-system ul{padding-left:1.25rem}.real-system li{margin-bottom:.35rem}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-logo">POWER FOX — Formación</div><div class="nav-links"><a href="#">S1</a><a href="#">Lunes</a><a href="#">Día 1 de 12</a></div></nav>
+
+<div class="hero">
+  <div class="hero-meta"><span class="hero-badge">Semana 1</span><span class="hero-week">Lunes · Día 1 de 12</span></div>
+  <h1>Arquitectura y Ecosistema Power Platform</h1>
+  <p class="hero-sub">Visión 360° del ecosistema, arquitectura funcional, modelo de datos, seguridad y buenas prácticas. Teoría + recorrido práctico por el entorno real.</p>
+  <div class="hero-time">⏱ 3 horas · 5 bloques + break + demos Claude Code</div>
+</div>
+
+<div class="container">
+
+  <!-- AGENDA -->
+  <div class="agenda">
+    <div class="agenda-title">📋 Agenda del día</div>
+    <div class="agenda-time">0:00</div><div class="agenda-item"><div class="agenda-dot dot-green"></div><span class="agenda-label"><strong>Apertura</strong> + Demo Claude Code en vivo</span><span class="agenda-tag tag-ia">CLAUDE CODE</span></div>
+    <div class="agenda-time">0:25</div><div class="agenda-item"><div class="agenda-dot dot-orange"></div><span class="agenda-label"><strong>Ecosistema Power Platform</strong> + Arquitectura funcional</span></div>
+    <div class="agenda-time">0:50</div><div class="agenda-item"><div class="agenda-dot dot-blue"></div><span class="agenda-label"><strong>Modelo de datos:</strong> conceptos + tablas reales del sistema</span><span class="agenda-tag tag-key">CLAVE</span></div>
+    <div class="agenda-time">1:20</div><div class="agenda-item"><div class="agenda-dot dot-purple"></div><span class="agenda-label"><strong>Claude Code:</strong> Diccionario de datos generado en vivo</span><span class="agenda-tag tag-ia">CLAUDE CODE</span></div>
+    <div class="agenda-time">1:30</div><div class="agenda-item agenda-break"><div class="agenda-dot dot-red"></div><span class="agenda-label"><strong>☕ BREAK — 10 minutos</strong></span><span class="agenda-tag tag-break">PAUSA</span></div>
+    <div class="agenda-time">1:40</div><div class="agenda-item"><div class="agenda-dot dot-purple"></div><span class="agenda-label"><strong>Claude Code:</strong> Matriz de permisos de los 10 roles</span><span class="agenda-tag tag-ia">CLAUDE CODE</span></div>
+    <div class="agenda-time">1:50</div><div class="agenda-item"><div class="agenda-dot dot-blue"></div><span class="agenda-label"><strong>Modelo de seguridad:</strong> roles, Business Units, Teams, FLS</span><span class="agenda-tag tag-key">CLAVE</span></div>
+    <div class="agenda-time">2:20</div><div class="agenda-item"><div class="agenda-dot dot-purple"></div><span class="agenda-label"><strong>Claude Code:</strong> Comparativa Coordinador vs Gestor</span><span class="agenda-tag tag-ia">CLAUDE CODE</span></div>
+    <div class="agenda-time">2:30</div><div class="agenda-item"><div class="agenda-dot dot-blue"></div><span class="agenda-label"><strong>Buenas prácticas</strong> de arquitectura y escalabilidad</span></div>
+    <div class="agenda-time">2:45</div><div class="agenda-item"><div class="agenda-dot dot-green"></div><span class="agenda-label"><strong>Cierre:</strong> Onboarding con Claude Code + preguntas abiertas</span><span class="agenda-tag tag-ia">CLAUDE CODE</span></div>
+  </div>
+
+  <!-- ========== BLOQUE 1: ECOSISTEMA ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--accent)">01</div><h2>Visión General del Ecosistema Power Platform</h2><span class="duration">30 min</span></div>
+
+    <div class="diagram">
+      <div class="diagram-title">Ecosistema Power Platform</div>
+      <div class="diagram-row">
+        <div class="diagram-box db-blue">Power Apps</div>
+        <div class="diagram-box db-green">Power Automate</div>
+        <div class="diagram-box db-purple">Power BI</div>
+        <div class="diagram-box db-orange">Copilot Studio</div>
+      </div>
+      <div class="diagram-arrow">⬇</div>
+      <div class="diagram-row"><div class="diagram-box db-navy">Microsoft Dataverse</div></div>
+      <div class="diagram-arrow">⬇</div>
+      <div class="diagram-row">
+        <div class="diagram-box db-light">Azure AD</div>
+        <div class="diagram-box db-light">Conectores</div>
+        <div class="diagram-box db-light">Microsoft 365</div>
+        <div class="diagram-box db-light">Azure Services</div>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>🏗️ Los 5 pilares</h3>
+        <ul>
+          <li><strong>Power Apps</strong> — Model-Driven y Canvas para UI. Model-Driven sigue la estructura de Dataverse; Canvas da control total de diseño.</li>
+          <li><strong>Power Automate</strong> — Flujos cloud y desktop. Triggers de Dataverse, conectores a 1000+ servicios.</li>
+          <li><strong>Power BI</strong> — Análisis y visualización conectado directamente a Dataverse.</li>
+          <li><strong>Copilot Studio</strong> — Agentes IA con acceso a datos empresariales.</li>
+          <li><strong>Power Pages</strong> — Portales web sobre Dataverse para usuarios externos.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🤖 Claude Code como asistente IA</h3>
+        <p>Claude Code se integra en el terminal y VS Code para:</p>
+        <ul>
+          <li>Generar JavaScript para formularios Model-Driven</li>
+          <li>Crear consultas FetchXML y Web API</li>
+          <li>Depurar errores y sugerir patrones</li>
+          <li>Documentar código y soluciones existentes</li>
+          <li>Acelerar tareas repetitivas (CRUD, validaciones)</li>
+        </ul>
+        <div class="highlight-box"><p><strong>Dato clave:</strong> En un proyecto real, usar IA como asistente redujo entre un 60-70% el tiempo de desarrollo en Canvas Apps.</p></div>
+        <div class="prompt-anchor">P1 — Demo: Proyectos sin coordinador</div>
+      </div>
+    </div>
+
+    <!-- NUESTRO SISTEMA: Soluciones -->
+    <div class="real-system">
+      <h3>📦 Nuestras 4 soluciones — 4 capas independientes</h3>
+      <ul>
+        <li><strong>smart_project_solution</strong> — Core: tablas, roles, lógica de negocio. Se despliega primero.</li>
+        <li><strong>SmartProjectSolutionWebResources</strong> — JavaScript y recursos web separados. Si solo cambia un script, no redespliego tablas.</li>
+        <li><strong>SmartProjectSolutionDataflows</strong> — Dataflows de integración aparte.</li>
+        <li><strong>PFXCustomAPISolution</strong> — APIs custom (lo veremos en Semana 3).</li>
+      </ul>
+      <p style="margin-top:.75rem">Prefijo <strong>pfx_</strong> consistente en todas las tablas y campos. Publisher único = trazabilidad clara.</p>
+    </div>
+  </div>
+
+  <!-- ========== BLOQUE 2: ARQUITECTURA FUNCIONAL ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--blue)">02</div><h2>Arquitectura Funcional de la Solución</h2><span class="duration">25 min</span></div>
+
+    <div class="content-grid">
+      <div class="card card-full">
+        <h3>🔧 Capas de una solución Power Platform</h3>
+        <div class="diagram">
+          <div class="diagram-title">Arquitectura por capas</div>
+          <div class="diagram-row"><div class="diagram-box db-blue">Capa de Presentación<br><small>Model-Driven · Canvas · Power Pages</small></div></div>
+          <div class="diagram-arrow">⬇</div>
+          <div class="diagram-row"><div class="diagram-box db-green">Capa de Lógica de Negocio<br><small>Business Rules · JS · Plugins · Power Automate</small></div></div>
+          <div class="diagram-arrow">⬇</div>
+          <div class="diagram-row"><div class="diagram-box db-navy">Capa de Datos<br><small>Dataverse · Tablas · Relaciones · Vistas</small></div></div>
+          <div class="diagram-arrow">⬇</div>
+          <div class="diagram-row"><div class="diagram-box db-purple">Capa de Integración<br><small>Conectores · APIs · Dataflows · Azure</small></div></div>
+          <div class="diagram-arrow">⬇</div>
+          <div class="diagram-row"><div class="diagram-box db-orange">Capa de Seguridad<br><small>Roles · BU · Teams · Field Security</small></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📐 ¿Dónde va cada lógica?</h3>
+        <div class="table-wrap"><table>
+          <tr><th>Necesidad</th><th>Herramienta</th></tr>
+          <tr><td>Validar campo en formulario</td><td>Business Rule o JS</td></tr>
+          <tr><td>Calcular campo al guardar</td><td>Plugin o Calculated Field</td></tr>
+          <tr><td>Notificar por email</td><td>Power Automate</td></tr>
+          <tr><td>Integrar API externa</td><td>Custom Connector o Plugin</td></tr>
+          <tr><td>Lógica visual (ocultar/mostrar)</td><td>JavaScript en formulario</td></tr>
+          <tr><td>Procesamiento masivo</td><td>Plugin o Custom API</td></tr>
+        </table></div>
+      </div>
+      <div class="card">
+        <h3>⚖️ Model-Driven vs Canvas</h3>
+        <div class="table-wrap"><table>
+          <tr><th>Aspecto</th><th>Model-Driven</th><th>Canvas</th></tr>
+          <tr><td>Diseño</td><td>Guiado por datos</td><td>Pixel-perfect</td></tr>
+          <tr><td>Datos</td><td>Solo Dataverse</td><td>Múltiples fuentes</td></tr>
+          <tr><td>Seguridad</td><td>Automática (roles)</td><td>Manual</td></tr>
+          <tr><td>Extensibilidad</td><td>JS + Plugins</td><td>Power Fx</td></tr>
+          <tr><td>Caso ideal</td><td>CRM, ERP, gestión</td><td>Apps móviles, UX custom</td></tr>
+        </table></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== BLOQUE 3: MODELO DE DATOS ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--green)">03</div><h2>Modelo de Datos: Tablas y Relaciones</h2><span class="duration">45 min · CLAVE</span></div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>🗄️ Tipos de tablas en Dataverse</h3>
+        <ul>
+          <li><strong>Standard</strong> — Tablas predefinidas (Account, Contact, etc.)</li>
+          <li><strong>Custom</strong> — Creadas para tu solución (prefijo: pfx_*)</li>
+          <li><strong>Virtual</strong> — Conectan datos externos sin migrarlos</li>
+          <li><strong>Elastic</strong> — Para grandes volúmenes (basadas en Cosmos DB)</li>
+        </ul>
+        <div class="tip-box"><p>💡 <strong>Tip:</strong> Siempre usa un publisher con prefijo corto y significativo. Evita el prefijo "new_" por defecto.</p></div>
+      </div>
+      <div class="card">
+        <h3>🔗 Tipos de relaciones</h3>
+        <ul>
+          <li><strong>1:N (One-to-Many)</strong> — La más común. Ej: Proyecto → Actividades. El hijo tiene un Lookup al padre.</li>
+          <li><strong>N:N (Many-to-Many)</strong> — Tabla intermedia automática. Ej: Contacto ↔ Habilidades.</li>
+          <li><strong>1:1 (One-to-One)</strong> — Simulada con Lookup único. Ej: Contacto → Detalle.</li>
+        </ul>
+        <div class="warn-box"><p>⚠️ <strong>Cuidado:</strong> El comportamiento en cascada (Assign, Delete, Reparent) tiene impacto directo en rendimiento y datos. Configúralo conscientemente.</p></div>
+      </div>
+      <div class="card">
+        <h3>📊 Tipos de columnas clave</h3>
+        <div class="table-wrap"><table>
+          <tr><th>Tipo</th><th>Uso</th><th>Ejemplo</th></tr>
+          <tr><td>Lookup</td><td>Relación a otra tabla</td><td>Empresa padre</td></tr>
+          <tr><td>Choice</td><td>Lista de opciones fija</td><td>Estado, Tipo</td></tr>
+          <tr><td>Choices</td><td>Multiselect</td><td>Servicios contratados</td></tr>
+          <tr><td>Currency</td><td>Valores monetarios</td><td>Presupuesto</td></tr>
+          <tr><td>Calculated</td><td>Fórmula automática</td><td>Días desde creación</td></tr>
+          <tr><td>Rollup</td><td>Agregación de hijos</td><td>Total contactos</td></tr>
+          <tr><td>Formula</td><td>Cálculo en tiempo real 🔒</td><td>Margen %</td></tr>
+          <tr><td>File / Image</td><td>Archivos adjuntos</td><td>Foto, documento</td></tr>
+        </table></div>
+      </div>
+      <div class="card">
+        <h3>📝 Buenas prácticas de modelado</h3>
+        <ul>
+          <li>Nombra las tablas en <strong>singular</strong> (pfx_project, no pfx_projects)</li>
+          <li>Usa <strong>Display Name</strong> descriptivo y <strong>Schema Name</strong> técnico</li>
+          <li>Evita campos "por si acaso" — cada columna tiene coste</li>
+          <li>Documenta las relaciones y su comportamiento de cascada</li>
+          <li>Usa <strong>Alternate Keys</strong> para integraciones externas</li>
+          <li>Prefiere <strong>Lookups</strong> sobre campos de texto libre cuando hay referencia</li>
+          <li>Campos calculados y rollup: <strong>no consumen API calls</strong> pero se recalculan asíncronamente</li>
+          <li>Campos fórmula (🔒): se calculan en tiempo real, son de solo lectura vía API</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- NUESTRO SISTEMA: Tablas reales -->
+    <div class="real-system">
+      <h3>🗄️ Tablas principales de nuestro sistema</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Tabla</th><th>Schema Name</th><th>Rol en el sistema</th></tr>
+        <tr><td><strong>Proyecto</strong></td><td>pfx_project</td><td>Entidad central. Todo gira alrededor del proyecto.</td></tr>
+        <tr><td><strong>Actividad de Proyecto</strong></td><td>pfx_project_activity</td><td>Desglose de trabajo dentro de un proyecto.</td></tr>
+        <tr><td><strong>Oferta</strong></td><td>pfx_offer</td><td>Fase comercial previa al proyecto.</td></tr>
+        <tr><td><strong>Parte de Horas</strong></td><td>pfx_time_entry</td><td>Registro semanal de horas por recurso.</td></tr>
+        <tr><td><strong>Avance del Proyecto</strong></td><td>pfx_project_progress</td><td>Seguimiento mensual con aprobación en 2 niveles.</td></tr>
+      </table></div>
+    </div>
+
+    <div class="diagram">
+      <div class="diagram-title">Flujo de datos principal del sistema</div>
+      <div class="diagram-row"><div class="diagram-box db-orange">pfx_offer<br><small>Oferta comercial</small></div></div>
+      <div class="diagram-arrow">⬇</div>
+      <div class="diagram-row"><div class="diagram-box db-navy">pfx_project<br><small>Proyecto (entidad central)</small></div></div>
+      <div class="diagram-arrow">⬇</div>
+      <div class="diagram-row">
+        <div class="diagram-box db-blue">pfx_project_activity<br><small>Actividades</small></div>
+        <div class="diagram-box db-green">pfx_time_entry<br><small>Partes de horas</small></div>
+        <div class="diagram-box db-purple">pfx_project_progress<br><small>Avance mensual</small></div>
+      </div>
+    </div>
+
+    <div class="content-grid" style="margin-top:1.25rem">
+      <div class="card">
+        <h3>🔗 Relaciones clave del sistema</h3>
+        <ul>
+          <li><strong>pfx_project → pfx_project_activity</strong> (1:N) — Padre-hijo principal</li>
+          <li><strong>pfx_project → pfx_time_entry</strong> (1:N) — Partes de horas</li>
+          <li><strong>pfx_project → pfx_project_progress</strong> (1:N) — Avance mensual</li>
+          <li><strong>pfx_project_activity → pfx_project_activity_progress</strong> (1:N) — Avance por actividad</li>
+          <li><strong>pfx_project → pfx_project</strong> (self-lookup) — Jerarquía padre/hijo</li>
+          <li><strong>pfx_offer → pfx_project</strong> — Oferta que origina proyecto</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>📊 Columnas avanzadas del sistema</h3>
+        <ul>
+          <li><strong>🔒 Fórmula:</strong> pfx_estimated_margin_percentage_formula, pfx_actual_margin_percentage_formula — solo lectura, calculadas en tiempo real</li>
+          <li><strong>Self-Lookup:</strong> pfx_parent_project_id — jerarquía de proyectos</li>
+          <li><strong>Flags de control:</strong> pfx_offer_created, pfx_teams_created — bits que disparan procesos automáticos</li>
+          <li><strong>Horas por perfil:</strong> senior, medium, junior, manager, gabinete, campo, cad_edicion (estimated / actual / remaining)</li>
+          <li><strong>Aprobación 2 niveles:</strong> pfx_progress_approver_level1_team_template_id + level2</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="prompt-anchor">P2 — Demo: Diccionario de datos de pfx_project</div>
+
+    <div class="content-grid" style="margin-top:1.25rem">
+      <div class="card card-full">
+        <h3>⚡ Cascade Behavior — Impacto real</h3>
+        <div class="table-wrap"><table>
+          <tr><th>Acción sobre padre</th><th>Parental</th><th>Referential</th><th>Custom</th></tr>
+          <tr><td>Delete</td><td>Borra todos los hijos</td><td>Quita referencia (null)</td><td>Configurable</td></tr>
+          <tr><td>Assign</td><td>Reasigna hijos</td><td>No cambia</td><td>Configurable</td></tr>
+          <tr><td>Share</td><td>Comparte hijos</td><td>No comparte</td><td>Configurable</td></tr>
+          <tr><td>Reparent</td><td>Cascada</td><td>No cascada</td><td>Configurable</td></tr>
+        </table></div>
+        <div class="warn-box"><p>⚠️ <strong>Parental + Delete en cascada</strong> = si borras un Proyecto, borras TODAS sus Actividades, Partes de Horas, Avances... Esto tiene que ser una decisión consciente.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== BLOQUE 4: SEGURIDAD ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--green)">04</div><h2>Modelo de Seguridad: Roles, BU y Teams</h2><span class="duration">45 min · CLAVE</span></div>
+
+    <div class="prompt-anchor">P3 — Demo: Matriz de permisos de los 10 roles</div>
+
+    <div class="diagram">
+      <div class="diagram-title">Jerarquía de seguridad en Dataverse</div>
+      <div class="diagram-row"><div class="diagram-box db-navy">Tenant (Azure AD)</div></div>
+      <div class="diagram-arrow">⬇</div>
+      <div class="diagram-row"><div class="diagram-box db-blue">Environment</div></div>
+      <div class="diagram-arrow">⬇</div>
+      <div class="diagram-row"><div class="diagram-box db-green">Business Unit (raíz)</div></div>
+      <div class="diagram-arrow">⬇</div>
+      <div class="diagram-row"><div class="diagram-box db-light">BU Hijo A</div><div class="diagram-box db-light">BU Hijo B</div></div>
+      <div class="diagram-arrow">⬇</div>
+      <div class="diagram-row"><div class="diagram-box db-purple">Users + Security Roles + Teams</div></div>
+    </div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>🔐 Security Roles</h3>
+        <p>Cada rol define permisos CRUD+A (Create, Read, Write, Delete, Append, Append To, Share, Assign) por tabla y nivel de acceso:</p>
+        <ul>
+          <li><strong>User</strong> — Solo sus registros</li>
+          <li><strong>Business Unit</strong> — Registros de su BU</li>
+          <li><strong>Parent: Child BU</strong> — Su BU + las hijas</li>
+          <li><strong>Organization</strong> — Todos los registros</li>
+        </ul>
+        <div class="highlight-box"><p><strong>Regla de oro:</strong> Principio de mínimo privilegio. Empieza restringido y abre acceso según necesidad real.</p></div>
+      </div>
+      <div class="card">
+        <h3>👥 Teams</h3>
+        <p><strong>Tipos de Teams en Dataverse:</strong></p>
+        <ul>
+          <li><strong>Owner Team</strong> — Puede ser propietario de registros. Comparte roles con sus miembros.</li>
+          <li><strong>Access Team</strong> — No tiene roles propios. Da acceso a registros específicos compartidos.</li>
+          <li><strong>Azure AD Group Team</strong> — Sincronizado con grupo de Azure AD. Los roles se asignan al grupo.</li>
+        </ul>
+        <div class="tip-box"><p>💡 <strong>Best practice:</strong> Usa AAD Group Teams para sincronizar permisos con el directorio corporativo. Simplifica la administración enormemente.</p></div>
+      </div>
+      <div class="card">
+        <h3>🏢 Business Units</h3>
+        <ul>
+          <li>Cada entorno tiene un <strong>BU raíz</strong> que no se puede eliminar</li>
+          <li>Los BU crean <strong>particiones de datos</strong> — los usuarios de un BU no ven datos de otro (salvo rol Organization)</li>
+          <li>Cada usuario pertenece a <strong>exactamente 1 BU</strong></li>
+          <li>Útil para separar departamentos, filiales o regiones</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🛡️ Field-Level Security</h3>
+        <ul>
+          <li>Controla acceso a <strong>campos específicos</strong> independiente del rol</li>
+          <li>Se habilita campo por campo y se gestiona con <strong>Field Security Profiles</strong></li>
+          <li>Casos de uso: salarios, datos médicos, información confidencial</li>
+          <li>Los usuarios sin perfil ven el campo vacío o bloqueado</li>
+        </ul>
+        <div class="warn-box"><p>⚠️ Field Security impacta rendimiento en queries — úsalo solo donde realmente sea necesario.</p></div>
+      </div>
+    </div>
+
+    <!-- NUESTRO SISTEMA: Roles -->
+    <div class="real-system">
+      <h3>👥 Los 10 roles custom de nuestro sistema</h3>
+      <div class="content-grid">
+        <div>
+          <ul>
+            <li><strong>PM _ Admin</strong> — Full access (Org)</li>
+            <li><strong>PM _ Admin Unidad de Negocio</strong> — Full access (BU)</li>
+            <li><strong>PM _ Coordinador del Proyecto</strong> — Gestiona proyectos asignados</li>
+            <li><strong>PM _ Gestor del Proyecto</strong> — Similar a Coordinador (diferencias sutiles)</li>
+            <li><strong>PM _ Gerente Linea de Negocio</strong> — Supervisión de BU</li>
+          </ul>
+        </div>
+        <div>
+          <ul>
+            <li><strong>PM _ Finanzas</strong> — Acceso a datos económicos</li>
+            <li><strong>PM _ Representante de Ventas</strong> — Ofertas y comercial</li>
+            <li><strong>PM _ Tecnico</strong> — Sus horas y actividades propias</li>
+            <li><strong>PM _ Solo Lectura</strong> — Consulta sin modificación</li>
+            <li><strong>PM _ App Opener</strong> — Mínimo para abrir la app</li>
+          </ul>
+        </div>
+      </div>
+      <p style="margin-top:.75rem">Candidatos para Field-Level Security: <strong>pfx_estimated_sale_price</strong>, <strong>pfx_actual_cost_price</strong> — ¿un Técnico necesita ver el presupuesto?</p>
+      <div class="prompt-anchor">P4 — Demo: Diferencias Coordinador vs Gestor</div>
+    </div>
+  </div>
+
+  <!-- ========== BLOQUE 5: BUENAS PRÁCTICAS ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--purple)">05</div><h2>Buenas Prácticas de Arquitectura y Escalabilidad</h2><span class="duration">30 min</span></div>
+    <div class="content-grid">
+      <div class="card">
+        <h3>✅ Hacer</h3>
+        <ul>
+          <li>Usar <strong>soluciones gestionadas (managed)</strong> en producción</li>
+          <li>Separar componentes en <strong>múltiples soluciones</strong> por módulo</li>
+          <li>Implementar <strong>ALM completo</strong> (DEV → TEST → PROD)</li>
+          <li>Usar <strong>Connection References</strong> y <strong>Environment Variables</strong></li>
+          <li>Documentar modelo de datos y decisiones de diseño</li>
+          <li>Implementar <strong>auditoría</strong> en tablas críticas</li>
+          <li>Planificar la <strong>estrategia de backup</strong> y recuperación</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>❌ Evitar</h3>
+        <ul>
+          <li>Desarrollar directamente en producción</li>
+          <li>Soluciones no gestionadas en PROD</li>
+          <li>Plugins síncronos innecesarios (impactan UX)</li>
+          <li>Campos calculados en tablas con millones de registros sin probar rendimiento</li>
+          <li>Hardcodear GUIDs o URLs en código</li>
+          <li>Un solo "super-role" que lo puede todo</li>
+          <li>Ignorar los límites de API: 6,000 requests / 5 min por usuario</li>
+        </ul>
+      </div>
+      <div class="card card-full">
+        <h3>📏 Límites importantes a conocer</h3>
+        <div class="table-wrap"><table>
+          <tr><th>Recurso</th><th>Límite</th><th>Impacto</th></tr>
+          <tr><td>API requests por usuario</td><td>6,000 / 5 min</td><td>Throttling (Error 429)</td></tr>
+          <tr><td>Plugins por transacción</td><td>2 min timeout</td><td>Error de timeout</td></tr>
+          <tr><td>Tamaño de registro</td><td>128 KB sin adjuntos</td><td>Error al guardar</td></tr>
+          <tr><td>Columnas por tabla</td><td>~1,024</td><td>Límite de schema</td></tr>
+          <tr><td>Relaciones por tabla</td><td>500</td><td>Límite de diseño</td></tr>
+          <tr><td>Flujos por usuario</td><td>600 activos</td><td>No se pueden crear más</td></tr>
+          <tr><td>Storage Dataverse</td><td>Según licencia</td><td>Se bloquean operaciones</td></tr>
+        </table></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== PREGUNTAS ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--navy)">💬</div><h2>Preguntas Abiertas y Puntos de Discusión</h2></div>
+    <div class="qa-grid">
+      <div class="qa-card"><p>❓ ¿Cómo está organizado actualmente el modelo de seguridad en vuestro entorno? ¿Hay cosas que cambiaríais?</p></div>
+      <div class="qa-card"><p>❓ ¿Qué decisiones de modelado de datos os han dado más problemas hasta ahora?</p></div>
+      <div class="qa-card"><p>❓ ¿Cuántos entornos tenéis? ¿Seguís un proceso formal de DEV → TEST → PROD?</p></div>
+      <div class="qa-card"><p>❓ ¿Habéis tenido casos de "no puedo ver un registro"? ¿Cómo lo resolvisteis?</p></div>
+      <div class="qa-card"><p>❓ ¿Cuál es la diferencia real entre Coordinador y Gestor en el día a día?</p></div>
+      <div class="qa-card"><p>❓ De todo lo visto hoy, ¿qué cambiaríais mañana mismo en vuestro entorno?</p></div>
+    </div>
+  </div>
+
+  <!-- ========== TAKEAWAYS ========== -->
+  <div class="section">
+    <div class="prompt-anchor">P5 — Demo: Onboarding nuevo Técnico</div>
+    <div class="section-header"><div class="section-num" style="background:var(--accent)">🎯</div><h2>Takeaways del Día</h2></div>
+    <div class="card card-full"><ul>
+      <li><strong>Power Platform = ecosistema integrado.</strong> Cada pieza tiene su rol; la clave es saber cuándo usar qué.</li>
+      <li><strong>4 soluciones bien separadas</strong> (Core, WebResources, Dataflows, CustomAPI) — cada capa se despliega independientemente.</li>
+      <li><strong>El modelo de datos es la base de todo.</strong> Los campos 🔒 fórmula son solo lectura. El cascade behavior tiene consecuencias reales.</li>
+      <li><strong>Seguridad ≠ permisos.</strong> Es una estrategia que combina roles, BUs, teams y field security.</li>
+      <li><strong>10 roles custom</strong> con niveles de acceso claros. Principio de mínimo privilegio.</li>
+      <li><strong>Claude Code acelera, no reemplaza.</strong> El criterio técnico sigue siendo del desarrollador.</li>
+      <li><strong>Arquitectura se piensa antes de construir.</strong> Miércoles veremos cómo llevar esto a entornos y ALM.</li>
+    </ul></div>
+  </div>
+
+</div>
+<div class="footer"><strong>POWER FOX</strong> · Formación Power Platform · Semana 1 — Lunes · Abril 2026</div>
+</body>
+</html>

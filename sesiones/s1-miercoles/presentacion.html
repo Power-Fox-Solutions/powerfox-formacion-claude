@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S1 Miércoles — Entornos + Herramientas + Tablas | Power Fox</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  :root{--navy:#0B1D3A;--blue:#1565C0;--blue-light:#42A5F5;--accent:#FF6D00;--accent-soft:#FFF3E0;--bg:#F5F7FA;--card:#FFF;--text:#1A2332;--text-mid:#546E7A;--text-light:#90A4AE;--border:#E8EDF2;--code-bg:#1E1E2E;--green:#2E7D32;--green-soft:#E8F5E9;--red:#C62828;--red-soft:#FFEBEE;--purple:#6A1B9A;--purple-soft:#F3E5F5;--r:12px}
+  *{margin:0;padding:0;box-sizing:border-box}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+  .nav{display:flex;justify-content:space-between;align-items:center;padding:.75rem 1.5rem;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}.nav-logo{font-weight:700;font-size:.9rem;color:var(--navy);letter-spacing:1px}.nav-links{display:flex;gap:1rem}.nav-links a{font-size:.8rem;color:var(--text-mid);text-decoration:none;font-weight:500}
+  .hero{background:var(--navy);color:#fff;padding:3rem 2rem 2.5rem;position:relative;overflow:hidden}.hero::after{content:'';position:absolute;top:0;right:0;width:40%;height:100%;background:linear-gradient(135deg,transparent,rgba(21,101,192,.15),rgba(46,125,50,.1))}.hero-meta{display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem;position:relative;z-index:1}.hero-badge{background:var(--green);color:#fff;padding:.25rem .75rem;border-radius:4px;font-size:.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}.hero-week{font-size:.85rem;opacity:.7}.hero h1{font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:.5rem;position:relative;z-index:1}.hero-sub{font-size:1rem;opacity:.75;position:relative;z-index:1;max-width:700px}.hero-time{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.1);padding:.3rem .75rem;border-radius:6px;font-size:.85rem;margin-top:.75rem;position:relative;z-index:1}
+  .container{max-width:1100px;margin:0 auto;padding:2rem 1.5rem}
+  /* AGENDA */
+  .agenda{display:grid;grid-template-columns:60px 1fr;gap:0;background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:2.5rem}.agenda-title{grid-column:1/-1;padding:1rem 1.5rem;font-weight:700;font-size:1.1rem;border-bottom:2px solid var(--border)}.agenda-time{padding:.75rem .5rem;text-align:center;font-size:.78rem;font-weight:700;color:var(--blue);border-right:2px solid var(--border);border-bottom:1px solid var(--border)}.agenda-item{padding:.75rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.75rem}.agenda-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}.dot-blue{background:var(--blue)}.dot-orange{background:var(--accent)}.dot-green{background:var(--green)}.dot-purple{background:var(--purple)}.dot-red{background:var(--red)}.agenda-label{font-size:.9rem}.agenda-label strong{font-weight:600}.agenda-tag{font-size:.65rem;padding:.15rem .45rem;border-radius:3px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-left:auto;flex-shrink:0}.tag-key{background:var(--blue);color:#fff}.tag-ia{background:#7C3AED;color:#fff}.tag-break{background:var(--red);color:#fff}.tag-new{background:var(--accent);color:#fff}.tag-tools{background:#00695C;color:#fff}.agenda-break{background:#FFF3E0}
+  /* SECTIONS */
+  .section{margin-bottom:3rem}.section-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:2px solid var(--border)}.section-num{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;color:#fff;flex-shrink:0}.section-header h2{font-size:1.3rem;font-weight:700}.section-header .duration{margin-left:auto;font-size:.8rem;color:var(--text-light);font-weight:500}
+  .content-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}@media(max-width:768px){.content-grid{grid-template-columns:1fr}}
+  .card{background:var(--card);border-radius:var(--r);padding:1.5rem;box-shadow:0 1px 4px rgba(0,0,0,.05);border:1px solid var(--border)}.card h3{font-size:1.05rem;font-weight:700;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}.card p,.card li{font-size:.88rem;color:var(--text-mid)}.card ul{padding-left:1.25rem}.card li{margin-bottom:.35rem}.card-full{grid-column:1/-1}
+  .highlight-box{border-left:4px solid var(--accent);background:var(--accent-soft);padding:1rem 1.25rem;border-radius:0 var(--r) var(--r) 0;margin:1rem 0}.highlight-box p{font-size:.88rem;color:var(--text)}.tip-box{border-left:4px solid var(--green);background:var(--green-soft);padding:1rem 1.25rem;border-radius:0 var(--r) var(--r) 0;margin:1rem 0}.tip-box p{font-size:.88rem}.warn-box{border-left:4px solid var(--red);background:var(--red-soft);padding:1rem 1.25rem;border-radius:0 var(--r) var(--r) 0;margin:1rem 0}.warn-box p{font-size:.88rem}
+  .code-block{background:var(--code-bg);color:#CDD6F4;border-radius:8px;padding:1.25rem;font-family:'JetBrains Mono',monospace;font-size:.78rem;overflow-x:auto;margin:1rem 0;line-height:1.6;white-space:pre}.comment{color:#6C7086}.keyword{color:#CBA6F7}.string{color:#A6E3A1}.func{color:#89B4FA}.num{color:#FAB387}
+  .diagram{background:var(--card);border-radius:var(--r);padding:1.5rem;border:1px solid var(--border);margin:1rem 0;text-align:center}.diagram-title{font-size:.8rem;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem}.diagram-row{display:flex;justify-content:center;gap:.75rem;flex-wrap:wrap;margin-bottom:.75rem}.diagram-box{padding:.6rem 1rem;border-radius:8px;font-size:.8rem;font-weight:600;min-width:120px;text-align:center}.db-navy{background:var(--navy);color:#fff}.db-blue{background:var(--blue);color:#fff}.db-orange{background:var(--accent);color:#fff}.db-green{background:var(--green);color:#fff}.db-purple{background:var(--purple);color:#fff}.db-light{background:#E3F2FD;color:var(--blue);border:1px solid var(--blue)}.db-teal{background:#00695C;color:#fff}.diagram-arrow{font-size:1.2rem;color:var(--text-light)}
+  .flow-horizontal{display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap;margin:1rem 0}.flow-step{padding:.5rem 1rem;border-radius:8px;font-size:.8rem;font-weight:600;text-align:center}.flow-arrow{font-size:1.2rem;color:var(--text-light)}
+  .qa-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}@media(max-width:768px){.qa-grid{grid-template-columns:1fr}}.qa-card{background:var(--purple-soft);border-radius:var(--r);padding:1.25rem;border:1px solid #CE93D8}.qa-card p{font-size:.88rem;color:var(--purple);font-weight:500}
+  .table-wrap{overflow-x:auto;margin:1rem 0}table{width:100%;border-collapse:collapse;font-size:.85rem}th{background:var(--navy);color:#fff;padding:.6rem 1rem;text-align:left;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px}td{padding:.6rem 1rem;border-bottom:1px solid var(--border)}tr:hover td{background:#F8FAFC}
+  .footer{text-align:center;padding:2rem;font-size:.8rem;color:var(--text-light);border-top:1px solid var(--border);margin-top:2rem}.footer strong{color:var(--navy)}
+  .prompt-anchor{display:inline-flex;align-items:center;gap:.4rem;background:#7C3AED;color:#fff;padding:.35rem .85rem;border-radius:6px;font-size:.78rem;font-weight:700;letter-spacing:.5px;margin:1.25rem 0 .5rem;font-family:'JetBrains Mono',monospace}.prompt-anchor::before{content:'⚡'}
+  .real-system{border:2px solid var(--accent);border-radius:var(--r);padding:1.5rem;background:linear-gradient(135deg,#FFF8E1,#FFF3E0);margin:1rem 0}.real-system::before{content:'📍 NUESTRO SISTEMA';display:block;font-size:.7rem;font-weight:700;letter-spacing:1.5px;color:var(--accent);margin-bottom:.75rem}.real-system h3{font-size:1.05rem;font-weight:700;margin-bottom:.75rem}.real-system p,.real-system li{font-size:.88rem;color:var(--text-mid)}.real-system ul{padding-left:1.25rem}.real-system li{margin-bottom:.35rem}
+  /* TOOL CARDS */
+  .tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}@media(max-width:768px){.tool-grid{grid-template-columns:1fr}}
+  .tool-card{background:var(--card);border-radius:var(--r);padding:1.25rem;box-shadow:0 1px 4px rgba(0,0,0,.05);border-top:3px solid var(--blue)}.tool-card h4{font-size:.95rem;font-weight:700;margin-bottom:.3rem;color:var(--navy)}.tool-card .desc{font-size:.82rem;color:var(--text-mid);margin-bottom:.3rem}.tool-card .note{font-size:.75rem;color:var(--text-light);font-style:italic}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-logo">POWER FOX — Formación</div><div class="nav-links"><a href="#">S1</a><a href="#">Miércoles</a><a href="#">Día 2 de 12</a></div></nav>
+
+<div class="hero">
+  <div class="hero-meta"><span class="hero-badge">Semana 1</span><span class="hero-week">Miércoles · Día 2 de 12</span></div>
+  <h1>Entornos, Herramientas y Diseño de Tablas</h1>
+  <p class="hero-sub">ALM y entornos, las herramientas del equipo, diseño avanzado de tablas, formularios Model-Driven, FetchXML Builder e introducción a JavaScript.</p>
+  <div class="hero-time">⏱ 3 horas · 7 bloques + break</div>
+</div>
+
+<div class="container">
+
+  <!-- AGENDA -->
+  <div class="agenda">
+    <div class="agenda-title">📋 Agenda del día</div>
+    <div class="agenda-time">0:00</div><div class="agenda-item"><div class="agenda-dot dot-green"></div><span class="agenda-label"><strong>Recap lunes</strong> + preguntas pendientes</span></div>
+    <div class="agenda-time">0:10</div><div class="agenda-item"><div class="agenda-dot dot-blue"></div><span class="agenda-label"><strong>El Viaje de un Cambio:</strong> de la idea a producción</span></div>
+    <div class="agenda-time">0:30</div><div class="agenda-item"><div class="agenda-dot dot-blue"></div><span class="agenda-label"><strong>Entornos DEV/TEST/PROD</strong> + estrategia de despliegue</span></div>
+    <div class="agenda-time">0:50</div><div class="agenda-item"><div class="agenda-dot dot-orange"></div><span class="agenda-label"><strong>Herramientas del equipo:</strong> VS Code, Antigravity, XRMToolBox, PAC CLI, Claude Code</span><span class="agenda-tag tag-tools">HERRAMIENTAS</span></div>
+    <div class="agenda-time">1:20</div><div class="agenda-item"><div class="agenda-dot dot-blue"></div><span class="agenda-label"><strong>Diseño de tablas</strong> + relaciones + herencia padre-hija</span><span class="agenda-tag tag-key">CLAVE</span></div>
+    <div class="agenda-time">1:30</div><div class="agenda-item agenda-break"><div class="agenda-dot dot-red"></div><span class="agenda-label"><strong>☕ BREAK — 10 minutos</strong></span><span class="agenda-tag tag-break">PAUSA</span></div>
+    <div class="agenda-time">1:40</div><div class="agenda-item"><div class="agenda-dot dot-blue"></div><span class="agenda-label"><strong>Formularios Model-Driven:</strong> tips avanzados + vistas</span></div>
+    <div class="agenda-time">2:05</div><div class="agenda-item"><div class="agenda-dot dot-purple"></div><span class="agenda-label"><strong>FetchXML Builder:</strong> demo en vivo con datos reales</span><span class="agenda-tag tag-ia">DEMO</span></div>
+    <div class="agenda-time">2:25</div><div class="agenda-item"><div class="agenda-dot dot-green"></div><span class="agenda-label"><strong>Intro JavaScript:</strong> eventos, formContext, estructura base</span><span class="agenda-tag tag-new">NUEVO</span></div>
+    <div class="agenda-time">2:50</div><div class="agenda-item"><div class="agenda-dot dot-green"></div><span class="agenda-label"><strong>Cierre</strong> + takeaways + preview viernes</span></div>
+  </div>
+
+  <!-- ========== BLOQUE 1: ENTORNOS ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--blue)">01</div><h2>El Viaje de un Cambio + Entornos</h2><span class="duration">40 min</span></div>
+
+    <div class="content-grid">
+      <div class="card card-full">
+        <h3>🚀 De la idea a producción — el camino completo</h3>
+        <div class="flow-horizontal">
+          <div class="flow-step db-light">1. Petición<br><small>Usuario/Gerente</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step db-green">2. Diseño<br><small>Desarrollador</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step db-green">3. DEV<br><small>Construir</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step db-orange">4. TEST<br><small>Probar</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step db-blue">5. UAT<br><small>Validar usuario</small></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step db-navy">6. PROD<br><small>Disponible</small></div>
+        </div>
+        <div class="highlight-box"><p><strong>¿Por qué importa a todos?</strong> El gerente entiende por qué un cambio no aparece al día siguiente. El usuario sabe que en TEST puede probar sin miedo. El desarrollador tiene un proceso claro.</p></div>
+      </div>
+    </div>
+
+    <div class="content-grid" style="margin-top:1.25rem">
+      <div class="card">
+        <h3>🌍 ¿Por qué múltiples entornos?</h3>
+        <ul>
+          <li><strong>Aislamiento de riesgo:</strong> un error en DEV nunca toca PROD</li>
+          <li><strong>Pruebas reales</strong> sin afectar datos de producción</li>
+          <li><strong>Control de versiones:</strong> saber qué versión tiene cada entorno</li>
+          <li><strong>Gobernanza:</strong> solo administradores despliegan a PROD</li>
+        </ul>
+        <div class="tip-box"><p>💡 Mínimo recomendado: 3 entornos (DEV + TEST + PROD). Ideal: añadir UAT para validación con usuario final.</p></div>
+      </div>
+      <div class="card">
+        <h3>📦 Managed vs Unmanaged</h3>
+        <div class="table-wrap"><table>
+          <tr><th>Aspecto</th><th>Unmanaged</th><th>Managed</th></tr>
+          <tr><td>¿Dónde?</td><td>Solo en DEV</td><td>TEST, UAT, PROD</td></tr>
+          <tr><td>¿Editable?</td><td>Sí</td><td>No (bloqueada)</td></tr>
+          <tr><td>¿Eliminar?</td><td>Componente por componente</td><td>Se elimina todo junto</td></tr>
+          <tr><td>¿Versionado?</td><td>Manual</td><td>Automático con import</td></tr>
+        </table></div>
+        <div class="warn-box"><p>⚠️ <strong>NUNCA</strong> soluciones unmanaged en producción. Si necesitas un hotfix, hazlo en DEV y promuévelo como managed.</p></div>
+      </div>
+    </div>
+
+    <div class="content-grid" style="margin-top:1.25rem">
+      <div class="card">
+        <h3>🔄 GitHub/DevOps como hub central</h3>
+        <ul>
+          <li><strong>Repositorio Git</strong> como fuente de verdad de soluciones</li>
+          <li><strong>Branching:</strong> main (PROD), develop (DEV), feature branches</li>
+          <li><strong>Pull Requests</strong> con revisión antes de merge</li>
+          <li><strong>PAC CLI</strong> para export/import automatizado</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🚀 Pipeline de despliegue</h3>
+        <ul>
+          <li><strong>1.</strong> Desarrollar en DEV (unmanaged)</li>
+          <li><strong>2.</strong> Exportar con PAC CLI → commit en Git</li>
+          <li><strong>3.</strong> Build solución managed en pipeline CI</li>
+          <li><strong>4.</strong> Deploy a TEST automáticamente</li>
+          <li><strong>5.</strong> Validar con pruebas</li>
+          <li><strong>6.</strong> Aprobar y promover a PROD</li>
+        </ul>
+        <div class="highlight-box"><p><strong>Connection References:</strong> Permiten que los flujos apunten a conexiones diferentes en cada entorno sin modificar el flujo.</p></div>
+      </div>
+    </div>
+
+    <div class="prompt-anchor">P1 — Claude Code: Checklist pre-despliegue de smart_project_solution</div>
+  </div>
+
+  <!-- ========== BLOQUE 2: HERRAMIENTAS ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:#00695C">02</div><h2>Herramientas del Equipo</h2><span class="duration">30 min</span></div>
+
+    <div class="tool-grid">
+      <div class="tool-card">
+        <h4>VS Code</h4>
+        <div class="desc">IDE principal para desarrollo Power Platform</div>
+        <div class="note">Extensiones: Dataverse Dev Tools, Power Platform Tools</div>
+      </div>
+      <div class="tool-card">
+        <h4>Antigravity</h4>
+        <div class="desc">IDE complementario para desarrollo</div>
+        <div class="note">Se usa junto con VS Code para edición avanzada</div>
+      </div>
+      <div class="tool-card" style="border-top-color:#7C3AED">
+        <h4>Claude Code</h4>
+        <div class="desc">Asistente IA para generación de código, consultas y debugging</div>
+        <div class="note">Se integra en terminal y VS Code</div>
+      </div>
+      <div class="tool-card" style="border-top-color:var(--accent)">
+        <h4>XRMToolBox</h4>
+        <div class="desc">Administración y mantenimiento de Dataverse</div>
+        <div class="note">Herramientas clave: FetchXML Builder, Plugin Trace Viewer, Metadata Browser</div>
+      </div>
+      <div class="tool-card" style="border-top-color:var(--navy)">
+        <h4>GitHub / DevOps</h4>
+        <div class="desc">Control de versiones, CI/CD y ALM</div>
+        <div class="note">Gestión de soluciones y despliegues automatizados</div>
+      </div>
+      <div class="tool-card" style="border-top-color:var(--green)">
+        <h4>PAC CLI</h4>
+        <div class="desc">Línea de comandos de Power Platform</div>
+        <div class="note">Export/import de soluciones, autenticación, canvas unpack</div>
+      </div>
+    </div>
+
+    <div class="content-grid" style="margin-top:1.25rem">
+      <div class="card">
+        <h3>🔧 VS Code — Extensiones esenciales</h3>
+        <ul>
+          <li><strong>Power Platform Tools</strong> — Conectar con entornos, editar soluciones, debug de plugins</li>
+          <li><strong>Dataverse DevTools</strong> — Navegar metadata (tablas, columnas, relaciones) sin salir del editor</li>
+          <li><strong>GitLens</strong> — Ver historial de cambios en cada línea de código</li>
+          <li><strong>ESLint</strong> — Validación de JavaScript en tiempo real</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>⌨️ PAC CLI — Comandos esenciales</h3>
+        <div class="code-block"><span class="comment">// Autenticarse</span>
+pac auth create --environment https://org.crm.dynamics.com
+
+<span class="comment">// Exportar solución</span>
+pac solution export --name MiSolucion --path ./exports
+
+<span class="comment">// Descomprimir para Git</span>
+pac solution unpack --zipfile ./exports/MiSolucion.zip --folder ./src
+
+<span class="comment">// Importar en otro entorno</span>
+pac solution import --path ./exports/MiSolucion_managed.zip
+
+<span class="comment">// Canvas App → YAML editable</span>
+pac canvas unpack --msapp App.msapp --sources ./yaml</div>
+      </div>
+    </div>
+
+    <div class="content-grid" style="margin-top:1.25rem">
+      <div class="card card-full">
+        <h3>🧰 XRMToolBox — Top herramientas</h3>
+        <div class="table-wrap"><table>
+          <tr><th>Herramienta</th><th>Para qué</th><th>Quién la usa</th></tr>
+          <tr><td><strong>FetchXML Builder</strong></td><td>Construir consultas visualmente, probar contra datos reales</td><td>Todos (técnicos y funcionales)</td></tr>
+          <tr><td><strong>Metadata Browser</strong></td><td>Explorar schema: tablas, campos, relaciones</td><td>Desarrolladores</td></tr>
+          <tr><td><strong>Bulk Data Updater</strong></td><td>Actualizar masivamente campos en registros</td><td>Admins</td></tr>
+          <tr><td><strong>Plugin Trace Viewer</strong></td><td>Ver logs de ejecución de plugins</td><td>Desarrolladores</td></tr>
+          <tr><td><strong>Flow Manager</strong></td><td>Gestionar flujos de Power Automate</td><td>Todos</td></tr>
+          <tr><td><strong>Solution Comparer</strong></td><td>Comparar soluciones entre entornos</td><td>ALM / DevOps</td></tr>
+          <tr><td><strong>User Settings Utility</strong></td><td>Cambiar config de usuarios masivamente</td><td>Admins</td></tr>
+        </table></div>
+      </div>
+    </div>
+
+    <div class="prompt-anchor">P2 — Claude Code: Generar checklist de herramientas + configuración para nuevo dev</div>
+  </div>
+
+  <!-- ========== BLOQUE 3: TABLAS Y RELACIONES ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--blue)">03</div><h2>Diseño de Tablas, Relaciones y Herencia</h2><span class="duration">30 min · CLAVE</span></div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>📐 Anatomía de una tabla Dataverse</h3>
+        <ul>
+          <li><strong>Primary Name</strong> — Lo que se muestra en lookups. Debe ser descriptivo (ej: "PRY-001 - Nombre").</li>
+          <li><strong>Primary Key</strong> — GUID generado automáticamente.</li>
+          <li><strong>Owner</strong> — Usuario o Team propietario (define seguridad).</li>
+          <li><strong>Status / Status Reason</strong> — Ciclo de vida (Active/Inactive + custom).</li>
+          <li><strong>Created On / Modified On</strong> — Auditoría automática.</li>
+        </ul>
+        <div class="tip-box"><p>💡 El <strong>Primary Name</strong> es fundamental para la UX. Si es un GUID o un número, los lookups son ilegibles.</p></div>
+      </div>
+      <div class="card">
+        <h3>🧱 Columnas avanzadas</h3>
+        <ul>
+          <li><strong>Formula:</strong> Calcula en tiempo real (🔒 solo lectura). No consume storage.</li>
+          <li><strong>Calculated:</strong> Se recalcula cada 24h o al leer. Para cálculos simples.</li>
+          <li><strong>Rollup:</strong> Agrega datos de hijos. Se recalcula cada hora. Ejemplo: suma de horas.</li>
+          <li><strong>Auto-number:</strong> Secuencias automáticas (PRY-{SEQNUM:5}). Ideal para códigos.</li>
+          <li><strong>Polymorphic Lookup:</strong> Customer field (Account o Contact) y Regarding.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="content-grid" style="margin-top:1.25rem">
+      <div class="card card-full">
+        <h3>🔗 Herencia de datos padre-hija — ¿Cuál elegir?</h3>
+        <div class="table-wrap"><table>
+          <tr><th>Método</th><th>¿Funciona desde API?</th><th>¿Tiempo real?</th><th>Complejidad</th><th>Cuándo usarlo</th></tr>
+          <tr><td><strong>Mapped Fields</strong></td><td>❌ Solo UI</td><td>✅</td><td>Baja</td><td>Datos que solo se crean desde formulario</td></tr>
+          <tr><td><strong>Business Rule</strong></td><td>❌ Solo Form</td><td>✅</td><td>Baja</td><td>Lógica simple de formulario</td></tr>
+          <tr><td><strong>Power Automate</strong></td><td>✅</td><td>⚡ 5-30s delay</td><td>Media</td><td>Datos informativos, tolerancia a delay</td></tr>
+          <tr><td><strong>Plugin</strong></td><td>✅</td><td>✅ Inmediato</td><td>Alta</td><td>Datos críticos, consistencia total</td></tr>
+        </table></div>
+        <div class="highlight-box"><p><strong>Regla práctica:</strong> Si el dato TIENE que estar ahí siempre, usa Plugin. Si puede esperar unos segundos, Power Automate es suficiente y más fácil de mantener.</p></div>
+      </div>
+    </div>
+
+    <div class="real-system">
+      <h3>🔗 Herencia en nuestro sistema</h3>
+      <ul>
+        <li>Cuando se crea una <strong>pfx_project_activity</strong> dentro de un <strong>pfx_project</strong>, hereda: moneda, cliente, y datos del proyecto padre</li>
+        <li>Los campos <strong>pfx_offer_created</strong> y <strong>pfx_teams_created</strong> son flags que controlan si ya se ejecutó la herencia</li>
+        <li>Las <strong>fórmulas de margen</strong> (🔒) se calculan automáticamente — no dependen de herencia, se recalculan en tiempo real</li>
+      </ul>
+    </div>
+
+    <div class="content-grid" style="margin-top:1.25rem">
+      <div class="card card-full">
+        <h3>📝 Buenas prácticas de modelado low-code</h3>
+        <ul>
+          <li><strong>1 tabla = 1 concepto de negocio.</strong> No mezcles "Proyecto" y "Tarea" en la misma tabla.</li>
+          <li><strong>Normalizar, pero no demasiado.</strong> Dataverse no es SQL puro — desnormalizar lookup names es aceptable.</li>
+          <li><strong>Status Reason personalizado</strong> para tu flujo de negocio (Borrador → Enviado → Aprobado → Cerrado).</li>
+          <li><strong>Alternate Keys</strong> para claves de negocio (código de proyecto, NIF de empresa).</li>
+          <li><strong>Auditoría</strong> habilitada en tablas con datos sensibles o regulados.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="prompt-anchor">P3 — Claude Code: Árbol de relaciones del sistema en ASCII</div>
+  </div>
+
+  <!-- ========== BREAK ========== -->
+
+  <!-- ========== BLOQUE 4: FORMULARIOS + VISTAS ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--blue)">04</div><h2>Formularios Model-Driven: Tips Avanzados + Vistas</h2><span class="duration">25 min</span></div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>📝 Tips avanzados de formularios</h3>
+        <ul>
+          <li><strong>Formularios por rol:</strong> Usa Form Selector para mostrar formularios diferentes según el Security Role del usuario</li>
+          <li><strong>Quick View Forms:</strong> Muestran datos del padre en el hijo sin JavaScript — muy útil para ver info del Proyecto desde una Actividad</li>
+          <li><strong>Card Forms:</strong> Vista compacta para vistas de tarjetas</li>
+          <li><strong>Business Rules en formulario:</strong> Lógica sin código para show/hide, set required, set default</li>
+          <li><strong>Tabs con "expand by default: No":</strong> Mejoran rendimiento — no cargan sus controles hasta que se abren</li>
+        </ul>
+        <div class="tip-box"><p>💡 Crea <strong>formularios personalizados</strong> para tu solución en vez de editar los nativos. Evita conflictos con otros desarrollos.</p></div>
+      </div>
+      <div class="card">
+        <h3>👁️ Vistas y Subgrids</h3>
+        <ul>
+          <li><strong>System Views</strong> — Compartidas por todos. Personal Views solo para el usuario.</li>
+          <li><strong>Lookup Views</strong> — Controla qué columnas ve el usuario al buscar en un lookup.</li>
+          <li><strong>Quick Find View</strong> — Define qué campos son buscables. Impacta rendimiento.</li>
+          <li><strong>Subgrids:</strong> Muestran registros relacionados. Editable grids para inline editing.</li>
+          <li><strong>Dataverse Search:</strong> Alternativa a Quick Find para tablas grandes (>100K registros).</li>
+        </ul>
+        <div class="warn-box"><p>⚠️ Quick Find busca con LIKE %texto%. En tablas grandes es lento. Usa Dataverse Search en su lugar.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== BLOQUE 5: FETCHXML BUILDER ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--accent)">05</div><h2>FetchXML Builder — Demo en Vivo</h2><span class="duration">20 min</span></div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>⭐ ¿Qué es FetchXML Builder?</h3>
+        <p>La herramienta más usada de XRMToolBox. Permite:</p>
+        <ul>
+          <li>Construir consultas <strong>arrastrando tablas y condiciones</strong></li>
+          <li>Probar ejecutando <strong>contra el entorno real</strong></li>
+          <li>Copiar FetchXML para usar en vistas, reportes, plugins o JavaScript</li>
+          <li>Convertir a <strong>Web API URL</strong> ($filter, $select, $expand)</li>
+          <li>Hacer <strong>joins entre tablas</strong> con link-entity</li>
+          <li>Funciones <strong>aggregate</strong> (count, sum, avg) para reportes rápidos</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>💡 Para todos los perfiles</h3>
+        <ul>
+          <li><strong>Gerente:</strong> "¿Cuántos proyectos activos tiene cada coordinador?" — FetchXML con aggregate y groupby, resultado en 2 minutos.</li>
+          <li><strong>Usuario:</strong> "¿Qué proyectos no tienen horas registradas este mes?" — Consulta con left join y condición null.</li>
+          <li><strong>Técnico:</strong> "Dame los campos de pfx_project_activity que son lookup" — Metadata query directa.</li>
+        </ul>
+        <div class="highlight-box"><p><strong>No necesitas saber código.</strong> FetchXML Builder es visual — arrastras, configuras, ejecutas. Si luego necesitas el XML o la Web API URL, lo copias.</p></div>
+      </div>
+    </div>
+
+    <div class="prompt-anchor">P4 — Claude Code: FetchXML de horas por recurso en proyectos activos</div>
+  </div>
+
+  <!-- ========== BLOQUE 6: INTRO JAVASCRIPT ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--green)">06</div><h2>Introducción a JavaScript en Dynamics 365</h2><span class="duration">25 min</span></div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>⚡ Los 3 eventos principales</h3>
+        <div class="table-wrap"><table>
+          <tr><th>Evento</th><th>Cuándo</th><th>Uso típico</th></tr>
+          <tr><td><strong>OnLoad</strong></td><td>Al abrir el formulario</td><td>Inicializar, ocultar campos, validar permisos</td></tr>
+          <tr><td><strong>OnChange</strong></td><td>Al cambiar un campo</td><td>Calcular, auto-rellenar, filtrar lookups</td></tr>
+          <tr><td><strong>OnSave</strong></td><td>Antes de guardar</td><td>Validar datos, prevenir guardado si error</td></tr>
+        </table></div>
+        <div class="warn-box"><p>⚠️ <strong>Xrm.Page está deprecado</strong> desde v9. Siempre usa formContext obtenido de executionContext.getFormContext().</p></div>
+      </div>
+      <div class="card">
+        <h3>🔧 formContext — Lo básico</h3>
+        <div class="code-block"><span class="comment">// Obtener formContext (SIEMPRE así)</span>
+<span class="keyword">function</span> <span class="func">onLoad</span>(executionContext) {
+    <span class="keyword">var</span> fc = executionContext.getFormContext();
+
+    <span class="comment">// Leer un valor</span>
+    <span class="keyword">var</span> nombre = fc.getAttribute(<span class="string">"pfx_name"</span>).getValue();
+
+    <span class="comment">// Escribir un valor</span>
+    fc.getAttribute(<span class="string">"pfx_name"</span>).setValue(<span class="string">"Nuevo"</span>);
+
+    <span class="comment">// Ocultar un campo</span>
+    fc.getControl(<span class="string">"pfx_campo"</span>).setVisible(<span class="keyword">false</span>);
+
+    <span class="comment">// Hacer obligatorio</span>
+    fc.getAttribute(<span class="string">"pfx_email"</span>)
+      .setRequiredLevel(<span class="string">"required"</span>);
+}</div>
+      </div>
+    </div>
+
+    <div class="content-grid" style="margin-top:1.25rem">
+      <div class="card">
+        <h3>📐 Estructura recomendada: Namespace</h3>
+        <div class="code-block"><span class="keyword">var</span> <span class="func">LITOCLEAN</span> = <span class="func">LITOCLEAN</span> || {};
+<span class="func">LITOCLEAN</span>.Proyecto = (<span class="keyword">function</span>() {
+
+    <span class="keyword">function</span> <span class="func">onLoad</span>(executionContext) {
+        <span class="keyword">var</span> fc = executionContext.getFormContext();
+        <span class="comment">// Tu lógica aquí</span>
+    }
+
+    <span class="keyword">function</span> <span class="func">onChange_Estado</span>(executionContext) {
+        <span class="keyword">var</span> fc = executionContext.getFormContext();
+        <span class="comment">// Reaccionar al cambio</span>
+    }
+
+    <span class="keyword">return</span> {
+        onLoad: onLoad,
+        onChange_Estado: onChange_Estado
+    };
+})();</div>
+        <div class="tip-box"><p>💡 Un archivo JS por entidad. Namespace para evitar colisiones. Solo expón las funciones que van en los event handlers.</p></div>
+      </div>
+      <div class="card">
+        <h3>🔗 Cómo vincular JS a un formulario</h3>
+        <ul>
+          <li><strong>1.</strong> Crear Web Resource tipo JavaScript (.js)</li>
+          <li><strong>2.</strong> Abrir el formulario en el editor</li>
+          <li><strong>3.</strong> Form Properties → Add Library → seleccionar tu JS</li>
+          <li><strong>4.</strong> Event Handlers → Add → elegir función (ej: LITOCLEAN.Proyecto.onLoad)</li>
+          <li><strong>5.</strong> Marcar ✅ "Pass execution context as first parameter"</li>
+          <li><strong>6.</strong> Save + Publish</li>
+        </ul>
+        <div class="warn-box"><p>⚠️ Si olvidas marcar "Pass execution context", el formContext será undefined y el script fallará silenciosamente.</p></div>
+      </div>
+    </div>
+
+    <div class="prompt-anchor">P5 — Claude Code: JS para bloquear campos en actividad completada</div>
+  </div>
+
+  <!-- ========== PREGUNTAS ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--navy)">💬</div><h2>Preguntas Abiertas</h2></div>
+    <div class="qa-grid">
+      <div class="qa-card"><p>❓ ¿Cómo gestionáis actualmente los despliegues? ¿Manual o con pipeline?</p></div>
+      <div class="qa-card"><p>❓ ¿Qué herramientas de las que hemos visto ya usáis? ¿Cuáles no conocíais?</p></div>
+      <div class="qa-card"><p>❓ ¿Habéis tenido problemas con cascade behavior? ¿Algún susto en producción?</p></div>
+      <div class="qa-card"><p>❓ ¿Qué convención de nombres usáis para web resources JS?</p></div>
+      <div class="qa-card"><p>❓ ¿Usáis FetchXML Builder o escribís FetchXML a mano?</p></div>
+      <div class="qa-card"><p>❓ ¿Qué os gustaría automatizar en formularios con JavaScript?</p></div>
+    </div>
+  </div>
+
+  <!-- ========== TAKEAWAYS ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--accent)">🎯</div><h2>Takeaways del Día</h2></div>
+    <div class="card card-full"><ul>
+      <li><strong>El viaje de un cambio</strong> afecta a todos: gerentes, usuarios y técnicos. DEV → TEST → PROD es innegociable.</li>
+      <li><strong>6 herramientas clave:</strong> VS Code, Antigravity, Claude Code, XRMToolBox, GitHub, PAC CLI. Cada una tiene su rol.</li>
+      <li><strong>FetchXML Builder</strong> es para todos — no necesitas código para hacer consultas potentes.</li>
+      <li><strong>Herencia padre-hija:</strong> elige el mecanismo según el contexto (UI only vs omnicanal).</li>
+      <li><strong>formContext es la puerta a JavaScript</strong> en Dynamics 365. Namespace + un archivo por entidad.</li>
+      <li><strong>Viernes:</strong> JavaScript aplicado con el caso práctico integrador completo.</li>
+    </ul></div>
+  </div>
+
+</div>
+<div class="footer"><strong>POWER FOX</strong> · Formación Power Platform · Semana 1 — Miércoles · Abril 2026</div>
+</body>
+</html>

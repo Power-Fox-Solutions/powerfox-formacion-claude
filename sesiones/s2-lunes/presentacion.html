@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S2 Lunes — Claude Code + GitHub + Tu Primer Proyecto | Power Fox</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  :root{--navy:#0B1D3A;--blue:#1565C0;--blue-light:#42A5F5;--accent:#FF6D00;--accent-soft:#FFF3E0;--bg:#F5F7FA;--card:#FFF;--text:#1A2332;--text-mid:#546E7A;--text-light:#90A4AE;--border:#E8EDF2;--code-bg:#1E1E2E;--green:#2E7D32;--green-soft:#E8F5E9;--red:#C62828;--red-soft:#FFEBEE;--purple:#6A1B9A;--purple-soft:#F3E5F5;--claude:#7C3AED;--r:12px}
+  *{margin:0;padding:0;box-sizing:border-box}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+  .nav{display:flex;justify-content:space-between;align-items:center;padding:.75rem 1.5rem;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}.nav-logo{font-weight:700;font-size:.9rem;color:var(--navy);letter-spacing:1px}.nav-links{display:flex;gap:1rem}.nav-links a{font-size:.8rem;color:var(--text-mid);text-decoration:none;font-weight:500}
+  .hero{background:var(--navy);color:#fff;padding:3rem 2rem 2.5rem;position:relative;overflow:hidden}.hero::after{content:'';position:absolute;top:0;right:0;width:40%;height:100%;background:linear-gradient(135deg,transparent,rgba(124,58,237,.15),rgba(21,101,192,.1))}.hero-meta{display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem;position:relative;z-index:1}.hero-badge{background:var(--claude);color:#fff;padding:.25rem .75rem;border-radius:4px;font-size:.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}.hero-week{font-size:.85rem;opacity:.7}.hero h1{font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:.5rem;position:relative;z-index:1}.hero-sub{font-size:1rem;opacity:.75;position:relative;z-index:1;max-width:700px}.hero-time{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.1);padding:.3rem .75rem;border-radius:6px;font-size:.85rem;margin-top:.75rem;position:relative;z-index:1}
+  .container{max-width:1100px;margin:0 auto;padding:2rem 1.5rem}
+  .agenda{display:grid;grid-template-columns:60px 1fr;gap:0;background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:2.5rem}.agenda-title{grid-column:1/-1;padding:1rem 1.5rem;font-weight:700;font-size:1.1rem;border-bottom:2px solid var(--border)}.agenda-time{padding:.75rem .5rem;text-align:center;font-size:.78rem;font-weight:700;color:var(--blue);border-right:2px solid var(--border);border-bottom:1px solid var(--border)}.agenda-item{padding:.75rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.75rem}.agenda-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}.dot-blue{background:var(--blue)}.dot-orange{background:var(--accent)}.dot-green{background:var(--green)}.dot-purple{background:var(--claude)}.dot-red{background:var(--red)}.agenda-label{font-size:.9rem}.agenda-label strong{font-weight:600}.agenda-tag{font-size:.65rem;padding:.15rem .45rem;border-radius:3px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-left:auto;flex-shrink:0}.tag-key{background:var(--blue);color:#fff}.tag-ia{background:var(--claude);color:#fff}.tag-break{background:var(--red);color:#fff}.tag-star{background:var(--accent);color:#fff}.agenda-break{background:#FFF3E0}
+  .section{margin-bottom:3rem}.section-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:2px solid var(--border)}.section-num{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;color:#fff;flex-shrink:0}.section-header h2{font-size:1.3rem;font-weight:700}.section-header .duration{margin-left:auto;font-size:.8rem;color:var(--text-light);font-weight:500}
+  .content-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}@media(max-width:768px){.content-grid{grid-template-columns:1fr}}
+  .card{background:var(--card);border-radius:var(--r);padding:1.5rem;box-shadow:0 1px 4px rgba(0,0,0,.05);border:1px solid var(--border)}.card h3{font-size:1.05rem;font-weight:700;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}.card p,.card li{font-size:.88rem;color:var(--text-mid)}.card ul{padding-left:1.25rem}.card li{margin-bottom:.35rem}.card-full{grid-column:1/-1}
+  .highlight-box{border-left:4px solid var(--accent);background:var(--accent-soft);padding:1rem 1.25rem;border-radius:0 var(--r) var(--r) 0;margin:1rem 0}.highlight-box p{font-size:.88rem;color:var(--text)}.tip-box{border-left:4px solid var(--green);background:var(--green-soft);padding:1rem 1.25rem;border-radius:0 var(--r) var(--r) 0;margin:1rem 0}.tip-box p{font-size:.88rem}.warn-box{border-left:4px solid var(--red);background:var(--red-soft);padding:1rem 1.25rem;border-radius:0 var(--r) var(--r) 0;margin:1rem 0}.warn-box p{font-size:.88rem}
+  .code-block{background:var(--code-bg);color:#CDD6F4;border-radius:8px;padding:1.25rem;font-family:'JetBrains Mono',monospace;font-size:.78rem;overflow-x:auto;margin:1rem 0;line-height:1.6;white-space:pre}.comment{color:#6C7086}.keyword{color:#CBA6F7}.string{color:#A6E3A1}.func{color:#89B4FA}.num{color:#FAB387}.prop{color:#F9E2AF}
+  .diagram{background:var(--card);border-radius:var(--r);padding:1.5rem;border:1px solid var(--border);margin:1rem 0;text-align:center}.diagram-title{font-size:.8rem;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem}.diagram-row{display:flex;justify-content:center;gap:.75rem;flex-wrap:wrap;margin-bottom:.75rem}.diagram-box{padding:.6rem 1rem;border-radius:8px;font-size:.8rem;font-weight:600;min-width:120px;text-align:center}.db-navy{background:var(--navy);color:#fff}.db-blue{background:var(--blue);color:#fff}.db-orange{background:var(--accent);color:#fff}.db-green{background:var(--green);color:#fff}.db-purple{background:var(--claude);color:#fff}.db-light{background:#E3F2FD;color:var(--blue);border:1px solid var(--blue)}.diagram-arrow{font-size:1.2rem;color:var(--text-light);display:flex;align-items:center}
+  .mermaid-wrap{background:var(--card);border-radius:var(--r);padding:1.5rem;border:1px solid var(--border);margin:1rem 0}.mermaid-wrap .mermaid{display:flex;justify-content:center}
+  .qa-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}@media(max-width:768px){.qa-grid{grid-template-columns:1fr}}.qa-card{background:var(--purple-soft);border-radius:var(--r);padding:1.25rem;border:1px solid #CE93D8}.qa-card p{font-size:.88rem;color:var(--claude);font-weight:500}
+  .table-wrap{overflow-x:auto;margin:1rem 0}table{width:100%;border-collapse:collapse;font-size:.85rem}th{background:var(--navy);color:#fff;padding:.6rem 1rem;text-align:left;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px}td{padding:.6rem 1rem;border-bottom:1px solid var(--border);vertical-align:top}tr:hover td{background:#F8FAFC}
+  .footer{text-align:center;padding:2rem;font-size:.8rem;color:var(--text-light);border-top:1px solid var(--border);margin-top:2rem}.footer strong{color:var(--navy)}
+  .prompt-anchor{display:inline-flex;align-items:center;gap:.4rem;background:var(--claude);color:#fff;padding:.35rem .85rem;border-radius:6px;font-size:.78rem;font-weight:700;letter-spacing:.5px;margin:1.25rem 0 .5rem;font-family:'JetBrains Mono',monospace}.prompt-anchor::before{content:'⚡'}
+  .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:1rem 0}@media(max-width:768px){.compare-grid{grid-template-columns:1fr}}.compare-col{background:var(--card);border-radius:var(--r);padding:1.25rem;border:1px solid var(--border)}.compare-col h4{font-size:.9rem;font-weight:700;margin-bottom:.5rem;padding:.3rem .6rem;border-radius:4px;display:inline-block}.compare-claude h4{background:#EDE9FE;color:var(--claude)}.compare-web h4{background:#E3F2FD;color:var(--blue)}.compare-stitch h4{background:#FFF3E0;color:var(--accent)}
+  .tool-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin:1rem 0}.tool-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem}.tool-card h4{font-size:.95rem;font-weight:700;margin-bottom:.35rem}.tool-card .tool-role{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--claude);margin-bottom:.5rem}.tool-card p{font-size:.82rem;color:var(--text-mid);margin-bottom:.5rem}.tool-card a{font-size:.78rem;color:var(--blue);text-decoration:none;font-weight:600}
+  .git-cmd{display:grid;grid-template-columns:auto 1fr;gap:1rem;background:var(--code-bg);color:#CDD6F4;padding:1rem 1.25rem;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:.82rem;margin-bottom:.5rem;align-items:center}.git-cmd .gc{color:#A6E3A1;white-space:nowrap}.git-cmd .gd{color:#CDD6F4;font-family:'DM Sans',sans-serif;font-size:.85rem}
+  .step-list{counter-reset:step;padding:0;list-style:none;margin:.5rem 0 1rem}.step-list li{counter-increment:step;position:relative;padding:.6rem 0 .6rem 2.5rem;border-bottom:1px dashed var(--border);font-size:.88rem;color:var(--text-mid)}.step-list li::before{content:counter(step);position:absolute;left:0;top:.55rem;width:1.75rem;height:1.75rem;background:var(--claude);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem}.step-list li:last-child{border-bottom:none}.step-list li strong{color:var(--text)}
+  .ai-spotlight{background:linear-gradient(135deg,#1A1A2E,#2D2D4E);color:#fff;border-radius:var(--r);padding:2rem;margin:1.5rem 0;position:relative;overflow:hidden}.ai-spotlight::before{display:block;font-size:.7rem;font-weight:700;letter-spacing:2px;color:#A78BFA;margin-bottom:.75rem;content:'🤖 CLAUDE CODE'}.ai-spotlight h3{font-size:1.3rem;font-weight:700;margin-bottom:.75rem;color:#fff}.ai-spotlight p{font-size:.95rem;color:#CDD6F4;margin-bottom:.5rem}
+  .expect-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.85rem;margin:1rem 0}.expect-card{background:#FFF3E0;border-left:4px solid var(--accent);padding:.85rem 1rem;border-radius:0 8px 8px 0}.expect-card h5{font-size:.85rem;font-weight:700;color:var(--accent);margin-bottom:.3rem}.expect-card p{font-size:.82rem;color:var(--text-mid)}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-logo">POWER FOX — Formación</div><div class="nav-links"><a href="#">S2</a><a href="#">Lunes</a><a href="#">Día 4 de 12</a></div></nav>
+
+<div class="hero">
+  <div class="hero-meta"><span class="hero-badge">Semana 2 · Claude Code desde cero</span><span class="hero-week">Lunes · Día 4 de 12</span></div>
+  <h1>Instalar Claude Code + GitHub + Tu Primer Proyecto</h1>
+  <p class="hero-sub">Pasamos de la teoría a la mesa de trabajo. Claude Code corriendo en VS Code, GitHub listo, tres proyectos arrancados desde cero, y los prompts clave para que Claude Code te enseñe a usarlo a ti.</p>
+  <div class="hero-time">⏱ 3 horas · Práctico · Ordenador encendido</div>
+</div>
+
+<div class="container">
+
+  <!-- AGENDA -->
+  <div class="agenda">
+    <div class="agenda-title">📋 Agenda del día</div>
+    <div class="agenda-time">0:00</div><div class="agenda-item"><div class="agenda-dot dot-green"></div><span class="agenda-label"><strong>Recap semana 1</strong> + check de licencias Team</span></div>
+    <div class="agenda-time">0:15</div><div class="agenda-item"><div class="agenda-dot dot-purple"></div><span class="agenda-label"><strong>Instalar Claude Code en VS Code</strong> — login, extensión, primer prompt</span><span class="agenda-tag tag-key">CLAVE</span></div>
+    <div class="agenda-time">0:45</div><div class="agenda-item"><div class="agenda-dot dot-blue"></div><span class="agenda-label"><strong>GitHub desde cero</strong> — cuenta, repos, commit, push, PR, merge</span></div>
+    <div class="agenda-time">1:30</div><div class="agenda-item agenda-break"><div class="agenda-dot dot-red"></div><span class="agenda-label"><strong>☕ BREAK — 10 minutos</strong></span><span class="agenda-tag tag-break">PAUSA</span></div>
+    <div class="agenda-time">1:40</div><div class="agenda-item"><div class="agenda-dot dot-orange"></div><span class="agenda-label"><strong>Tu primer proyecto</strong> — 3 plantillas (web, React, API)</span></div>
+    <div class="agenda-time">2:30</div><div class="agenda-item"><div class="agenda-dot dot-purple"></div><span class="agenda-label"><strong>Conoce tu Claude Code</strong> — prompts de introspección</span><span class="agenda-tag tag-star">EN VIVO</span></div>
+    <div class="agenda-time">2:50</div><div class="agenda-item"><div class="agenda-dot dot-green"></div><span class="agenda-label"><strong>Cierre</strong> + reto fin de semana + preview S2-Miércoles</span></div>
+  </div>
+
+  <!-- ========== BLOQUE 1: INSTALAR CLAUDE CODE ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--claude)">01</div><h2>Instalar Claude Code en VS Code</h2><span class="duration">30 min · CLAVE</span></div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>💡 ¿Qué es Claude Code?</h3>
+        <p>Es <strong>Claude dentro de tu editor</strong>. No genera texto para que tú copies — lee tus archivos, ejecuta comandos, edita código, consulta la terminal, navega por tu proyecto y trabaja contigo en tiempo real.</p>
+        <p>Se instala como una extensión en VS Code o se usa desde terminal. Hoy usaremos la extensión de VS Code.</p>
+      </div>
+      <div class="card">
+        <h3>🆚 Claude Code vs Claude.ai</h3>
+        <div class="table-wrap"><table>
+          <tr><th>Claude Code</th><th>Claude.ai</th></tr>
+          <tr><td>Vive en tu editor</td><td>Vive en el navegador</td></tr>
+          <tr><td>Lee y modifica tu código real</td><td>Te responde, tú copias/pegas</td></tr>
+          <tr><td>Ejecuta comandos, instala paquetes</td><td>No toca tu máquina</td></tr>
+          <tr><td>Ideal: planear, construir, refactor</td><td>Ideal: prototipar, visualizar, brainstorm</td></tr>
+        </table></div>
+      </div>
+    </div>
+
+    <div class="section-header" style="margin-top:2rem"><div class="section-num" style="background:var(--accent)">🔑</div><h2>Activar tu licencia Team y entrar</h2></div>
+
+    <ol class="step-list">
+      <li><strong>Revisa tu email</strong> — debería estar la invitación a la Workspace de LitoClean en Claude.ai. Si no la encuentras, mira spam o avisa al facilitador.</li>
+      <li><strong>Acepta la invitación</strong> — crea la cuenta con el correo corporativo. Si ya tienes Claude.ai personal, Claude te ofrece asociar la workspace.</li>
+      <li><strong>NO añadas método de pago</strong> — está cubierto por la licencia Team. Si Claude te lo pide, revisa que estés en el contexto correcto de la workspace.</li>
+      <li><strong>Verifica que estás en la workspace</strong> — arriba a la izquierda debes ver "LitoClean" o el nombre del workspace del equipo.</li>
+      <li><strong>Instala la extensión en VS Code</strong> — abre VS Code, busca "Claude Code" en Extensions (Ctrl+Shift+X), instala la oficial de Anthropic.</li>
+      <li><strong>Login desde la extensión</strong> — abre el panel (icono Claude en la barra lateral), pulsa "Sign in with Claude", se abre el navegador, confirma que es tu cuenta Team.</li>
+      <li><strong>Abre una carpeta</strong> — Claude Code necesita un directorio de trabajo. File → Open Folder → elige una carpeta (mejor no vacía; tampoco tu disco entero).</li>
+      <li><strong>Lanza tu primer prompt</strong> — cualquier cosa. Prueba el P1 que viene a continuación.</li>
+    </ol>
+
+    <div class="prompt-anchor">P1 — Preséntate (mi primer prompt)</div>
+    <div class="prompt-anchor">P2 — Explora sin tocar</div>
+
+    <div class="section-header" style="margin-top:2rem"><div class="section-num" style="background:var(--accent)">⚠️</div><h2>Expectativas realistas (no saltes esto)</h2></div>
+
+    <div class="expect-grid">
+      <div class="expect-card"><h5>Te pedirá permiso siempre</h5><p>Antes de ejecutar comandos o modificar archivos importantes, Claude pide confirmación. No te asustes — es bueno.</p></div>
+      <div class="expect-card"><h5>No confíes ciegamente</h5><p>Claude se equivoca. Lee el código antes de aceptar. Revisa cada diff. Piensa antes de hacer Yes All.</p></div>
+      <div class="expect-card"><h5>No lo uses en producción sin PR</h5><p>Todo cambio generado debería pasar por una Pull Request con revisión humana. Nunca commit directo a main.</p></div>
+      <div class="expect-card"><h5>No sabe de tu negocio</h5><p>Claude no conoce LitoClean, Geslab, ni REMMOT hasta que se lo cuentas. Si quieres respuestas útiles, da contexto.</p></div>
+      <div class="expect-card"><h5>No tiene acceso a tu Dataverse</h5><p>Trabaja con archivos locales. Para tocar Dataverse necesitas Xrm.WebApi en el código, no a través de Claude Code directamente.</p></div>
+      <div class="expect-card"><h5>Consume "mensajes" de la licencia</h5><p>Cada interacción gasta cuota. Aprovecha los prompts largos y específicos en vez de muchos cortos.</p></div>
+    </div>
+
+    <div class="warn-box"><p>⚠️ <strong>Evita darle acceso a carpetas con secretos.</strong> Si tu proyecto tiene archivos .env con credenciales, claves API o similares, asegúrate de que están en .gitignore y revisa qué lee Claude. Mejor: crea una carpeta dedicada para cada proyecto y no abras el disco entero.</p></div>
+  </div>
+
+  <!-- ========== BLOQUE 2: GITHUB ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--blue)">02</div><h2>GitHub Desde Cero</h2><span class="duration">45 min</span></div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>🌱 Git vs GitHub — no son lo mismo</h3>
+        <p><strong>Git</strong> es el programa que vive en tu ordenador y lleva el historial de tus archivos. Guarda versiones, permite volver atrás, permite trabajar en paralelo con ramas.</p>
+        <p><strong>GitHub</strong> es una web que guarda copias remotas de tus repositorios Git y añade colaboración: compartir, revisar, proponer cambios, fusionar.</p>
+        <p>Analogía: Git es <em>Word con control de cambios</em>. GitHub es <em>SharePoint donde guardas el Word y otros pueden verlo</em>.</p>
+      </div>
+      <div class="card">
+        <h3>🎯 ¿Por qué sí o sí?</h3>
+        <ul>
+          <li><strong>Historial completo</strong> — vuelves a cualquier versión pasada</li>
+          <li><strong>Backup</strong> — si explota tu PC, tu código sigue ahí</li>
+          <li><strong>Trabajo en paralelo</strong> — tú en una rama, yo en otra, fusionamos</li>
+          <li><strong>Revisión</strong> — alguien aprueba antes de que se incorpore</li>
+          <li><strong>Portfolio profesional</strong> — tus proyectos públicos son tu CV técnico</li>
+          <li><strong>CI/CD</strong> — ejecuta tests y despliega automáticamente</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-header" style="margin-top:2rem"><div class="section-num" style="background:var(--blue)">✏️</div><h2>Crear tu cuenta de GitHub</h2></div>
+
+    <ol class="step-list">
+      <li><strong>Entra en <a href="https://github.com" style="color:var(--blue);font-weight:700">github.com</a></strong> y pulsa "Sign up".</li>
+      <li><strong>Usa tu correo corporativo</strong> (el mismo que Claude Team idealmente). Elige un username profesional — aparecerá en URLs públicas. Formato típico: <code>tunombre</code> o <code>tunombre-litoclean</code>.</li>
+      <li><strong>Verifica el email</strong> — revisa la bandeja y confirma.</li>
+      <li><strong>Plan Free</strong> está bien para empezar. Puedes tener repos privados gratis.</li>
+      <li><strong>Activa 2FA</strong> (autenticación en dos pasos) — Settings → Password and authentication. Usa una app como Authy o Google Authenticator. Crítico en cuentas profesionales.</li>
+      <li><strong>Configura Git local</strong> — abre terminal y ejecuta los comandos de identidad (los veremos en el siguiente bloque).</li>
+      <li><strong>(Opcional)</strong> Añade foto, bio y pin de repos una vez tengas algo que enseñar.</li>
+    </ol>
+
+    <div class="section-header" style="margin-top:2rem"><div class="section-num" style="background:var(--blue)">🔀</div><h2>El flujo diario (el dibujo que tienes que memorizar)</h2></div>
+
+    <div class="mermaid-wrap">
+      <div class="mermaid">
+flowchart LR
+  A[📁 Working<br>Directory] -->|git add| B[📦 Staging]
+  B -->|git commit| C[📚 Local Repo]
+  C -->|git push| D[☁️ GitHub<br>Remoto]
+  D -->|git pull| C
+  D -->|git clone| A
+  style A fill:#E3F2FD,stroke:#1565C0,color:#0B1D3A
+  style B fill:#FFF3E0,stroke:#FF6D00,color:#0B1D3A
+  style C fill:#E8F5E9,stroke:#2E7D32,color:#0B1D3A
+  style D fill:#F3E5F5,stroke:#7C3AED,color:#0B1D3A
+      </div>
+    </div>
+
+    <div class="content-grid" style="margin-top:1.25rem">
+      <div class="card card-full">
+        <h3>🛠️ Los 10 comandos que resuelven el 95% de tu día</h3>
+        <div class="git-cmd"><span class="gc">git config --global user.name "Tu Nombre"</span><span class="gd">Identificarte (solo la primera vez)</span></div>
+        <div class="git-cmd"><span class="gc">git clone &lt;url&gt;</span><span class="gd">Bajar un repo de GitHub a tu máquina</span></div>
+        <div class="git-cmd"><span class="gc">git status</span><span class="gd">¿Qué he cambiado? ¿En qué rama estoy?</span></div>
+        <div class="git-cmd"><span class="gc">git add .</span><span class="gd">Preparar todos los cambios para commit</span></div>
+        <div class="git-cmd"><span class="gc">git commit -m "feat: mensaje claro"</span><span class="gd">Guardar un punto en el historial</span></div>
+        <div class="git-cmd"><span class="gc">git push</span><span class="gd">Subir tus commits al remoto (GitHub)</span></div>
+        <div class="git-cmd"><span class="gc">git pull</span><span class="gd">Bajar los commits nuevos del remoto</span></div>
+        <div class="git-cmd"><span class="gc">git checkout -b nueva-rama</span><span class="gd">Crear una rama y moverte a ella</span></div>
+        <div class="git-cmd"><span class="gc">git switch main</span><span class="gd">Cambiar a la rama main</span></div>
+        <div class="git-cmd"><span class="gc">git log --oneline -10</span><span class="gd">Ver los 10 últimos commits</span></div>
+      </div>
+    </div>
+
+    <div class="section-header" style="margin-top:2rem"><div class="section-num" style="background:var(--blue)">🌿</div><h2>Ramas, Pull Requests y Merge</h2></div>
+
+    <div class="mermaid-wrap">
+      <div class="mermaid">
+gitGraph
+  commit id: "init"
+  commit id: "docs: README"
+  branch feature/login
+  checkout feature/login
+  commit id: "feat: form"
+  commit id: "feat: validation"
+  checkout main
+  commit id: "fix: typo"
+  merge feature/login tag: "PR #1 merged"
+  commit id: "docs: update"
+      </div>
+    </div>
+
+    <div class="content-grid" style="margin-top:1.25rem">
+      <div class="card">
+        <h3>🌿 ¿Qué es una rama (branch)?</h3>
+        <p>Una copia paralela del código donde trabajas sin afectar a <code>main</code>. Cuando está lista, pides que se fusione. Regla de oro: <strong>nunca trabajas directo en main.</strong></p>
+        <p>Convención típica de nombres:</p>
+        <ul>
+          <li><code>feature/nombre-cosa</code> — nueva funcionalidad</li>
+          <li><code>fix/nombre-bug</code> — corrección</li>
+          <li><code>docs/nombre</code> — documentación</li>
+          <li><code>refactor/nombre</code> — reestructura sin cambiar comportamiento</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>📬 ¿Qué es un Pull Request (PR)?</h3>
+        <p>Una <strong>propuesta de fusión</strong>. Dices: "he terminado esta rama, miradla y si está bien, fusionadla a main". Alguien revisa, comenta, pide cambios o aprueba.</p>
+        <p>Un buen PR tiene:</p>
+        <ul>
+          <li>Título corto siguiendo <strong>Conventional Commits</strong></li>
+          <li>Descripción: qué cambia, por qué, cómo probar</li>
+          <li>Tamaño manejable (si son 2000 líneas, pártelo)</li>
+          <li>Tests si aplica</li>
+          <li>Al menos 1 aprobación antes de merge</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="highlight-box"><p><strong>Conventional Commits:</strong> <code>feat:</code> nueva feature · <code>fix:</code> bug · <code>docs:</code> documentación · <code>refactor:</code> reestructura · <code>test:</code> tests · <code>chore:</code> tareas de mantenimiento · <code>style:</code> formato sin cambios de lógica.</p></div>
+
+    <div class="prompt-anchor">P3 — Diagnóstico Git del proyecto</div>
+    <div class="prompt-anchor">P4 — Mi primer commit profesional</div>
+    <div class="prompt-anchor">P5 — Pull Request bien hecho</div>
+
+    <div class="tip-box"><p>💡 <strong>Instala GitHub CLI (<code>gh</code>)</strong> si vas a trabajar con PRs desde la terminal. Hace que Claude Code abra PRs por ti sin salir de VS Code. <code>brew install gh</code> (Mac) · <code>winget install GitHub.cli</code> (Windows).</p></div>
+  </div>
+
+  <!-- ========== BREAK ========== -->
+  <div class="section">
+    <div class="ai-spotlight" style="background:linear-gradient(135deg,#C62828,#E65100)">
+      <h3 style="color:#fff">☕ BREAK — 10 minutos</h3>
+      <p>Estírate, agua, respiras. Volvemos y entramos en la parte divertida: crear tres proyectos desde cero con Claude Code como copiloto.</p>
+    </div>
+  </div>
+
+  <!-- ========== BLOQUE 3: PROYECTO DESDE CERO ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--accent)">03</div><h2>Tu Primer Proyecto — Tres Plantillas</h2><span class="duration">50 min</span></div>
+
+    <div class="card card-full">
+      <h3>📐 Anatomía de un proyecto bien arrancado</h3>
+      <p>Independientemente del tipo, estos archivos suelen estar desde el minuto cero:</p>
+      <div class="table-wrap"><table>
+        <tr><th>Archivo</th><th>Para qué sirve</th></tr>
+        <tr><td><code>README.md</code></td><td>Qué es, cómo instalarlo, cómo usarlo. Lo primero que ve cualquiera.</td></tr>
+        <tr><td><code>.gitignore</code></td><td>Qué archivos NO subir (node_modules, .env, build/, logs)</td></tr>
+        <tr><td><code>CLAUDE.md</code></td><td>Las "reglas de la casa" para Claude Code en este proyecto</td></tr>
+        <tr><td><code>.env.example</code></td><td>Plantilla de variables de entorno (sin secretos reales)</td></tr>
+        <tr><td><code>package.json</code> / similares</td><td>Dependencias y scripts del proyecto</td></tr>
+        <tr><td><code>LICENSE</code></td><td>Si lo publicas público, qué permisos das</td></tr>
+      </table></div>
+      <div class="tip-box"><p>💡 <strong>CLAUDE.md es tu mejor inversión.</strong> Tres párrafos bien escritos sobre "cómo trabajo yo en este proyecto" evitan horas de frustración. Claude Code lo lee al arrancar cada sesión.</p></div>
+    </div>
+
+    <!-- TEMPLATE 1: LANDING -->
+    <div class="section-header" style="margin-top:2rem"><div class="section-num" style="background:var(--green)">A</div><h2>Plantilla 1 · Landing page estática</h2></div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>🎯 Cuándo usar esto</h3>
+        <ul>
+          <li>Web de producto o servicio</li>
+          <li>Portfolio personal</li>
+          <li>Evento o campaña puntual</li>
+          <li>Microsite de informe o reporte</li>
+        </ul>
+        <p>Stack: HTML + CSS + JS vanilla. Sin framework. Ligero, rápido, desplegable en cualquier sitio (Vercel, Netlify, GitHub Pages).</p>
+      </div>
+      <div class="card">
+        <h3>📁 Estructura tipo</h3>
+        <div class="code-block">mi-landing/
+├── index.html
+├── assets/
+│   ├── styles.css
+│   ├── script.js
+│   └── images/
+├── .gitignore
+├── README.md
+└── CLAUDE.md</div>
+      </div>
+    </div>
+
+    <div class="prompt-anchor">P6 — Landing page estática desde cero</div>
+
+    <!-- TEMPLATE 2: REACT -->
+    <div class="section-header" style="margin-top:2rem"><div class="section-num" style="background:var(--blue)">B</div><h2>Plantilla 2 · App React (con debate de tooling)</h2></div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>🎯 Cuándo usar React</h3>
+        <ul>
+          <li>App con varias pantallas</li>
+          <li>Dashboards interactivos</li>
+          <li>Formularios complejos con estado</li>
+          <li>Consumo intensivo de APIs</li>
+          <li>Apps tipo SPA (Single Page Application)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>⚙️ ¿Vite, Next.js o Remix?</h3>
+        <div class="table-wrap"><table>
+          <tr><th>Elige</th><th>Cuándo</th></tr>
+          <tr><td><strong>Vite</strong></td><td>SPA simple, prototipos, herramientas internas</td></tr>
+          <tr><td><strong>Next.js</strong></td><td>Producto con SEO, rutas complejas, backend integrado</td></tr>
+          <tr><td><strong>Remix</strong></td><td>Apps con mucha data loading/mutations, alternativa moderna a Next</td></tr>
+        </table></div>
+        <p style="margin-top:.75rem">Para nuestro curso usaremos <strong>Vite</strong> — más simple, menos magia, aprendes React puro primero.</p>
+      </div>
+    </div>
+
+    <div class="section-header" style="margin-top:1.5rem"><div class="section-num" style="background:var(--accent)">🎨</div><h2>Herramientas para la parte visual — ¿cuál uso cuándo?</h2></div>
+
+    <div class="compare-grid">
+      <div class="compare-col compare-claude">
+        <h4>⚡ Claude Code</h4>
+        <p style="font-size:.85rem;color:var(--text-mid)">En VS Code. Planea la arquitectura, construye componentes reales en tus archivos, ejecuta comandos de instalación, hace refactor.</p>
+        <p style="font-size:.82rem;color:var(--text-mid);margin-top:.5rem"><strong>Úsalo para:</strong> implementar, integrar, refactorizar.</p>
+      </div>
+      <div class="compare-col compare-web">
+        <h4>💬 Claude.ai (web)</h4>
+        <p style="font-size:.85rem;color:var(--text-mid)">En el navegador. Excelente para prototipos visuales con Artifacts — genera componentes HTML/React que se ven al momento.</p>
+        <p style="font-size:.82rem;color:var(--text-mid);margin-top:.5rem"><strong>Úsalo para:</strong> explorar ideas, wireframes rápidos, mostrar opciones a un cliente, iteraciones de diseño.</p>
+      </div>
+      <div class="compare-col compare-stitch">
+        <h4>🎨 Google Stitch</h4>
+        <p style="font-size:.85rem;color:var(--text-mid)">De Google Labs. Genera UI completa desde prompt o imagen, con flujos multi-pantalla. Exporta a Figma y a código.</p>
+        <p style="font-size:.82rem;color:var(--text-mid);margin-top:.5rem"><strong>Úsalo para:</strong> diseño inicial de app, mockups visuales, explorar flujos de usuario.</p>
+      </div>
+    </div>
+
+    <div class="tool-grid" style="margin-top:1rem">
+      <div class="tool-card"><div class="tool-role">Prototipo UI rápido</div><h4>v0.dev</h4><p>De Vercel. Genera componentes React + Tailwind + shadcn/ui desde prompt. Copia y pega en tu proyecto.</p><a href="https://v0.dev" target="_blank">v0.dev ↗</a></div>
+      <div class="tool-card"><div class="tool-role">Diseño desde prompt</div><h4>Google Stitch</h4><p>Genera UI completa con flujos. Exporta a Figma y a código HTML/CSS.</p><a href="https://stitch.withgoogle.com" target="_blank">stitch.withgoogle.com ↗</a></div>
+      <div class="tool-card"><div class="tool-role">Design system listo</div><h4>shadcn/ui</h4><p>Componentes React accesibles y reutilizables. Se instalan en tu proyecto, no son librería externa.</p><a href="https://ui.shadcn.com" target="_blank">ui.shadcn.com ↗</a></div>
+      <div class="tool-card"><div class="tool-role">Iconos</div><h4>Lucide Icons</h4><p>Set de iconos open source compatible con React, Vue, HTML.</p><a href="https://lucide.dev" target="_blank">lucide.dev ↗</a></div>
+    </div>
+
+    <div class="highlight-box"><p><strong>Mi regla práctica:</strong> Prototipo en <em>Claude.ai o Stitch</em> → paso el resultado a <em>Claude Code</em> para que lo integre en la app real → afino con Claude Code. Cada herramienta en su momento.</p></div>
+
+    <div class="prompt-anchor">P7 — App React (con debate de tooling)</div>
+
+    <!-- TEMPLATE 3: NODE API -->
+    <div class="section-header" style="margin-top:2rem"><div class="section-num" style="background:var(--accent)">C</div><h2>Plantilla 3 · Script Node que consume una API</h2></div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>🎯 Cuándo usar esto</h3>
+        <ul>
+          <li>Automatizar tareas repetitivas</li>
+          <li>Procesar archivos CSV / Excel masivos</li>
+          <li>Consumir APIs y generar reportes</li>
+          <li>Jobs programados (cron, GitHub Actions)</li>
+          <li>Scripts de migración o sync entre sistemas</li>
+        </ul>
+        <p>Stack: Node.js 20+, sin framework. <strong>Open-Meteo</strong> como API (gratis, sin key).</p>
+      </div>
+      <div class="card">
+        <h3>📋 Qué vamos a construir</h3>
+        <ul>
+          <li>Lee <code>ciudades.csv</code> con una lista de ciudades</li>
+          <li>Para cada una, llama a Open-Meteo (pronóstico 7 días)</li>
+          <li>Genera un CSV consolidado con toda la data</li>
+          <li>Genera un reporte HTML con tablas y un gráfico simple</li>
+        </ul>
+        <p>Es el patrón base de cualquier script de integración que te pedirán en consultoría BI.</p>
+      </div>
+    </div>
+
+    <div class="prompt-anchor">P8 — Script Node que consume Open-Meteo</div>
+  </div>
+
+  <!-- ========== BLOQUE 4: INTROSPECCIÓN ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--claude)">04</div><h2>Conoce Tu Claude Code — Prompts de Introspección</h2><span class="duration">20 min · EN VIVO</span></div>
+
+    <div class="ai-spotlight">
+      <h3>🧭 La idea: deja que Claude te enseñe a usarlo</h3>
+      <p>En vez de memorizar manuales, le preguntamos a Claude Code cómo está configurado, qué herramientas tiene y cómo trabaja con él mejor. Se convierte en su propio tutorial.</p>
+      <p>Cada uno lanzará estos prompts en su máquina. Las respuestas serán ligeramente diferentes según cada setup — <strong>esa es la gracia</strong>. Descubren SU configuración.</p>
+    </div>
+
+    <div class="content-grid" style="margin-top:1.5rem">
+      <div class="card">
+        <h3>🗺️ Global vs Local</h3>
+        <p>Claude Code lee configuración de dos sitios:</p>
+        <ul>
+          <li><strong>Global</strong> (<code>~/.claude/</code>): tus preferencias como persona. Estilo de código, convenciones, skills de uso general.</li>
+          <li><strong>Local</strong> (<code>.claude/</code> dentro del proyecto): las reglas de este proyecto concreto. Stack, estructura, conexiones, convenciones específicas.</li>
+        </ul>
+        <p>Cuando hay conflicto, <strong>local gana sobre global</strong>.</p>
+      </div>
+      <div class="card">
+        <h3>📝 CLAUDE.md en tres líneas</h3>
+        <p>Es un archivo Markdown que Claude Code lee automáticamente al arrancar. Contiene "las instrucciones para tratar con este repositorio". Puede tener:</p>
+        <ul>
+          <li>Propósito del proyecto</li>
+          <li>Stack y dependencias clave</li>
+          <li>Convenciones de código</li>
+          <li>Comandos habituales (tests, build, deploy)</li>
+          <li>Reglas de "no hagas esto"</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mermaid-wrap" style="margin-top:1rem">
+      <div class="mermaid">
+flowchart TB
+  U[👤 Tu usuario] --> G["~/.claude/<br>🌍 Global"]
+  G --> GC[CLAUDE.md global]
+  G --> GS[skills/]
+  G --> GA[agents/]
+  U --> P[📁 Proyecto actual]
+  P --> L[".claude/<br>📌 Local"]
+  L --> LC[CLAUDE.md local]
+  L --> LS[skills/]
+  L --> LA[agents/]
+  L --> LST[settings.json]
+  GC -.combina.-> M[🧠 Contexto de Claude Code]
+  LC -.gana.-> M
+  GS -.suma.-> M
+  LS -.suma.-> M
+  style G fill:#EDE9FE,stroke:#7C3AED,color:#0B1D3A
+  style L fill:#E3F2FD,stroke:#1565C0,color:#0B1D3A
+  style M fill:#FFF3E0,stroke:#FF6D00,color:#0B1D3A
+      </div>
+    </div>
+
+    <div class="prompt-anchor">P9 — Mapa de tu configuración</div>
+    <div class="prompt-anchor">P10 — Global vs Local: la diferencia práctica</div>
+    <div class="prompt-anchor">P11 — Aprende a escribir CLAUDE.md</div>
+    <div class="prompt-anchor">P12 — Tus herramientas y cuándo usarlas</div>
+    <div class="prompt-anchor">P13 — Comandos slash al detalle</div>
+    <div class="prompt-anchor">P14 — Memoria y gestión de contexto</div>
+    <div class="prompt-anchor">P15 — Auditoría de mi setup actual</div>
+
+    <div class="warn-box"><p>⚠️ <strong>No esperes respuestas idénticas a las del compañero de al lado.</strong> Tu configuración, tus skills globales, tu historial — todo hace que Claude te responda distinto. La respuesta que obtienes es tu fotografía personal.</p></div>
+  </div>
+
+  <!-- PREGUNTAS -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--navy)">💬</div><h2>Preguntas Abiertas</h2></div>
+    <div class="qa-grid">
+      <div class="qa-card"><p>❓ ¿Qué proceso de tu día a día te gustaría automatizar con un script en Node?</p></div>
+      <div class="qa-card"><p>❓ ¿Qué reglas del equipo LitoClean deberían ir en un CLAUDE.md global y cuáles en uno local?</p></div>
+      <div class="qa-card"><p>❓ ¿Qué trabajo hacíais ya en GitHub? ¿Hay repos internos que podemos migrar o mejorar?</p></div>
+      <div class="qa-card"><p>❓ ¿Qué herramienta visual (Claude.ai, Stitch, v0, Figma) encaja mejor con vuestra forma de trabajar?</p></div>
+    </div>
+  </div>
+
+  <!-- TAKEAWAYS -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--accent)">🎯</div><h2>Takeaways del Día</h2></div>
+    <div class="card card-full"><ul>
+      <li><strong>Claude Code vive en VS Code</strong> y trabaja sobre tus archivos reales. Claude.ai es para explorar e idear.</li>
+      <li><strong>Siempre pide permiso</strong> — acostúmbrate a leer los diffs antes de aceptar.</li>
+      <li><strong>Git + GitHub</strong> son la base. 10 comandos resuelven el 95% del día.</li>
+      <li><strong>Convención:</strong> nunca trabajes directo en <code>main</code>. Rama + PR + merge.</li>
+      <li><strong>CLAUDE.md</strong> es tu mejor inversión en cada proyecto nuevo.</li>
+      <li><strong>Global vs Local:</strong> lo que es tuyo-como-persona va global, lo del proyecto va local.</li>
+      <li><strong>Herramientas visuales:</strong> Claude.ai o Stitch para prototipar, Claude Code para implementar.</li>
+      <li><strong>Miércoles:</strong> continuamos con Skills y Agents (pendiente del viernes), repos HOT, MCPs y servicios de Anthropic.</li>
+    </ul></div>
+  </div>
+
+  <!-- RETO FIN DE SEMANA -->
+  <div class="section">
+    <div class="ai-spotlight" style="background:linear-gradient(135deg,#0F2A1F,#1D4E36)">
+      <h3 style="color:#A7F3D0">🎁 Reto para antes del miércoles</h3>
+      <p style="color:#D1FAE5">Elige <strong>UNA</strong> de las tres plantillas, arráncala desde cero en un repo nuevo en tu GitHub, haz al menos 3 commits con Conventional Commits y abre un PR dummy. No importa el resultado — importa el proceso.</p>
+      <p style="color:#D1FAE5">El miércoles empezamos pidiéndoos el enlace al repo. Quien lo trae, arranca con ventaja en los siguientes bloques.</p>
+    </div>
+  </div>
+
+</div>
+<div class="footer"><strong>POWER FOX</strong> · Formación Claude Code — S2 Lunes · Abril 2026</div>
+
+<script>
+  mermaid.initialize({startOnLoad:true,theme:'base',themeVariables:{primaryColor:'#E3F2FD',primaryTextColor:'#0B1D3A',primaryBorderColor:'#1565C0',lineColor:'#546E7A',fontFamily:'DM Sans'}});
+</script>
+
+</body>
+</html>

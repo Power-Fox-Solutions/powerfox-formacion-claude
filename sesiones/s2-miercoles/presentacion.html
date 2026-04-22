@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S2 Miércoles — Repo Compartido + Skills/Agents + Repos HOT | Power Fox</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  :root{--navy:#0B1D3A;--blue:#1565C0;--blue-light:#42A5F5;--accent:#FF6D00;--accent-soft:#FFF3E0;--bg:#F5F7FA;--card:#FFF;--text:#1A2332;--text-mid:#546E7A;--text-light:#90A4AE;--border:#E8EDF2;--code-bg:#1E1E2E;--green:#2E7D32;--green-soft:#E8F5E9;--red:#C62828;--red-soft:#FFEBEE;--purple:#6A1B9A;--purple-soft:#F3E5F5;--claude:#7C3AED;--agent:#DB2777;--r:12px}
+  *{margin:0;padding:0;box-sizing:border-box}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+  .nav{display:flex;justify-content:space-between;align-items:center;padding:.75rem 1.5rem;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}.nav-logo{font-weight:700;font-size:.9rem;color:var(--navy);letter-spacing:1px}.nav-links{display:flex;gap:1rem}.nav-links a{font-size:.8rem;color:var(--text-mid);text-decoration:none;font-weight:500}
+  .hero{background:var(--navy);color:#fff;padding:3rem 2rem 2.5rem;position:relative;overflow:hidden}.hero::after{content:'';position:absolute;top:0;right:0;width:40%;height:100%;background:linear-gradient(135deg,transparent,rgba(124,58,237,.15),rgba(219,39,119,.1))}.hero-meta{display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem;position:relative;z-index:1}.hero-badge{background:var(--claude);color:#fff;padding:.25rem .75rem;border-radius:4px;font-size:.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}.hero-week{font-size:.85rem;opacity:.7}.hero h1{font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:.5rem;position:relative;z-index:1}.hero-sub{font-size:1rem;opacity:.75;position:relative;z-index:1;max-width:700px}.hero-time{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.1);padding:.3rem .75rem;border-radius:6px;font-size:.85rem;margin-top:.75rem;position:relative;z-index:1}
+  .container{max-width:1100px;margin:0 auto;padding:2rem 1.5rem}
+  .agenda{display:grid;grid-template-columns:60px 1fr;gap:0;background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:2.5rem}.agenda-title{grid-column:1/-1;padding:1rem 1.5rem;font-weight:700;font-size:1.1rem;border-bottom:2px solid var(--border)}.agenda-time{padding:.75rem .5rem;text-align:center;font-size:.78rem;font-weight:700;color:var(--blue);border-right:2px solid var(--border);border-bottom:1px solid var(--border)}.agenda-item{padding:.75rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.75rem}.agenda-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}.dot-blue{background:var(--blue)}.dot-orange{background:var(--accent)}.dot-green{background:var(--green)}.dot-purple{background:var(--claude)}.dot-red{background:var(--red)}.dot-agent{background:var(--agent)}.agenda-label{font-size:.9rem}.agenda-label strong{font-weight:600}.agenda-tag{font-size:.65rem;padding:.15rem .45rem;border-radius:3px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-left:auto;flex-shrink:0}.tag-key{background:var(--blue);color:#fff}.tag-ia{background:var(--claude);color:#fff}.tag-break{background:var(--red);color:#fff}.tag-star{background:var(--accent);color:#fff}.tag-agent{background:var(--agent);color:#fff}.agenda-break{background:#FFF3E0}
+  .section{margin-bottom:3rem}.section-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:2px solid var(--border);flex-wrap:wrap}.section-num{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;color:#fff;flex-shrink:0}.section-header h2{font-size:1.3rem;font-weight:700}.section-header .duration{margin-left:auto;font-size:.8rem;color:var(--text-light);font-weight:500}
+  .content-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}@media(max-width:768px){.content-grid{grid-template-columns:1fr}}
+  .card{background:var(--card);border-radius:var(--r);padding:1.5rem;box-shadow:0 1px 4px rgba(0,0,0,.05);border:1px solid var(--border)}.card h3{font-size:1.05rem;font-weight:700;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}.card p,.card li{font-size:.88rem;color:var(--text-mid)}.card ul{padding-left:1.25rem}.card li{margin-bottom:.35rem}.card-full{grid-column:1/-1}
+  .highlight-box{border-left:4px solid var(--accent);background:var(--accent-soft);padding:1rem 1.25rem;border-radius:0 var(--r) var(--r) 0;margin:1rem 0}.highlight-box p{font-size:.88rem;color:var(--text)}.tip-box{border-left:4px solid var(--green);background:var(--green-soft);padding:1rem 1.25rem;border-radius:0 var(--r) var(--r) 0;margin:1rem 0}.tip-box p{font-size:.88rem}.warn-box{border-left:4px solid var(--red);background:var(--red-soft);padding:1rem 1.25rem;border-radius:0 var(--r) var(--r) 0;margin:1rem 0}.warn-box p{font-size:.88rem}
+  .code-block{background:var(--code-bg);color:#CDD6F4;border-radius:8px;padding:1.25rem;font-family:'JetBrains Mono',monospace;font-size:.78rem;overflow-x:auto;margin:1rem 0;line-height:1.6;white-space:pre}.comment{color:#6C7086}.keyword{color:#CBA6F7}.string{color:#A6E3A1}.func{color:#89B4FA}.num{color:#FAB387}.prop{color:#F9E2AF}
+  .mermaid-wrap{background:var(--card);border-radius:var(--r);padding:1.5rem;border:1px solid var(--border);margin:1rem 0}.mermaid-wrap .mermaid{display:flex;justify-content:center}
+  .qa-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}@media(max-width:768px){.qa-grid{grid-template-columns:1fr}}.qa-card{background:var(--purple-soft);border-radius:var(--r);padding:1.25rem;border:1px solid #CE93D8}.qa-card p{font-size:.88rem;color:var(--claude);font-weight:500}
+  .table-wrap{overflow-x:auto;margin:1rem 0}table{width:100%;border-collapse:collapse;font-size:.85rem}th{background:var(--navy);color:#fff;padding:.6rem 1rem;text-align:left;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px}td{padding:.6rem 1rem;border-bottom:1px solid var(--border);vertical-align:top}tr:hover td{background:#F8FAFC}
+  .footer{text-align:center;padding:2rem;font-size:.8rem;color:var(--text-light);border-top:1px solid var(--border);margin-top:2rem}.footer strong{color:var(--navy)}
+  .prompt-anchor{display:inline-flex;align-items:center;gap:.4rem;background:var(--claude);color:#fff;padding:.35rem .85rem;border-radius:6px;font-size:.78rem;font-weight:700;letter-spacing:.5px;margin:1.25rem 0 .5rem;font-family:'JetBrains Mono',monospace}.prompt-anchor::before{content:'⚡'}.prompt-anchor-agent{background:var(--agent)}
+  .step-list{counter-reset:step;padding:0;list-style:none;margin:.5rem 0 1rem}.step-list li{counter-increment:step;position:relative;padding:.6rem 0 .6rem 2.5rem;border-bottom:1px dashed var(--border);font-size:.88rem;color:var(--text-mid)}.step-list li::before{content:counter(step);position:absolute;left:0;top:.55rem;width:1.75rem;height:1.75rem;background:var(--claude);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem}.step-list li:last-child{border-bottom:none}.step-list li strong{color:var(--text)}
+  .ai-spotlight{background:linear-gradient(135deg,#1A1A2E,#2D2D4E);color:#fff;border-radius:var(--r);padding:2rem;margin:1.5rem 0;position:relative;overflow:hidden}.ai-spotlight::before{display:block;font-size:.7rem;font-weight:700;letter-spacing:2px;color:#A78BFA;margin-bottom:.75rem;content:'🤖 BLOQUE CLAVE'}.ai-spotlight h3{font-size:1.3rem;font-weight:700;margin-bottom:.75rem;color:#fff}.ai-spotlight p{font-size:.95rem;color:#CDD6F4;margin-bottom:.5rem}
+  .skill-agent-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin:1.5rem 0}@media(max-width:768px){.skill-agent-grid{grid-template-columns:1fr}}
+  .skill-card,.agent-card{background:var(--card);border-radius:var(--r);padding:1.5rem;border:2px solid var(--claude);position:relative}.agent-card{border-color:var(--agent)}.skill-card::before,.agent-card::before{position:absolute;top:-10px;left:1rem;padding:.2rem .75rem;border-radius:4px;font-size:.65rem;font-weight:700;letter-spacing:1px;color:#fff}.skill-card::before{content:'SKILL';background:#7C3AED}.agent-card::before{content:'AGENT';background:#DB2777}.skill-card h4,.agent-card h4{font-size:1rem;font-weight:700;margin:.5rem 0 .75rem}
+  .badge-list{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.5rem}.badge{background:#EDE9FE;color:var(--claude);padding:.2rem .55rem;border-radius:4px;font-size:.72rem;font-weight:600}.badge-agent{background:#FCE7F3;color:var(--agent)}
+  .repo-category{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;margin-bottom:1rem}.repo-category h4{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}.repo-category .cat-tag{background:var(--accent);color:#fff;font-size:.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.15rem .5rem;border-radius:3px}
+  .mcp-card{background:linear-gradient(135deg,#F3E5F5,#FFFDF7);border-radius:var(--r);padding:1.25rem;border:1px solid #CE93D8;margin-bottom:.75rem}.mcp-card h4{font-size:.95rem;font-weight:700;margin-bottom:.35rem;color:var(--claude)}.mcp-card p{font-size:.82rem;color:var(--text-mid)}
+  .recap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.85rem;margin:1rem 0}.recap-card{background:#FFF3E0;border-left:4px solid var(--accent);padding:.85rem 1rem;border-radius:0 8px 8px 0}.recap-card h5{font-size:.85rem;font-weight:700;color:var(--accent);margin-bottom:.3rem}.recap-card p{font-size:.82rem;color:var(--text-mid)}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-logo">POWER FOX — Formación</div><div class="nav-links"><a href="#">S2</a><a href="#">Miércoles</a><a href="#">Día 5 de 12</a></div></nav>
+
+<div class="hero">
+  <div class="hero-meta"><span class="hero-badge">Semana 2 · Repo compartido + Skills/Agents</span><span class="hero-week">Miércoles · Día 5 de 12</span></div>
+  <h1>Nuestro Primer Repo Compartido + Skills y Agents a Medida</h1>
+  <p class="hero-sub">Creamos juntos el repositorio público del curso en GitHub — hacemos el primer PR real. Luego un script de tiempo en <code>/demos/</code>, y terminamos creando Skills y Agents para este mismo repo.</p>
+  <div class="hero-time">⏱ 3 horas · Práctico · GitHub abierto</div>
+</div>
+
+<div class="container">
+
+  <!-- AGENDA -->
+  <div class="agenda">
+    <div class="agenda-title">📋 Agenda del día</div>
+    <div class="agenda-time">0:00</div><div class="agenda-item"><div class="agenda-dot dot-green"></div><span class="agenda-label"><strong>Recap Lunes</strong> + check del reto del fin de semana</span></div>
+    <div class="agenda-time">0:15</div><div class="agenda-item"><div class="agenda-dot dot-blue"></div><span class="agenda-label"><strong>Nuestro repo del curso</strong> — crearlo público en la organización Power Fox BI</span><span class="agenda-tag tag-key">CLAVE</span></div>
+    <div class="agenda-time">1:05</div><div class="agenda-item"><div class="agenda-dot dot-orange"></div><span class="agenda-label"><strong>Demo en /demos/</strong> — script de tiempo con Open-Meteo</span></div>
+    <div class="agenda-time">1:30</div><div class="agenda-item agenda-break"><div class="agenda-dot dot-red"></div><span class="agenda-label"><strong>☕ BREAK — 10 minutos</strong></span><span class="agenda-tag tag-break">PAUSA</span></div>
+    <div class="agenda-time">1:40</div><div class="agenda-item"><div class="agenda-dot dot-purple"></div><span class="agenda-label"><strong>Skills y Agents</strong> — una skill y dos agents para nuestro repo</span><span class="agenda-tag tag-star">EN VIVO</span></div>
+    <div class="agenda-time">2:25</div><div class="agenda-item"><div class="agenda-dot dot-orange"></div><span class="agenda-label"><strong>Repos HOT</strong> — 3 categorías para explorar esta semana</span></div>
+    <div class="agenda-time">2:40</div><div class="agenda-item"><div class="agenda-dot dot-purple"></div><span class="agenda-label"><strong>MCPs</strong> — conectar Claude Code a herramientas externas</span></div>
+    <div class="agenda-time">2:50</div><div class="agenda-item"><div class="agenda-dot dot-green"></div><span class="agenda-label"><strong>Cierre</strong> + reto + preview siguiente sesión</span></div>
+  </div>
+
+  <!-- ========== BLOQUE 1: RECAP ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--green)">01</div><h2>Recap del Lunes + Check del Reto</h2><span class="duration">15 min</span></div>
+
+    <div class="recap-grid">
+      <div class="recap-card"><h5>✅ Claude Code instalado</h5><p>Extensión en VS Code, login con Team plan, primer prompt funcionando.</p></div>
+      <div class="recap-card"><h5>✅ GitHub desde cero</h5><p>Cuenta creada, 2FA activado, 10 comandos Git, ramas + PRs + merge entendidos.</p></div>
+      <div class="recap-card"><h5>✅ Conocer tu Claude Code</h5><p>Los 7 prompts de introspección: config global vs local, CLAUDE.md, herramientas, comandos slash, memoria.</p></div>
+      <div class="recap-card"><h5>✅ Servicios Anthropic</h5><p>Tour de Claude Chrome, Excel, Cowork. Cada uno en su caso de uso.</p></div>
+    </div>
+
+    <div class="highlight-box"><p><strong>Reto del fin de semana:</strong> elegir una plantilla, repo en tu GitHub, 3 commits con Conventional Commits, 1 PR dummy. <strong>Hoy lo llevamos a otro nivel</strong> — no cada uno su repo, sino UN repo compartido entre todo el equipo.</p></div>
+  </div>
+
+  <!-- ========== BLOQUE 2: REPO COMPARTIDO ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--blue)">02</div><h2>Nuestro Repositorio del Curso</h2><span class="duration">50 min · CLAVE</span></div>
+
+    <div class="ai-spotlight">
+      <h3>🎯 La idea: un repo vivo del equipo</h3>
+      <p>Vamos a crear juntos el repositorio público <strong>Power Fox — Formación Claude Code</strong>. Aquí vivirán todas las presentaciones del curso, las demos que hagamos en clase, una biblioteca de prompts compartida, y una carpeta por cada alumno para sus apuntes y experimentos.</p>
+      <p>Cada semana añadiremos material nuevo. Al final del curso, tendréis un recurso que podréis seguir usando, compartir con colegas, o enseñar a quien se incorpore al equipo.</p>
+    </div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>📁 Estructura que vamos a crear</h3>
+        <div class="code-block">powerfox-formacion-claude/
+├── README.md           ← índice del curso
+├── CLAUDE.md           ← reglas del repo
+├── LICENSE             ← MIT
+├── .gitignore
+│
+├── sesiones/
+│   ├── s1-viernes/
+│   │   └── presentacion.html
+│   ├── s2-lunes/
+│   └── s2-miercoles/
+│
+├── demos/              ← código vivo de clase
+│   └── weather-report/
+│
+├── prompts/            ← biblioteca
+│   ├── claude-code.md
+│   └── git-workflow.md
+│
+├── alumnos/            ← carpeta por persona
+│   ├── bladimir/
+│   ├── noemi/
+│   └── [tu-nombre]/
+│
+└── .claude/
+    ├── skills/
+    └── agents/</div>
+      </div>
+      <div class="card">
+        <h3>🔓 ¿Por qué público?</h3>
+        <ul>
+          <li>Lo podéis compartir con cualquier persona (colegas, candidatos, comunidad).</li>
+          <li>Es un <strong>portfolio colectivo</strong> del equipo LitoClean trabajando con Claude Code.</li>
+          <li>Practicamos el flujo real de repo OSS: nadie puede pushear directo a main, solo vía PR.</li>
+          <li>No contendrá información sensible de proyectos reales — solo material didáctico.</li>
+        </ul>
+        <div class="warn-box"><p>⚠️ <strong>Nada sensible.</strong> En este repo no van credenciales, URLs internas, datos de clientes, ni código propietario. Material didáctico y demos. Eso queda siempre en repos privados.</p></div>
+      </div>
+    </div>
+
+    <!-- PASO 1: Crear la organización -->
+    <div class="section-header" style="margin-top:2rem"><div class="section-num" style="background:var(--accent)">🏢</div><h2>Paso 1 · Crear la Organización "Power Fox BI" (si no existe)</h2></div>
+
+    <p style="font-size:.9rem;color:var(--text-mid);margin-bottom:.5rem">Los repositorios profesionales viven dentro de una <strong>organización</strong>, no en una cuenta personal. Una organización permite múltiples colaboradores, gestionar permisos por equipos, y presentar la marca correctamente. El plan Free cubre todo lo que necesitamos.</p>
+
+    <ol class="step-list">
+      <li>Entra en <a href="https://github.com" style="color:var(--blue);font-weight:700">github.com</a> con tu cuenta.</li>
+      <li>Arriba a la derecha, pulsa el <strong>+</strong> → <strong>New organization</strong>.</li>
+      <li>Selecciona el plan <strong>Free</strong> ($0/month). Es más que suficiente.</li>
+      <li>Nombre de la organización: <code>powerfoxbi</code> (o el que ya use el equipo).</li>
+      <li>Email de contacto: correo corporativo.</li>
+      <li>"This organization belongs to": <strong>A business or institution</strong> → Power Fox BI.</li>
+      <li>Invita miembros después (lo veremos en el Paso 5).</li>
+      <li>Skip el paso de preguntas sobre el uso. Organización creada.</li>
+    </ol>
+
+    <div class="tip-box"><p>💡 <strong>Si la organización ya existe</strong>, salta al Paso 2 y crea el repo dentro de ella.</p></div>
+
+    <!-- PASO 2: Crear el repo -->
+    <div class="section-header" style="margin-top:2rem"><div class="section-num" style="background:var(--accent)">📦</div><h2>Paso 2 · Crear el Repositorio Público</h2></div>
+
+    <ol class="step-list">
+      <li>Ve a la página de la organización <code>github.com/powerfoxbi</code>.</li>
+      <li>Pulsa <strong>New repository</strong> (verde, arriba a la derecha).</li>
+      <li>Owner: <strong>powerfoxbi</strong>. Importante — no tu cuenta personal.</li>
+      <li>Repository name: <code>powerfox-formacion-claude</code> (o similar — en kebab-case, sin espacios).</li>
+      <li>Description: <em>"Repositorio público del curso de Claude Code impartido por Power Fox BI. Presentaciones, demos, prompts y proyectos de los alumnos."</em></li>
+      <li>Visibility: <strong>Public</strong> ✅</li>
+      <li>Initialize with: marca <strong>README</strong> + <strong>.gitignore (Node)</strong> + <strong>License (MIT)</strong>.</li>
+      <li>Pulsa <strong>Create repository</strong>. Listo — ya existe en la web.</li>
+    </ol>
+
+    <div class="warn-box"><p>⚠️ <strong>Proteger la rama main.</strong> Inmediatamente después de crear el repo: <code>Settings → Branches → Add branch protection rule → Branch name pattern: main</code>. Marca <em>"Require a pull request before merging"</em>. Esto obliga a que nadie pueda pushear directo a main — todo pasa por PR.</p></div>
+
+    <!-- PASO 3: Clonar y estructurar -->
+    <div class="section-header" style="margin-top:2rem"><div class="section-num" style="background:var(--accent)">💻</div><h2>Paso 3 · Clonar y Estructurar con Claude Code</h2></div>
+
+    <ol class="step-list">
+      <li>Copia la URL del repo (botón <strong>Code</strong> → HTTPS).</li>
+      <li>Abre una terminal en una carpeta de trabajo (ej. <code>~/proyectos/</code>).</li>
+      <li>Ejecuta <code>git clone https://github.com/powerfoxbi/powerfox-formacion-claude.git</code>.</li>
+      <li>Abre la carpeta en VS Code: <code>code powerfox-formacion-claude</code>.</li>
+      <li>Abre Claude Code dentro del proyecto.</li>
+      <li>Lanza el <strong>Prompt P1</strong> para que Claude genere la estructura de carpetas.</li>
+      <li>Revisa lo que propone, acepta o ajusta.</li>
+      <li>Lanza <strong>P2</strong> para que escriba el README.md del repo.</li>
+      <li>Lanza <strong>P3</strong> para el CLAUDE.md del repo.</li>
+      <li>Verifica los archivos, haz commit + push a main (solo el facilitador puede — es el dueño).</li>
+    </ol>
+
+    <div class="prompt-anchor">P1 — Generar estructura del repo de formación</div>
+    <div class="prompt-anchor">P2 — Escribir un README.md excelente para el repo</div>
+    <div class="prompt-anchor">P3 — Escribir el CLAUDE.md del repo</div>
+
+    <!-- PASO 4: Contribución alumno -->
+    <div class="section-header" style="margin-top:2rem"><div class="section-num" style="background:var(--accent)">🙋</div><h2>Paso 4 · Tu Primera Contribución Real (cada alumno)</h2></div>
+
+    <p style="font-size:.9rem;color:var(--text-mid);margin-bottom:.5rem">Cada uno va a crear su carpeta dentro de <code>/alumnos/[tu-nombre]/</code>, añadir un README.md personal, y abrir un Pull Request real.</p>
+
+    <div class="mermaid-wrap">
+      <div class="mermaid">
+flowchart LR
+  A[1. Clone repo] --> B[2. Crear rama<br>feature/alumno-NOMBRE]
+  B --> C[3. Crear carpeta<br>alumnos/NOMBRE/]
+  C --> D[4. Añadir README.md<br>personal]
+  D --> E[5. Commit + push]
+  E --> F[6. Abrir PR]
+  F --> G[7. Facilitador<br>revisa + merge]
+  style A fill:#E3F2FD,stroke:#1565C0,color:#0B1D3A
+  style F fill:#FFF3E0,stroke:#FF6D00,color:#0B1D3A
+  style G fill:#E8F5E9,stroke:#2E7D32,color:#0B1D3A
+      </div>
+    </div>
+
+    <ol class="step-list">
+      <li>Asegúrate de estar en la rama main y al día: <code>git switch main && git pull</code>.</li>
+      <li>Crea una rama nueva: <code>git switch -c feature/alumno-[tu-nombre]</code>.</li>
+      <li>Lanza <strong>P4</strong> para que Claude cree tu carpeta con la plantilla.</li>
+      <li>Rellena tu README.md: quién eres, qué haces en LitoClean, qué esperas del curso.</li>
+      <li><code>git add alumnos/[tu-nombre]/</code>, <code>git commit -m "feat: añadir carpeta de [tu-nombre]"</code>.</li>
+      <li>Push de la rama: <code>git push -u origin feature/alumno-[tu-nombre]</code>.</li>
+      <li>Abre el PR (usa GitHub web o <code>gh pr create</code> si tienes la CLI).</li>
+      <li>El facilitador revisa tu PR, deja comentarios si hay algo que ajustar, y mergea.</li>
+      <li>Vuelve a main, pulla los cambios: <code>git switch main && git pull</code>. Verás tu carpeta ya mergeada con las de los compañeros.</li>
+    </ol>
+
+    <div class="prompt-anchor">P4 — Crear mi carpeta de alumno con plantilla</div>
+
+    <!-- PASO 5: Invitar -->
+    <div class="section-header" style="margin-top:2rem"><div class="section-num" style="background:var(--accent)">📧</div><h2>Paso 5 · Invitar al Equipo como Colaboradores</h2></div>
+
+    <p style="font-size:.9rem;color:var(--text-mid);margin-bottom:.5rem">El repo es <strong>público</strong> (cualquiera lo ve), pero solo los <strong>colaboradores</strong> pueden pushear ramas y abrir PRs. Este es el proceso para invitar a los 8 miembros del equipo.</p>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>🎫 Opción A · Invitación al repo concreto</h3>
+        <ol class="step-list" style="margin:0">
+          <li>En el repo → <strong>Settings</strong> → <strong>Collaborators</strong>.</li>
+          <li><strong>Add people</strong> → escribe el username o email del alumno.</li>
+          <li>Selecciona el rol: <strong>Write</strong> (puede crear ramas y PRs, no puede borrar repo).</li>
+          <li><strong>Add</strong> → GitHub envía email de invitación al alumno.</li>
+          <li>El alumno acepta desde el email o en su panel de notificaciones.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>👥 Opción B · Miembro de la organización</h3>
+        <ol class="step-list" style="margin:0">
+          <li>En la organización → <strong>People</strong> → <strong>Invite member</strong>.</li>
+          <li>Ingresa username o email.</li>
+          <li>Selecciona rol: <strong>Member</strong>.</li>
+          <li>GitHub envía invitación por email.</li>
+          <li>Asigna al alumno al equipo "formacion" con permisos Write.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="tip-box"><p>💡 <strong>Recomendación:</strong> usa la <strong>Opción B</strong> si vas a tener más formaciones o repos. Los miembros de la organización heredan permisos más fácil. Para algo puntual, la Opción A basta.</p></div>
+
+    <div class="warn-box"><p>⚠️ <strong>Roles en GitHub.</strong> <code>Read</code> = solo lectura · <code>Triage</code> = gestionar issues sin tocar código · <code>Write</code> = crear ramas y PRs (lo que necesitamos) · <code>Maintain</code> = gestionar repo sin borrarlo · <code>Admin</code> = control total. Para alumnos: <strong>Write</strong>.</p></div>
+  </div>
+
+  <!-- ========== BLOQUE 3: WEATHER REPORT DEMO ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--accent)">03</div><h2>Demo Compartida · Weather Report en /demos/</h2><span class="duration">25 min</span></div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>🎯 Qué vamos a construir</h3>
+        <p>Un script Node.js que entra en <code>/demos/weather-report/</code> del repo compartido. Lee una lista de ciudades desde CSV, llama a la API gratuita de Open-Meteo, y genera un CSV consolidado + un reporte HTML con tablas y gráfico.</p>
+        <p>Es el patrón <strong>leer datos → llamar API → generar reporte</strong> — base de muchos scripts de consultoría.</p>
+      </div>
+      <div class="card">
+        <h3>🌤️ ¿Por qué Open-Meteo?</h3>
+        <ul>
+          <li><strong>Gratuita</strong> sin API key</li>
+          <li>Sin registro, sin límites anormales</li>
+          <li>Datos reales de meteorología</li>
+          <li>Perfecta para practicar integración con APIs externas</li>
+        </ul>
+        <p><a href="https://open-meteo.com" style="color:var(--blue);font-weight:600">open-meteo.com ↗</a></p>
+      </div>
+    </div>
+
+    <ol class="step-list">
+      <li>En la rama main actualizada: crea una nueva rama <code>feature/demo-weather-report</code>.</li>
+      <li>Dentro del repo, crea la carpeta <code>demos/weather-report/</code>.</li>
+      <li>Lanza <strong>P5</strong> — Claude Code presenta el plan, confirmamos, construye.</li>
+      <li>Crea el archivo <code>ciudades.csv</code> con 5-10 ciudades (Barcelona, Madrid, Lisboa, París, etc.).</li>
+      <li>Ejecuta <code>npm install</code> y luego <code>npm start</code>.</li>
+      <li>Verifica que se genera el CSV consolidado y el reporte HTML.</li>
+      <li>Abre el HTML en el navegador — todos lo ven.</li>
+      <li>Commit, push, PR, merge en main.</li>
+    </ol>
+
+    <div class="prompt-anchor">P5 — Weather Report en /demos/ con Open-Meteo</div>
+  </div>
+
+  <!-- BREAK -->
+  <div class="section">
+    <div class="ai-spotlight" style="background:linear-gradient(135deg,#C62828,#E65100)">
+      <h3 style="color:#fff">☕ BREAK — 10 minutos</h3>
+      <p>Volvemos con el bloque estrella: creamos Skills y Agents <strong>específicos para este repo del curso</strong>. Todos los alumnos los compartirán — quedan dentro del repo y se versionan como cualquier otro archivo.</p>
+    </div>
+  </div>
+
+  <!-- ========== BLOQUE 4: SKILLS Y AGENTS ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--claude)">04</div><h2>Skills y Agents a Medida del Repo</h2><span class="duration">45 min · EN VIVO</span></div>
+
+    <div class="ai-spotlight">
+      <h3>🤖 El giro: skills y agents del proyecto</h3>
+      <p>Hasta ahora habíamos hablado de skills y agents <strong>globales</strong> (vuestros, en ~/.claude/). Ahora vamos a crear skills y agents <strong>locales al repo</strong> — viven en <code>.claude/</code> dentro del proyecto.</p>
+      <p>Consecuencia importante: <strong>se versionan en Git como cualquier archivo</strong>. Si mejoras el skill, todo el equipo recibe la mejora en el siguiente pull. Si añades un agent nuevo, todo el equipo lo tiene disponible automáticamente.</p>
+    </div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>📚 Repaso rápido — ¿Skill o Agent?</h3>
+        <div class="table-wrap"><table>
+          <tr><th>Skill</th><th>Agent</th></tr>
+          <tr><td>Reglas que Claude aplica <strong>automáticamente</strong> al trabajar</td><td>Un especialista que <strong>invocas</strong> para una tarea concreta</td></tr>
+          <tr><td>"Siempre escribe el código así"</td><td>"Revisa esto y dame un reporte"</td></tr>
+          <tr><td>Funciona en background</td><td>Se invoca explícitamente</td></tr>
+          <tr><td>Ideal: convenciones de estilo</td><td>Ideal: tareas especializadas</td></tr>
+        </table></div>
+      </div>
+      <div class="card">
+        <h3>🗂️ Dónde van en este repo</h3>
+        <div class="code-block">powerfox-formacion-claude/
+└── .claude/
+    ├── skills/
+    │   └── formation-content-writer.md
+    └── agents/
+        ├── session-recap-generator.md
+        └── claude-md-auditor.md</div>
+        <p style="margin-top:.5rem">Al hacer <code>git pull</code>, cualquier miembro del equipo recibe las skills y agents. Al abrir el proyecto con Claude Code, se cargan automáticamente.</p>
+      </div>
+    </div>
+
+    <div class="skill-agent-grid">
+      <div class="skill-card">
+        <h4>✍️ Skill · Formation Content Writer</h4>
+        <p style="font-size:.88rem;color:var(--text-mid);margin-bottom:.75rem">Regla automática: cuando Claude escriba contenido didáctico en este repo (README, presentaciones, guías), siga el estilo Power Fox.</p>
+        <div class="badge-list">
+          <span class="badge">Español directo, no salesy</span>
+          <span class="badge">Ejemplos reales antes que teoría</span>
+          <span class="badge">Listas de máximo 6 items</span>
+          <span class="badge">Mermaid cuando ayude</span>
+          <span class="badge">Markdown semántico</span>
+        </div>
+      </div>
+      <div class="agent-card">
+        <h4>📝 Agent · Session Recap Generator</h4>
+        <p style="font-size:.88rem;color:var(--text-mid);margin-bottom:.75rem">Tras cada sesión, lee la presentación y genera automáticamente un README resumen para la carpeta <code>/sesiones/[sesion]/</code>.</p>
+        <div class="badge-list badge-list">
+          <span class="badge badge-agent">Lee presentacion.html</span>
+          <span class="badge badge-agent">Extrae puntos clave</span>
+          <span class="badge badge-agent">Lista prompts usados</span>
+          <span class="badge badge-agent">Genera takeaways</span>
+        </div>
+      </div>
+      <div class="agent-card" style="grid-column:1/-1">
+        <h4>🔍 Agent · CLAUDE.md Auditor</h4>
+        <p style="font-size:.88rem;color:var(--text-mid);margin-bottom:.75rem">Revisa el CLAUDE.md del repo (o el de cualquier alumno) y devuelve un reporte: qué está bien, qué falta, qué sobra, y una propuesta de mejora concreta.</p>
+        <div class="badge-list">
+          <span class="badge badge-agent">Revisa estructura</span>
+          <span class="badge badge-agent">Detecta secretos olvidados</span>
+          <span class="badge badge-agent">Detecta info obsoleta</span>
+          <span class="badge badge-agent">Propone mejoras</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="prompt-anchor">P6 — Crear Skill "Formation Content Writer"</div>
+    <div class="prompt-anchor prompt-anchor-agent">P7 — Crear Agent "Session Recap Generator"</div>
+    <div class="prompt-anchor prompt-anchor-agent">P8 — Crear Agent "CLAUDE.md Auditor"</div>
+
+    <div class="tip-box"><p>💡 <strong>Una vez creados</strong>, los tres viven en <code>.claude/</code> del repo. El facilitador hace el PR, todos los alumnos hacen <code>git pull</code>, y automáticamente tienen las herramientas disponibles.</p></div>
+  </div>
+
+  <!-- ========== BLOQUE 5: REPOS HOT ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--accent)">05</div><h2>Repos HOT — 3 Categorías para Explorar</h2><span class="duration">15 min</span></div>
+
+    <p style="font-size:.9rem;color:var(--text-mid);margin-bottom:1rem">En vez de daros una lista estática que envejece rápido, os enseñamos las <strong>categorías a seguir</strong> y os ayudamos a descubrir lo más reciente usando Claude Code. Cada semana hay novedades.</p>
+
+    <div class="repo-category">
+      <h4><span class="cat-tag">Cat 1</span>🚀 Claude Code Templates & Starters</h4>
+      <p style="font-size:.88rem;color:var(--text-mid)">Proyectos base preconfigurados para arrancar rápido con Claude Code. Incluyen CLAUDE.md plantilla, estructuras recomendadas, settings.json de ejemplo.</p>
+      <ul style="font-size:.85rem;color:var(--text-mid);padding-left:1.25rem;margin-top:.5rem">
+        <li>Cómo buscarlos: GitHub → <em>"claude code template"</em>, ordenar por stars + fecha.</li>
+        <li>Qué mirar: número de stars, fecha del último commit (menos de 3 meses = vivo), README claro.</li>
+        <li>Qué hacer con ellos: clonas, adaptas a tu caso, aprendes patrones.</li>
+      </ul>
+    </div>
+
+    <div class="repo-category">
+      <h4><span class="cat-tag">Cat 2</span>🤖 Marketplaces de Agents y Skills</h4>
+      <p style="font-size:.88rem;color:var(--text-mid)">Colecciones open source de agents especializados y skills que la comunidad comparte. Muchos son excelentes — puedes copiar y adaptar a tu repo.</p>
+      <ul style="font-size:.85rem;color:var(--text-mid);padding-left:1.25rem;margin-top:.5rem">
+        <li>Cómo buscarlos: <em>"claude code agents"</em>, <em>"awesome claude"</em>, <em>"claude skills"</em>.</li>
+        <li>Qué mirar: categorías cubiertas, calidad del agent más destacado, licencia.</li>
+        <li>Qué hacer con ellos: copia el que te interese en tu <code>.claude/agents/</code>, adapta a tus convenciones.</li>
+      </ul>
+    </div>
+
+    <div class="repo-category">
+      <h4><span class="cat-tag">Cat 3</span>🔌 MCP Servers para Integrar</h4>
+      <p style="font-size:.88rem;color:var(--text-mid)">Servidores MCP que conectan Claude Code con servicios externos — GitHub, Jira, Slack, bases de datos, filesystems, navegadores, etc. (Más detalle en el siguiente bloque.)</p>
+      <ul style="font-size:.85rem;color:var(--text-mid);padding-left:1.25rem;margin-top:.5rem">
+        <li>Cómo buscarlos: <em>"MCP server"</em>, <em>"model context protocol"</em>.</li>
+        <li>Qué mirar: quién lo mantiene (oficial vs comunidad), ejemplos de uso.</li>
+        <li>Qué hacer con ellos: lo veremos en el bloque MCPs.</li>
+      </ul>
+    </div>
+
+    <div class="prompt-anchor">P9 — Investigar repos HOT por categoría</div>
+
+    <div class="warn-box"><p>⚠️ <strong>Cuidado con lo que clonas y ejecutas.</strong> Un repo con muchas estrellas no es garantía de ser seguro. Revisa el código antes de correrlo, sobre todo si tiene scripts de instalación o hooks. Si no lo entiendes, pide a Claude Code que te lo explique antes de ejecutar.</p></div>
+  </div>
+
+  <!-- ========== BLOQUE 6: MCPs ========== -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--claude)">06</div><h2>MCPs · Conectar Claude Code a Herramientas Externas</h2><span class="duration">10 min</span></div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>🔌 ¿Qué es un MCP?</h3>
+        <p><strong>Model Context Protocol</strong>. Es un estándar abierto que permite a Claude Code hablar con servicios externos de forma segura: GitHub, Jira, Slack, Google Drive, bases de datos, navegadores web, sistemas de archivos remotos, etc.</p>
+        <p>Los MCPs se configuran en tu Claude Code (global o local) y amplían lo que Claude puede hacer. En vez de copiar/pegar, Claude lee o escribe directamente en el servicio.</p>
+      </div>
+      <div class="card">
+        <h3>💡 Ejemplos útiles para consultoría BI</h3>
+        <ul>
+          <li><strong>GitHub MCP</strong> — crear issues, revisar PRs, leer repos</li>
+          <li><strong>Filesystem MCP</strong> — leer archivos fuera del proyecto actual</li>
+          <li><strong>Playwright MCP</strong> — controlar un navegador para automatizar tareas</li>
+          <li><strong>Postgres MCP</strong> — consultar bases de datos directamente</li>
+          <li><strong>Slack MCP</strong> — enviar mensajes, leer canales</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="prompt-anchor">P10 — Aprende sobre MCPs y los primeros a conectar</div>
+
+    <div class="tip-box"><p>💡 <strong>No instales todos los MCPs de golpe.</strong> Empezad por uno (GitHub o Filesystem), domínalo, y luego añades el siguiente. Cada MCP añade superficie de permisos — conviene entender qué hace antes de enchufarlo.</p></div>
+  </div>
+
+  <!-- PREGUNTAS -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--navy)">💬</div><h2>Preguntas Abiertas</h2></div>
+    <div class="qa-grid">
+      <div class="qa-card"><p>❓ ¿Qué contenido os gustaría añadir al repo esta semana? ¿Una demo, un prompt, un patrón?</p></div>
+      <div class="qa-card"><p>❓ ¿Qué skill o agent os facilitaría el día a día que podamos crear juntos en la próxima sesión?</p></div>
+      <div class="qa-card"><p>❓ ¿Qué MCP os gustaría probar primero? ¿Hay algún servicio al que queráis que Claude Code tenga acceso?</p></div>
+      <div class="qa-card"><p>❓ ¿Qué otras formaciones os gustaría que vivieran en la organización Power Fox BI?</p></div>
+    </div>
+  </div>
+
+  <!-- TAKEAWAYS -->
+  <div class="section">
+    <div class="section-header"><div class="section-num" style="background:var(--accent)">🎯</div><h2>Takeaways del Día</h2></div>
+    <div class="card card-full"><ul>
+      <li><strong>Tenemos un repo compartido público</strong> en <code>github.com/powerfoxbi</code> — es el portfolio colectivo del equipo.</li>
+      <li><strong>main está protegida</strong> — todo cambio entra por PR, nadie puede pushear directo.</li>
+      <li><strong>Cada alumno tiene su carpeta</strong> en <code>/alumnos/</code> — añade lo que quieras de forma segura.</li>
+      <li><strong>Las skills y agents locales viven en <code>.claude/</code></strong> — se versionan y compartes con el equipo al hacer push.</li>
+      <li><strong>Repos HOT:</strong> sigue las 3 categorías, usa Claude Code para descubrir lo último.</li>
+      <li><strong>MCPs:</strong> el siguiente nivel — conectar Claude a tus herramientas.</li>
+    </ul></div>
+  </div>
+
+  <!-- RETO -->
+  <div class="section">
+    <div class="ai-spotlight" style="background:linear-gradient(135deg,#0F2A1F,#1D4E36)">
+      <h3 style="color:#A7F3D0">🎁 Reto hasta la próxima sesión</h3>
+      <p style="color:#D1FAE5"><strong>1.</strong> En tu carpeta <code>/alumnos/[tu-nombre]/</code>, añade un <code>prompts.md</code> con los 3 mejores prompts que has usado esta semana.</p>
+      <p style="color:#D1FAE5"><strong>2.</strong> Explora un repo de la Categoría 1 o 2. Si te mola algo, copia el agent o la skill a tu carpeta personal y cuéntanos por qué.</p>
+      <p style="color:#D1FAE5"><strong>3.</strong> Haz al menos 1 PR a main con tus aportes.</p>
+      <p style="color:#D1FAE5">En la próxima sesión revisamos las contribuciones del equipo.</p>
+    </div>
+  </div>
+
+</div>
+<div class="footer"><strong>POWER FOX</strong> · Formación Claude Code — S2 Miércoles · Abril 2026</div>
+
+<script>
+  mermaid.initialize({startOnLoad:true,theme:'base',themeVariables:{primaryColor:'#E3F2FD',primaryTextColor:'#0B1D3A',primaryBorderColor:'#1565C0',lineColor:'#546E7A',fontFamily:'DM Sans'}});
+</script>
+
+</body>
+</html>
