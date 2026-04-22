@@ -20,7 +20,7 @@
 
 <!-- Añade una entrada por sesión con lo aprendido, prompts favoritos, dudas pendientes. -->
 
-### Sesión X — fecha
+### Sesión 4 — 22 Abr 2026
 
 - **Lo mejor:**
 - **Lo que me costó:**
