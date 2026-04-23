@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Preguntas en directo durante la sesión
+    url: https://github.com/Power-Fox-Solutions/powerfox-formacion-claude/discussions
+    about: Si tu pregunta es conversación abierta o se resuelve en clase, usa Discussions.
