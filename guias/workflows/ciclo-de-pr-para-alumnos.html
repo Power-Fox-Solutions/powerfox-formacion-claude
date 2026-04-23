@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El ciclo de una PR — qué ve el alumno y qué recibe Yeriel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=JetBrains+Mono:wght@400;500;600&family=Inknut+Antiqua:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+    --font-body: 'Fraunces', Georgia, serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+    --bg: #f5efe2;
+    --bg-rule: #e4d9c1;
+    --surface: #fbf7ec;
+    --surface-recessed: #f0e8d4;
+    --border: rgba(26, 24, 20, 0.12);
+    --border-strong: rgba(26, 24, 20, 0.22);
+    --ink: #1a1814;
+    --ink-dim: #5d5346;
+    --ink-soft: #8a7e68;
+
+    --wine: #7c2a3a;
+    --wine-soft: rgba(124, 42, 58, 0.08);
+    --gold: #a8822a;
+    --gold-soft: rgba(168, 130, 42, 0.12);
+    --sage: #556e4a;
+    --sage-soft: rgba(85, 110, 74, 0.12);
+    --rust: #b8521f;
+    --rust-soft: rgba(184, 82, 31, 0.12);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1612;
+      --bg-rule: #2a241d;
+      --surface: #201c17;
+      --surface-recessed: #18140f;
+      --border: rgba(245, 239, 226, 0.1);
+      --border-strong: rgba(245, 239, 226, 0.2);
+      --ink: #ece3cc;
+      --ink-dim: #a79e87;
+      --ink-soft: #7a7261;
+
+      --wine: #d07a86;
+      --wine-soft: rgba(208, 122, 134, 0.14);
+      --gold: #d4ae5e;
+      --gold-soft: rgba(212, 174, 94, 0.14);
+      --sage: #9cb584;
+      --sage-soft: rgba(156, 181, 132, 0.14);
+      --rust: #e0976c;
+      --rust-soft: rgba(224, 151, 108, 0.14);
+    }
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.6;
+    padding: 56px 32px;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse at top left, var(--wine-soft), transparent 60%),
+      radial-gradient(ellipse at bottom right, var(--gold-soft), transparent 65%);
+    overflow-wrap: break-word;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .rise { animation: rise 0.55s cubic-bezier(.2,.7,.3,1) both; animation-delay: calc(var(--i, 0) * 0.07s); }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+
+  .container { max-width: 960px; margin: 0 auto; }
+
+  header.masthead {
+    border-top: 2px solid var(--ink);
+    border-bottom: 1px solid var(--border-strong);
+    padding: 18px 0 14px;
+    margin-bottom: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  header.masthead .left { color: var(--wine); font-weight: 600; }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .eyebrow::before { content: '§'; font-family: var(--font-display); font-size: 14px; font-style: italic; }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(42px, 6vw, 64px);
+    font-weight: 500;
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 14px;
+    text-wrap: balance;
+  }
+  h1 em {
+    font-family: 'Inknut Antiqua', var(--font-display);
+    font-style: italic;
+    color: var(--wine);
+    font-weight: 400;
+  }
+
+  .subtitle {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--ink-dim);
+    margin-bottom: 36px;
+    max-width: 680px;
+    text-wrap: balance;
+  }
+
+  .lead {
+    font-size: 18px;
+    line-height: 1.75;
+    max-width: 660px;
+    margin-bottom: 48px;
+    font-weight: 400;
+  }
+  .lead::first-letter {
+    font-family: var(--font-display);
+    font-size: 64px;
+    font-weight: 600;
+    float: left;
+    line-height: 0.88;
+    margin: 4px 10px 0 -2px;
+    color: var(--wine);
+  }
+  .lead code, p code {
+    font-family: var(--font-mono);
+    font-size: 0.86em;
+    background: var(--wine-soft);
+    color: var(--wine);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  section { margin-bottom: 56px; }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    color: var(--ink-dim);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    width: 28px;
+    height: 2px;
+    background: var(--wine);
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 20px;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  .actors {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin-bottom: 40px;
+    border-top: 1px solid var(--border);
+  }
+  .actor-row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 24px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: baseline;
+  }
+  .actor-row__role {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .actor-row__text {
+    font-family: var(--font-display);
+    font-size: 17px;
+    line-height: 1.55;
+  }
+  .actor-row__text strong {
+    font-weight: 600;
+    color: var(--ink);
+    display: block;
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+  .actor-row__text span { color: var(--ink-dim); }
+
+  .mermaid-wrap {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px 20px;
+    overflow: auto;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 480px;
+    cursor: grab;
+  }
+  .mermaid-wrap.is-panning { cursor: grabbing; user-select: none; }
+
+  .zoom-controls {
+    position: absolute; top: 12px; right: 12px;
+    display: flex; gap: 2px; z-index: 10;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 3px; padding: 2px;
+  }
+  .zoom-controls button {
+    width: 28px; height: 28px; border: none; background: transparent;
+    color: var(--ink-dim); font-family: var(--font-mono); font-size: 13px;
+    cursor: pointer; border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .zoom-controls button:hover { background: var(--wine-soft); color: var(--wine); }
+
+  .diagram-shell { position: relative; }
+  .diagram-shell__hint {
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--ink-soft); margin-bottom: 10px; font-style: normal;
+    letter-spacing: 0.5px;
+  }
+  .mermaid-viewport {
+    position: relative; overflow: hidden;
+    width: 100%; height: 100%; min-height: 400px;
+  }
+  .mermaid-canvas { position: absolute; top: 0; left: 0; }
+  .zoom-label {
+    font-family: var(--font-mono); font-size: 10px;
+    color: var(--ink-soft); padding: 0 6px; white-space: nowrap;
+  }
+
+  .mermaid .nodeLabel { font-family: var(--font-display) !important; font-size: 15px !important; }
+  .mermaid .edgeLabel { font-family: var(--font-mono) !important; font-size: 11px !important; }
+  .mermaid .cluster rect { rx: 4px; ry: 4px; }
+  .mermaid .node rect, .mermaid .node circle, .mermaid .node polygon { stroke-width: 1.5px !important; }
+
+  table.antes-ahora {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-body);
+    font-size: 15px;
+    margin-bottom: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+  table.antes-ahora th, table.antes-ahora td {
+    padding: 14px 18px;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--border);
+    min-width: 0;
+  }
+  table.antes-ahora th {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--ink-dim);
+    background: var(--surface-recessed);
+    border-bottom: 2px solid var(--border-strong);
+  }
+  table.antes-ahora td:first-child {
+    font-weight: 600;
+    color: var(--ink);
+    width: 28%;
+  }
+  table.antes-ahora tbody tr:last-child td { border-bottom: none; }
+  table.antes-ahora code {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    background: var(--gold-soft);
+    color: var(--gold);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  .disparadores {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .disparador {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--sage);
+    padding: 18px 20px;
+    border-radius: 0 4px 4px 0;
+    min-width: 0;
+  }
+  .disparador__when {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 6px;
+  }
+  .disparador__title {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .disparador__desc {
+    font-size: 14px;
+    color: var(--ink-dim);
+    line-height: 1.55;
+  }
+
+  .callout {
+    background: var(--surface);
+    border-left: 4px solid var(--wine);
+    padding: 22px 26px;
+    margin-bottom: 20px;
+    font-family: var(--font-display);
+    font-size: 16px;
+    line-height: 1.65;
+  }
+  .callout strong {
+    font-weight: 600;
+    color: var(--wine);
+  }
+  .callout code {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    background: var(--wine-soft);
+    color: var(--wine);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+  .callout--warning { border-left-color: var(--rust); }
+  .callout--warning strong { color: var(--rust); }
+  .callout--warning code { background: var(--rust-soft); color: var(--rust); }
+
+  .pull-quote {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 24px;
+    line-height: 1.4;
+    color: var(--ink);
+    padding: 32px 0 32px 36px;
+    border-left: 1px solid var(--wine);
+    margin: 32px 0;
+    position: relative;
+    max-width: 680px;
+  }
+  .pull-quote::before {
+    content: '"';
+    font-family: var(--font-display);
+    font-size: 80px;
+    color: var(--wine);
+    position: absolute;
+    top: 4px;
+    left: -16px;
+    line-height: 1;
+    opacity: 0.5;
+  }
+
+  pre.cmd {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.55;
+    background: var(--surface-recessed);
+    color: var(--ink);
+    padding: 16px 18px;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    overflow-x: auto;
+    white-space: pre;
+    margin-bottom: 20px;
+  }
+  pre.cmd .c { color: var(--ink-soft); font-style: italic; }
+
+  footer {
+    margin-top: 64px;
+    padding: 20px 0;
+    border-top: 1px solid var(--ink);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: var(--ink-dim);
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 768px) {
+    body { padding: 32px 20px; font-size: 16px; }
+    h1 { font-size: 36px; }
+    .actor-row { grid-template-columns: 1fr; gap: 4px; }
+    .mermaid-wrap { padding: 16px 10px; min-height: 420px; }
+    .lead::first-letter { font-size: 48px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="masthead rise" style="--i:0">
+    <span class="left">Power Fox BI · Curso Claude Code</span>
+    <span>Guía · Workflows · Abril 2026</span>
+  </header>
+
+  <div class="eyebrow rise" style="--i:1">Ciclo completo de una Pull Request</div>
+
+  <h1 class="rise" style="--i:2">
+    Del <em>git push</em> al merge, <br>
+    qué pasa ahora paso a paso
+  </h1>
+
+  <p class="subtitle rise" style="--i:3">
+    Lo que ve un alumno, lo que recibe Yeriel y qué automatismos saltan en cada fase.
+  </p>
+
+  <p class="lead rise" style="--i:4">
+    El ciclo de PR en este repo dejó de ser "abro, espero, alguien aprueba, mergeo". Hoy hay templates que te guían, linters que te corrigen, bots que saludan, etiquetas que se asignan solas y reglas de merge que limpian ramas sin intervención. Esta guía cubre qué cambió en la sesión del <code>23-abr-2026</code> — PRs #3 y #4 mergeadas, más ajustes del repo aplicados vía API.
+  </p>
+
+  <!-- DIAGRAMA -->
+  <section class="rise" style="--i:5">
+    <div class="section-label">Flujo ilustrado</div>
+    <h2>Una PR, cinco momentos en los que algo salta automáticamente</h2>
+    <div class="diagram-shell">
+      <p class="diagram-shell__hint">
+        Ctrl/Cmd + rueda para zoom · Arrastra para desplazar · Doble clic para encajar
+      </p>
+      <div class="mermaid-wrap">
+        <div class="zoom-controls">
+          <button type="button" data-action="zoom-in" title="Zoom +">+</button>
+          <button type="button" data-action="zoom-out" title="Zoom −">&minus;</button>
+          <button type="button" data-action="zoom-fit" title="Encajar">&#8634;</button>
+          <button type="button" data-action="zoom-one" title="1:1">1:1</button>
+          <button type="button" data-action="zoom-expand" title="Abrir a pantalla completa">&#x26F6;</button>
+          <span class="zoom-label">Cargando...</span>
+        </div>
+        <div class="mermaid-viewport">
+          <div class="mermaid mermaid-canvas"></div>
+        </div>
+      </div>
+      <script type="text/plain" class="diagram-source">
+flowchart TD
+  A([Alumno<br/>gh pr create]) --> B["1 · PR template<br/>aparece con checklist"]
+  B --> C{"commits en<br/>Conventional Commits"}
+  C -->|"no"| C1[["commitlint<br/>falla en rojo"]]
+  C1 --> C2["Alumno corrige<br/>y pushea"]
+  C2 --> C
+  C -->|"sí"| D["2 · welcome bot<br/>saluda en primera PR"]
+  D --> E{"toca zona sensible"}
+  E -->|"sesiones, demos,<br/>prompts, config"| F[["CODEOWNERS<br/>asigna a Yeriel"]]
+  E -->|"solo /alumnos/"| G[["sin code owner<br/>aviso por notif"]]
+  F --> H([3 · Yeriel revisa<br/>y squash merge])
+  G --> H
+  H --> I[["4 · rama origen<br/>se autoborra"]]
+  I --> J["5 · main avanza<br/>con commit squash"]
+  J --> K([Alumnos hacen<br/>git pull])
+
+  classDef dashed stroke-dasharray:6 3
+  class C1,F,G,I dashed
+      </script>
+    </div>
+  </section>
+
+  <!-- ACTORES -->
+  <section class="rise" style="--i:6">
+    <div class="section-label">Quién hace qué</div>
+    <h2>Tres actores, tareas bien separadas</h2>
+    <div class="actors">
+      <div class="actor-row">
+        <div class="actor-row__role">Alumno</div>
+        <div class="actor-row__text">
+          <strong>Abre la PR y corrige lo que el CI le marque.</strong>
+          <span>Crea rama, edita su carpeta, pushea, abre PR con <code>gh pr create</code>. A partir de ahora el template le guía con checklist de privacidad. Si commitlint falla, corrige y pushea otra vez.</span>
+        </div>
+      </div>
+      <div class="actor-row">
+        <div class="actor-row__role">GitHub</div>
+        <div class="actor-row__text">
+          <strong>Ejecuta los automatismos antes de que Yeriel mire nada.</strong>
+          <span>Rellena el template, lanza commitlint, dispara welcome bot, consulta CODEOWNERS y asigna reviewer, borra la rama tras merge.</span>
+        </div>
+      </div>
+      <div class="actor-row">
+        <div class="actor-row__role">Yeriel</div>
+        <div class="actor-row__text">
+          <strong>Solo mira PRs que pasan la criba automática.</strong>
+          <span>Recibe notificación cuando le asignan como reviewer (zona sensible). Revisa, comenta si hace falta y hace <code>gh pr merge N --squash</code>. No necesita borrar ramas ni elegir tipo de merge — está configurado.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANTES vs AHORA -->
+  <section class="rise" style="--i:7">
+    <div class="section-label">Comparativa</div>
+    <h2>Qué cambia momento a momento</h2>
+    <table class="antes-ahora">
+      <thead>
+        <tr>
+          <th>Momento</th>
+          <th>Antes</th>
+          <th>Ahora</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Al abrir una PR</td>
+          <td>Descripción vacía, cada uno inventa formato</td>
+          <td>Checklist pre-rellenado: privacidad, convención de commits, scope de carpeta</td>
+        </tr>
+        <tr>
+          <td>Al abrir un issue</td>
+          <td>Issue en blanco, sin estructura</td>
+          <td>Dos plantillas: <code>Duda de alumno</code> y <code>Bug o error en el repo</code>. El issue en blanco está desactivado</td>
+        </tr>
+        <tr>
+          <td>Commit con mensaje no-convencional</td>
+          <td>Pasa, se mergea igual</td>
+          <td>Workflow <code>commitlint</code> marca la PR en rojo hasta corregir</td>
+        </tr>
+        <tr>
+          <td>Primera PR o issue de cada alumno</td>
+          <td>Silencio absoluto hasta que Yeriel responde</td>
+          <td>Welcome bot publica automáticamente un saludo con los pasos clave</td>
+        </tr>
+        <tr>
+          <td>PR que toca zonas sensibles</td>
+          <td>Yeriel tiene que acordarse de auto-asignarse</td>
+          <td>CODEOWNERS lo auto-asigna en <code>/.github/</code>, <code>/sesiones/</code>, <code>/demos/</code>, <code>/prompts/</code>, <code>/.claude/</code> y raíz</td>
+        </tr>
+        <tr>
+          <td>PR que toca solo <code>/alumnos/[nombre]/</code></td>
+          <td>Espera aprobación obligatoria</td>
+          <td>Sin code owner, 0 aprobaciones requeridas → Yeriel puede mergear directamente sin gate</td>
+        </tr>
+        <tr>
+          <td>Botón de merge</td>
+          <td>Tres opciones: merge commit / squash / rebase</td>
+          <td>Solo <code>squash and merge</code>. Historial de main limpio, un commit por PR</td>
+        </tr>
+        <tr>
+          <td>Tras mergear</td>
+          <td>La rama seguía ahí, se acumulaban</td>
+          <td>Rama origen autoborrada en GitHub. <code>git pull --prune</code> la limpia en local</td>
+        </tr>
+        <tr>
+          <td>Estilo entre alumnos</td>
+          <td>CRLF vs LF, indentación a ojo</td>
+          <td><code>.editorconfig</code> unifica encoding UTF-8, LF y 2 espacios de indent</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- PULL QUOTE -->
+  <div class="pull-quote rise" style="--i:8">
+    Todo el trabajo mecánico lo hace el repo. Yeriel solo decide si el contenido vale.
+  </div>
+
+  <!-- QUÉ VE EL ALUMNO NUEVO -->
+  <section class="rise" style="--i:9">
+    <div class="section-label">Qué ve el alumno que antes no veía</div>
+    <h2>Cinco señales nuevas en su experiencia</h2>
+    <div class="disparadores">
+      <div class="disparador">
+        <div class="disparador__when">Al ejecutar <code>gh pr create</code></div>
+        <div class="disparador__title">Cuerpo de PR pre-rellenado</div>
+        <div class="disparador__desc">El checklist aparece solo. Si el alumno lo usa <code>--fill</code>, se queda el template; si usa <code>--body</code>, lo sobreescribe. Lo recomendable: editar el template.</div>
+      </div>
+      <div class="disparador">
+        <div class="disparador__when">A los 20-60 segundos</div>
+        <div class="disparador__title">Check de commitlint</div>
+        <div class="disparador__desc">Aparece un check en la pestaña "Checks" de la PR. Si falla, abre el log y verá qué commit no cumple Conventional Commits.</div>
+      </div>
+      <div class="disparador">
+        <div class="disparador__when">En primera interacción</div>
+        <div class="disparador__title">Comentario de bienvenida</div>
+        <div class="disparador__desc">El welcome bot deja un comentario automático en la PR o issue con los pasos clave y el checklist. Solo dispara una vez por persona, nunca repite.</div>
+      </div>
+      <div class="disparador">
+        <div class="disparador__when">Si toca zona sensible</div>
+        <div class="disparador__title">Yeriel aparece en "Reviewers"</div>
+        <div class="disparador__desc">Caja "Reviewers" a la derecha con <code>YerielMangin</code> ya marcado. El alumno no tiene que mencionarlo — CODEOWNERS lo hizo por él.</div>
+      </div>
+      <div class="disparador">
+        <div class="disparador__when">Al intentar commit con secret</div>
+        <div class="disparador__title">Push rechazado</div>
+        <div class="disparador__desc">Si mete sin querer una API key o token conocido, GitHub le devuelve error antes de publicar. Detalles en la guía <code>security/escaneo-de-secretos.html</code>.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMANDOS -->
+  <section class="rise" style="--i:10">
+    <div class="section-label">Flujo real en terminal</div>
+    <h2>Un ejemplo completo, de rama nueva a main sincronizada</h2>
+    <pre class="cmd"><span class="c"># 1. Parte limpia desde main actualizado</span>
+git switch main &amp;&amp; git pull
+
+<span class="c"># 2. Rama con nombre convencional (feature/..., fix/..., docs/...)</span>
+git switch -c feature/alumno-demo-pregunta
+
+<span class="c"># 3. Edita dentro de /alumnos/[tu-nombre]/ y commit con Conventional Commits</span>
+git add alumnos/tu-nombre/
+git commit -m "feat(alumnos): añade demo de pregunta para sesión 3"
+
+<span class="c"># 4. Push y PR — el template aparece solo al abrir</span>
+git push -u origin HEAD
+gh pr create
+
+<span class="c"># 5. Si commitlint falla, corriges y repushea (NO abras otra PR)</span>
+git commit --amend
+git push --force-with-lease
+
+<span class="c"># 6. Yeriel mergea cuando apruebe; tu rama local sigue viva</span>
+git switch main &amp;&amp; git pull --prune
+git branch -D feature/alumno-demo-pregunta  <span class="c"># la local se borra a mano</span></pre>
+  </section>
+
+  <!-- CALLOUTS -->
+  <section class="rise" style="--i:11">
+    <div class="section-label">Detalles que importan</div>
+    <h2>Lo que conviene recordar sin pensar</h2>
+
+    <div class="callout">
+      <strong>Por qué 0 aprobaciones en <code>main</code>.</strong> Yeriel es la única con permiso de merge y GitHub nunca deja que el autor apruebe su propia PR. Subir el contador a 1 sólo bloquearía sus propios PRs sin aportar nada. La disciplina de revisión la mantiene ella manualmente — las reglas técnicas solo limitan el <em>ruido</em>.
+    </div>
+
+    <div class="callout callout--warning">
+      <strong>Nunca pushees desde tu <code>main</code> del fork.</strong> Aunque la PR salga mergeable, rompe la convención: el nombre de rama <code>main → main</code> no dice nada sobre el cambio. Usa siempre <code>feature/...</code>, <code>fix/...</code> o <code>docs/...</code>. Si lo haces, espera un comentario amistoso de Yeriel recordándotelo.
+    </div>
+
+    <div class="callout">
+      <strong>El template de PR <em>guía</em>, no obliga.</strong> Puedes borrar el checklist si tu PR es trivial. Lo que sí es obligatorio: mensajes de commit en Conventional Commits (commitlint bloquea) y respeto a la privacidad del repo público (secret scanning bloquea). Todo lo demás lo valora Yeriel caso por caso.
+    </div>
+
+    <div class="callout">
+      <strong>Las reglas completas viven en <code>CLAUDE.md</code>.</strong> Esta guía resume el comportamiento visible. Para convenciones de estilo de contenido, scope de carpetas y qué no subir al repo público, la fuente canónica es <code>CLAUDE.md</code> en la raíz.
+    </div>
+  </section>
+
+  <footer>
+    <span>guias/workflows/ciclo-de-pr-para-alumnos.html</span>
+    <span>Power Fox BI · curso Claude Code</span>
+  </footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script>
+  const config = {
+    fitPadding: 28, minHeight: 400, maxHeightPx: 980, maxHeightVh: 0.86,
+    maxInitialZoom: 1.8, minZoom: 0.08, maxZoom: 6.5,
+    zoomStep: 0.14, readabilityFloor: 0.58
+  };
+  const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
+  let activeDrag = null;
+  addEventListener('mousemove', (e) => activeDrag?.onMove(e));
+  addEventListener('mouseup', () => { activeDrag?.onEnd(); activeDrag = null; });
+
+  const isDark = matchMedia('(prefers-color-scheme: dark)').matches;
+
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: 'base',
+    look: 'classic',
+    themeVariables: {
+      fontFamily: "'Fraunces', Georgia, serif",
+      fontSize: '15px',
+      primaryColor: isDark ? '#2a1c20' : '#fbf7ec',
+      primaryBorderColor: isDark ? '#d07a86' : '#7c2a3a',
+      primaryTextColor: isDark ? '#ece3cc' : '#1a1814',
+      secondaryColor: isDark ? '#2d2620' : '#f0e8d4',
+      secondaryBorderColor: isDark ? '#d4ae5e' : '#a8822a',
+      secondaryTextColor: isDark ? '#ece3cc' : '#1a1814',
+      tertiaryColor: isDark ? '#222820' : '#ecf0e3',
+      tertiaryBorderColor: isDark ? '#9cb584' : '#556e4a',
+      tertiaryTextColor: isDark ? '#ece3cc' : '#1a1814',
+      lineColor: isDark ? '#a79e87' : '#5d5346',
+      clusterBkg: isDark ? '#1a1612' : '#f5efe2',
+      clusterBorder: isDark ? 'rgba(245,239,226,0.14)' : 'rgba(26, 24, 20, 0.18)',
+      titleColor: isDark ? '#d4ae5e' : '#a8822a',
+      noteBkgColor: isDark ? '#2d2620' : '#f0e8d4',
+      noteTextColor: isDark ? '#ece3cc' : '#1a1814',
+      noteBorderColor: isDark ? '#d4ae5e' : '#a8822a',
+    }
+  });
+
+  function initDiagram(shell) {
+    const wrap = shell.querySelector('.mermaid-wrap');
+    const viewport = shell.querySelector('.mermaid-viewport');
+    const canvas = shell.querySelector('.mermaid-canvas');
+    const source = shell.querySelector('.diagram-source');
+    const label = shell.querySelector('.zoom-label');
+    if (!wrap || !viewport || !canvas || !source || !label) return;
+
+    let zoom = 1, fitMode = 'contain', panX = 0, panY = 0, svgW = 0, svgH = 0;
+    let sx = 0, sy = 0, spx = 0, spy = 0, touchDist = 0, touchCx = 0, touchCy = 0;
+
+    function constrainPan() {
+      const vpW = viewport.clientWidth, vpH = viewport.clientHeight;
+      const rW = svgW * zoom, rH = svgH * zoom, pad = config.fitPadding;
+      panX = (rW + pad * 2 <= vpW) ? (vpW - rW) / 2 : clamp(panX, vpW - rW - pad, pad);
+      panY = (rH + pad * 2 <= vpH) ? (vpH - rH) / 2 : clamp(panY, vpH - rH - pad, pad);
+    }
+    function applyTransform() {
+      const svg = canvas.querySelector('svg');
+      if (!svg || !svgW) return;
+      constrainPan();
+      svg.style.width = (svgW * zoom) + 'px';
+      svg.style.height = (svgH * zoom) + 'px';
+      canvas.style.transform = `translate(${panX}px, ${panY}px)`;
+      label.textContent = Math.round(zoom * 100) + '% · ' + fitMode;
+    }
+    function canPan() {
+      const rW = svgW * zoom, rH = svgH * zoom;
+      return rW + config.fitPadding * 2 > viewport.clientWidth
+          || rH + config.fitPadding * 2 > viewport.clientHeight;
+    }
+    function computeSmartFit() {
+      const vpW = viewport.clientWidth, vpH = viewport.clientHeight;
+      const aW = Math.max(80, vpW - config.fitPadding * 2);
+      const aH = Math.max(80, vpH - config.fitPadding * 2);
+      const contain = Math.min(aW / svgW, aH / svgH);
+      let z = contain, mode = 'contain';
+      if (contain < config.readabilityFloor) {
+        const chartR = svgH / svgW, vpR = vpH / Math.max(vpW, 1);
+        if (chartR >= vpR) { z = aW / svgW; mode = 'width-priority'; }
+        else { z = aH / svgH; mode = 'height-priority'; }
+      }
+      return { zoom: clamp(z, config.minZoom, config.maxInitialZoom), mode };
+    }
+    function fitDiagram() {
+      if (!svgW) return;
+      const fit = computeSmartFit();
+      zoom = fit.zoom; fitMode = fit.mode;
+      panX = (viewport.clientWidth - svgW * zoom) / 2;
+      panY = (viewport.clientHeight - svgH * zoom) / 2;
+      applyTransform();
+    }
+    function setOneToOne() {
+      zoom = clamp(1, config.minZoom, config.maxZoom); fitMode = '1:1';
+      panX = (viewport.clientWidth - svgW * zoom) / 2;
+      panY = (viewport.clientHeight - svgH * zoom) / 2;
+      applyTransform();
+    }
+    function zoomAround(factor, cx, cy) {
+      const next = clamp(zoom * factor, config.minZoom, config.maxZoom);
+      const ratio = next / zoom;
+      panX = cx - ratio * (cx - panX);
+      panY = cy - ratio * (cy - panY);
+      zoom = next; fitMode = 'custom'; applyTransform();
+    }
+    function readSvgNaturalSize(svg) {
+      let w = 0, h = 0;
+      if (svg.viewBox?.baseVal?.width > 0) { w = svg.viewBox.baseVal.width; h = svg.viewBox.baseVal.height; }
+      if (!w) { w = parseFloat(svg.getAttribute('width')) || 0; h = parseFloat(svg.getAttribute('height')) || 0; }
+      if (!w) { const b = svg.getBBox(); w = b.width; h = b.height; }
+      if (!w) { const r = svg.getBoundingClientRect(); w = r.width || 1000; h = r.height || 700; }
+      if (!svg.getAttribute('viewBox')) svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+      return { w, h };
+    }
+    function setAdaptiveHeight() {
+      if (!svgW) return;
+      const usableW = Math.max(280, wrap.getBoundingClientRect().width - 2);
+      const idealH = (svgH / svgW) * usableW + config.fitPadding * 2;
+      const maxVp = Math.floor(innerHeight * config.maxHeightVh);
+      const hardMax = Math.min(config.maxHeightPx, Math.max(config.minHeight + 40, maxVp));
+      wrap.style.height = Math.round(clamp(idealH, config.minHeight, hardMax)) + 'px';
+    }
+    function openInNewTab() {
+      const svg = canvas.querySelector('svg'); if (!svg) return;
+      const clone = svg.cloneNode(true); clone.style.width = ''; clone.style.height = '';
+      const bg = isDark ? '#1a1612' : '#f5efe2';
+      const html = `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">
+      <title>Diagrama</title><style>
+      body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+      background:${bg};padding:40px;box-sizing:border-box}
+      svg{max-width:100%;max-height:90vh;height:auto}
+      </style></head><body>${clone.outerHTML}</body></html>`;
+      open(URL.createObjectURL(new Blob([html], { type: 'text/html' })), '_blank');
+    }
+    async function render() {
+      try {
+        const code = source.textContent.trim();
+        if (!code) { label.textContent = 'Error: fuente vacía'; return; }
+        const id = 'diagram-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
+        const { svg } = await mermaid.render(id, code);
+        canvas.innerHTML = svg;
+        const svgNode = canvas.querySelector('svg');
+        if (!svgNode) { label.textContent = 'Error: sin SVG'; return; }
+        const size = readSvgNaturalSize(svgNode);
+        svgW = size.w; svgH = size.h;
+        svgNode.removeAttribute('width'); svgNode.removeAttribute('height');
+        svgNode.style.maxWidth = 'none'; svgNode.style.display = 'block';
+        setAdaptiveHeight(); fitDiagram();
+      } catch (err) {
+        console.error('Mermaid render falló:', err);
+        label.textContent = 'Error: ' + (err.message || 'render fallido');
+      }
+    }
+    const actions = {
+      'zoom-in': () => zoomAround(1 + config.zoomStep, viewport.clientWidth / 2, viewport.clientHeight / 2),
+      'zoom-out': () => zoomAround(1 / (1 + config.zoomStep), viewport.clientWidth / 2, viewport.clientHeight / 2),
+      'zoom-fit': fitDiagram,
+      'zoom-one': setOneToOne,
+      'zoom-expand': openInNewTab
+    };
+    Object.entries(actions).forEach(([action, handler]) => {
+      wrap.querySelector(`[data-action="${action}"]`)?.addEventListener('click', handler);
+    });
+    viewport.addEventListener('dblclick', fitDiagram);
+    viewport.addEventListener('wheel', (e) => {
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        const rect = viewport.getBoundingClientRect();
+        const factor = e.deltaY < 0 ? 1 + config.zoomStep : 1 / (1 + config.zoomStep);
+        zoomAround(factor, e.clientX - rect.left, e.clientY - rect.top);
+        return;
+      }
+      if (canPan()) { e.preventDefault(); panX -= e.deltaX; panY -= e.deltaY; applyTransform(); }
+    }, { passive: false });
+    viewport.addEventListener('mousedown', (e) => {
+      if (e.target.closest('.zoom-controls') || !canPan()) return;
+      wrap.classList.add('is-panning');
+      sx = e.clientX; sy = e.clientY; spx = panX; spy = panY; e.preventDefault();
+      activeDrag = {
+        onMove: (ev) => { panX = spx + (ev.clientX - sx); panY = spy + (ev.clientY - sy); applyTransform(); },
+        onEnd: () => wrap.classList.remove('is-panning')
+      };
+    });
+    viewport.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; spx = panX; spy = panY; }
+      else if (e.touches.length === 2) {
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        touchDist = Math.sqrt(dx * dx + dy * dy);
+        const r = viewport.getBoundingClientRect();
+        touchCx = (e.touches[0].clientX + e.touches[1].clientX) / 2 - r.left;
+        touchCy = (e.touches[0].clientY + e.touches[1].clientY) / 2 - r.top;
+      }
+    }, { passive: true });
+    viewport.addEventListener('touchmove', (e) => {
+      if (e.touches.length === 1 && canPan()) {
+        if (touchDist > 0) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; spx = panX; spy = panY; touchDist = 0; }
+        e.preventDefault();
+        panX = spx + (e.touches[0].clientX - sx); panY = spy + (e.touches[0].clientY - sy); applyTransform();
+      } else if (e.touches.length === 2 && touchDist > 0) {
+        e.preventDefault();
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        zoomAround(d / touchDist, touchCx, touchCy); touchDist = d;
+      }
+    }, { passive: false });
+    new ResizeObserver(() => { if (svgW) { setAdaptiveHeight(); fitDiagram(); } }).observe(wrap);
+    render();
+  }
+  document.querySelectorAll('.diagram-shell').forEach(initDiagram);
+</script>
+</body>
+</html>
