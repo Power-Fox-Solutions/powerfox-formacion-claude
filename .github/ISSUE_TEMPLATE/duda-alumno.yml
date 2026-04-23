@@ -1,0 +1,47 @@
+name: Duda de alumno
+description: Pregunta sobre el curso, prompts, demos o ejercicios
+title: "[Duda] "
+labels: ["duda", "alumno"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por preguntar. Antes de abrir el issue revisa que la duda no esté ya en
+        `README.md`, en la presentación de la sesión o en tu carpeta `/alumnos/[tu-nombre]/`.
+
+  - type: input
+    id: sesion
+    attributes:
+      label: Sesión o tema relacionado
+      description: Ej. "Sesión 2 - miércoles", "skill formation-content-writer", "setup inicial"
+      placeholder: Sesión X - día
+    validations:
+      required: false
+
+  - type: textarea
+    id: pregunta
+    attributes:
+      label: Tu pregunta
+      description: Qué quieres hacer, qué has intentado, qué no funciona.
+      placeholder: |
+        Estoy intentando X.
+        He probado Y pero me falla porque Z.
+    validations:
+      required: true
+
+  - type: textarea
+    id: contexto
+    attributes:
+      label: Contexto técnico (si aplica)
+      description: Versión de Claude Code, SO, IDE, fragmento de error (sin datos sensibles).
+      render: shell
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: privacidad
+    attributes:
+      label: Privacidad
+      options:
+        - label: He revisado que mi pregunta no contiene credenciales, GUIDs, URLs internas ni nombres de clientes reales.
+          required: true
