@@ -5,7 +5,7 @@
 ## Sobre mí
 
 - **Nombre:**
-- **Rol en LitoClean:**
+- **Rol en tu empresa:**
 - **Años en Power Platform / Dynamics:**
 - **Qué espero del curso:**
 
