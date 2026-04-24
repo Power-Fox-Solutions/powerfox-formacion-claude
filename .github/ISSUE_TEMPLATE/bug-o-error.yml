@@ -1,0 +1,41 @@
+name: Bug o error en el repo
+description: Algo roto en una demo, un enlace o el contenido del curso
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: input
+    id: ubicacion
+    attributes:
+      label: Archivo o ruta afectada
+      placeholder: demos/contador-de-palabras/README.md
+    validations:
+      required: true
+
+  - type: textarea
+    id: descripcion
+    attributes:
+      label: Qué esperabas y qué pasa
+      placeholder: |
+        Esperaba: ...
+        Pasa: ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduccion
+    attributes:
+      label: Pasos para reproducirlo
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: privacidad
+    attributes:
+      label: Privacidad
+      options:
+        - label: No incluyo credenciales, GUIDs, URLs internas ni nombres de clientes reales.
+          required: true

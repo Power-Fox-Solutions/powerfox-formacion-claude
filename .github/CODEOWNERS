@@ -1,0 +1,25 @@
+# CODEOWNERS — Power Fox BI / powerfox-formacion-claude
+#
+# GitHub asigna automáticamente como reviewer al code owner cuando alguien
+# abre una PR que toca archivos de su patrón.
+#
+# La última regla que matchea gana. Por eso el default va arriba y las
+# excepciones (carpetas libres para alumnos) van debajo.
+
+# Default: todo lo no listado explícitamente es del facilitador
+*                       @YerielMangin
+
+# Configuración de repo y contenido del curso — solo facilitador
+/.github/               @YerielMangin
+/.claude/               @YerielMangin
+/sesiones/              @YerielMangin
+/demos/                 @YerielMangin
+/prompts/               @YerielMangin
+CLAUDE.md               @YerielMangin
+README.md               @YerielMangin
+LICENSE                 @YerielMangin
+.gitignore              @YerielMangin
+
+# Carpeta libre para alumnos (sin code owner → cualquiera puede mergear
+# cambios aquí sin pedir review explícito al facilitador)
+/alumnos/
