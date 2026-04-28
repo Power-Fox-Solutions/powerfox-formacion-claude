@@ -1,527 +1,723 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Recap del curso — Bladimir Muñoz</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@300;400;600&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --ink: #1a1a1a;
-    --paper: #f5f0e8;
-    --rule: #c8bfad;
-    --accent: #8b1a1a;
-    --accent-light: #c94040;
-    --muted: #6b6259;
-    --code-bg: #ede8de;
-    --col-width: 680px;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --ink: #e8e0d0;
-      --paper: #1c1a17;
-      --rule: #3a3530;
-      --accent: #e07070;
-      --accent-light: #f09090;
-      --muted: #9a9088;
-      --code-bg: #252320;
-    }
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 17px; scroll-behavior: smooth; }
-  body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: 'Source Sans 3', Georgia, serif;
-    line-height: 1.7;
-    padding: 2rem 1rem 4rem;
-  }
-  .masthead {
-    max-width: var(--col-width);
-    margin: 0 auto 3rem;
-    border-bottom: 3px double var(--accent);
-    padding-bottom: 1.5rem;
-  }
-  .masthead .eyebrow {
-    font-family: 'Source Code Pro', monospace;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--muted);
-    margin-bottom: 0.5rem;
-  }
-  .masthead h1 {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 2.6rem;
-    font-weight: 700;
-    line-height: 1.15;
-    color: var(--ink);
-  }
-  .masthead .subtitle {
-    font-size: 1.05rem;
-    color: var(--muted);
-    margin-top: 0.5rem;
-  }
-  .profile-strip {
-    max-width: var(--col-width);
-    margin: 0 auto 2.5rem;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 0.75rem;
-  }
-  .profile-item {
-    border: 1px solid var(--rule);
-    border-radius: 4px;
-    padding: 0.75rem 1rem;
-  }
-  .profile-item .label {
-    font-family: 'Source Code Pro', monospace;
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-    display: block;
-    margin-bottom: 0.2rem;
-  }
-  .profile-item .value {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--ink);
-  }
-  .main {
-    max-width: var(--col-width);
-    margin: 0 auto;
-  }
-  .section-title {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--accent);
-    border-bottom: 1px solid var(--rule);
-    padding-bottom: 0.4rem;
-    margin: 2.5rem 0 1.25rem;
-  }
-  .session-card {
-    border: 1px solid var(--rule);
-    border-left: 4px solid var(--accent);
-    border-radius: 4px;
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 1.25rem;
-    background: var(--code-bg);
-  }
-  .session-card .session-header {
-    display: flex;
-    align-items: baseline;
-    gap: 0.75rem;
-    margin-bottom: 0.75rem;
-    flex-wrap: wrap;
-  }
-  .session-card .session-num {
-    font-family: 'Source Code Pro', monospace;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--muted);
-  }
-  .session-card h3 {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--ink);
-  }
-  .session-card .session-date {
-    font-size: 0.8rem;
-    color: var(--muted);
-    margin-left: auto;
-  }
-  .session-card ul {
-    list-style: none;
-    padding: 0;
-  }
-  .session-card ul li {
-    padding: 0.2rem 0;
-    font-size: 0.92rem;
-    padding-left: 1.1rem;
-    position: relative;
-  }
-  .session-card ul li::before {
-    content: '—';
-    position: absolute;
-    left: 0;
-    color: var(--accent);
-    font-weight: 700;
-  }
-  .session-bitacora {
-    margin-top: 0.9rem;
-    padding-top: 0.75rem;
-    border-top: 1px dashed var(--rule);
-  }
-  .session-bitacora .bit-label {
-    font-family: 'Source Code Pro', monospace;
-    font-size: 0.68rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--accent);
-    margin-bottom: 0.35rem;
-    display: block;
-  }
-  .bit-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
-    margin-bottom: 0.5rem;
-  }
-  @media (max-width: 540px) {
-    .bit-row { grid-template-columns: 1fr; }
-  }
-  .bit-cell {
-    font-size: 0.85rem;
-  }
-  .bit-cell strong {
-    display: block;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--muted);
-    margin-bottom: 0.15rem;
-    font-weight: 600;
-  }
-  .prompt-saved {
-    background: var(--paper);
-    border-left: 3px solid var(--accent-light);
-    padding: 0.6rem 0.9rem;
-    font-size: 0.83rem;
-    font-style: italic;
-    color: var(--ink);
-    margin-top: 0.5rem;
-    border-radius: 0 3px 3px 0;
-  }
-  .prompt-saved .bit-label { font-style: normal; }
-  .themes-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    margin-top: 1rem;
-  }
-  .theme-card {
-    border: 1px solid var(--rule);
-    border-radius: 4px;
-    padding: 1rem;
-  }
-  .theme-card h4 {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 1rem;
-    color: var(--accent);
-    margin-bottom: 0.5rem;
-  }
-  .theme-card p {
-    font-size: 0.85rem;
-    color: var(--muted);
-    line-height: 1.5;
-  }
-  .prompts-list {
-    list-style: none;
-    padding: 0;
-  }
-  .prompts-list li {
-    background: var(--code-bg);
-    border: 1px solid var(--rule);
-    border-radius: 4px;
-    padding: 0.9rem 1.1rem;
-    margin-bottom: 0.75rem;
-    font-size: 0.9rem;
-    line-height: 1.55;
-  }
-  .prompts-list li::before { content: none; }
-  .prompts-list code {
-    font-family: 'Source Code Pro', monospace;
-    font-size: 0.82rem;
-    background: var(--paper);
-    padding: 0 0.3em;
-    border-radius: 2px;
-  }
-  .notes-block {
-    background: var(--code-bg);
-    border: 1px dashed var(--rule);
-    border-radius: 4px;
-    padding: 1rem 1.25rem;
-    font-size: 0.9rem;
-    color: var(--muted);
-  }
-  .progress-bar-wrap {
-    margin: 0.5rem 0 1.5rem;
-  }
-  .progress-meta {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.78rem;
-    color: var(--muted);
-    font-family: 'Source Code Pro', monospace;
-    margin-bottom: 0.3rem;
-  }
-  .progress-bar {
-    height: 6px;
-    background: var(--rule);
-    border-radius: 3px;
-    overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    background: var(--accent);
-    border-radius: 3px;
-    width: 41.6%; /* 5 de 12 sesiones */
-  }
-  .tag {
-    display: inline-block;
-    font-family: 'Source Code Pro', monospace;
-    font-size: 0.68rem;
-    padding: 0.15em 0.5em;
-    border-radius: 2px;
-    border: 1px solid var(--rule);
-    color: var(--muted);
-    margin-right: 0.3rem;
-    margin-bottom: 0.2rem;
-  }
-  footer {
-    max-width: var(--col-width);
-    margin: 3rem auto 0;
-    border-top: 1px solid var(--rule);
-    padding-top: 1rem;
-    font-family: 'Source Code Pro', monospace;
-    font-size: 0.7rem;
-    color: var(--muted);
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-</style>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recap del curso — Bladimir Muñoz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+3:wght@300;400;600&family=Source+Code+Pro:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #1a1a1a;
+        --paper: #f5f0e8;
+        --rule: #c8bfad;
+        --accent: #8b1a1a;
+        --accent-light: #c94040;
+        --muted: #6b6259;
+        --code-bg: #ede8de;
+        --col-width: 680px;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --ink: #e8e0d0;
+          --paper: #1c1a17;
+          --rule: #3a3530;
+          --accent: #e07070;
+          --accent-light: #f09090;
+          --muted: #9a9088;
+          --code-bg: #252320;
+        }
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        font-size: 17px;
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Source Sans 3", Georgia, serif;
+        line-height: 1.7;
+        padding: 2rem 1rem 4rem;
+      }
+      .masthead {
+        max-width: var(--col-width);
+        margin: 0 auto 3rem;
+        border-bottom: 3px double var(--accent);
+        padding-bottom: 1.5rem;
+      }
+      .masthead .eyebrow {
+        font-family: "Source Code Pro", monospace;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        color: var(--muted);
+        margin-bottom: 0.5rem;
+      }
+      .masthead h1 {
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: 2.6rem;
+        font-weight: 700;
+        line-height: 1.15;
+        color: var(--ink);
+      }
+      .masthead .subtitle {
+        font-size: 1.05rem;
+        color: var(--muted);
+        margin-top: 0.5rem;
+      }
+      .profile-strip {
+        max-width: var(--col-width);
+        margin: 0 auto 2.5rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 0.75rem;
+      }
+      .profile-item {
+        border: 1px solid var(--rule);
+        border-radius: 4px;
+        padding: 0.75rem 1rem;
+      }
+      .profile-item .label {
+        font-family: "Source Code Pro", monospace;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--muted);
+        display: block;
+        margin-bottom: 0.2rem;
+      }
+      .profile-item .value {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--ink);
+      }
+      .main {
+        max-width: var(--col-width);
+        margin: 0 auto;
+      }
+      .section-title {
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--accent);
+        border-bottom: 1px solid var(--rule);
+        padding-bottom: 0.4rem;
+        margin: 2.5rem 0 1.25rem;
+      }
+      .session-card {
+        border: 1px solid var(--rule);
+        border-left: 4px solid var(--accent);
+        border-radius: 4px;
+        padding: 1.25rem 1.5rem;
+        margin-bottom: 1.25rem;
+        background: var(--code-bg);
+      }
+      .session-card .session-header {
+        display: flex;
+        align-items: baseline;
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+        flex-wrap: wrap;
+      }
+      .session-card .session-num {
+        font-family: "Source Code Pro", monospace;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--muted);
+      }
+      .session-card h3 {
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--ink);
+      }
+      .session-card .session-date {
+        font-size: 0.8rem;
+        color: var(--muted);
+        margin-left: auto;
+      }
+      .session-card ul {
+        list-style: none;
+        padding: 0;
+      }
+      .session-card ul li {
+        padding: 0.2rem 0;
+        font-size: 0.92rem;
+        padding-left: 1.1rem;
+        position: relative;
+      }
+      .session-card ul li::before {
+        content: "—";
+        position: absolute;
+        left: 0;
+        color: var(--accent);
+        font-weight: 700;
+      }
+      .session-bitacora {
+        margin-top: 0.9rem;
+        padding-top: 0.75rem;
+        border-top: 1px dashed var(--rule);
+      }
+      .session-bitacora .bit-label {
+        font-family: "Source Code Pro", monospace;
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--accent);
+        margin-bottom: 0.35rem;
+        display: block;
+      }
+      .bit-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+        margin-bottom: 0.5rem;
+      }
+      @media (max-width: 540px) {
+        .bit-row {
+          grid-template-columns: 1fr;
+        }
+      }
+      .bit-cell {
+        font-size: 0.85rem;
+      }
+      .bit-cell strong {
+        display: block;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+        margin-bottom: 0.15rem;
+        font-weight: 600;
+      }
+      .prompt-saved {
+        background: var(--paper);
+        border-left: 3px solid var(--accent-light);
+        padding: 0.6rem 0.9rem;
+        font-size: 0.83rem;
+        font-style: italic;
+        color: var(--ink);
+        margin-top: 0.5rem;
+        border-radius: 0 3px 3px 0;
+      }
+      .prompt-saved .bit-label {
+        font-style: normal;
+      }
+      .themes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+      .theme-card {
+        border: 1px solid var(--rule);
+        border-radius: 4px;
+        padding: 1rem;
+      }
+      .theme-card h4 {
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: 1rem;
+        color: var(--accent);
+        margin-bottom: 0.5rem;
+      }
+      .theme-card p {
+        font-size: 0.85rem;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+      .prompts-list {
+        list-style: none;
+        padding: 0;
+      }
+      .prompts-list li {
+        background: var(--code-bg);
+        border: 1px solid var(--rule);
+        border-radius: 4px;
+        padding: 0.9rem 1.1rem;
+        margin-bottom: 0.75rem;
+        font-size: 0.9rem;
+        line-height: 1.55;
+      }
+      .prompts-list li::before {
+        content: none;
+      }
+      .prompts-list code {
+        font-family: "Source Code Pro", monospace;
+        font-size: 0.82rem;
+        background: var(--paper);
+        padding: 0 0.3em;
+        border-radius: 2px;
+      }
+      .notes-block {
+        background: var(--code-bg);
+        border: 1px dashed var(--rule);
+        border-radius: 4px;
+        padding: 1rem 1.25rem;
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+      .progress-bar-wrap {
+        margin: 0.5rem 0 1.5rem;
+      }
+      .progress-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.78rem;
+        color: var(--muted);
+        font-family: "Source Code Pro", monospace;
+        margin-bottom: 0.3rem;
+      }
+      .progress-bar {
+        height: 6px;
+        background: var(--rule);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .progress-fill {
+        height: 100%;
+        background: var(--accent);
+        border-radius: 3px;
+        width: 41.6%; /* 5 de 12 sesiones */
+      }
+      .tag {
+        display: inline-block;
+        font-family: "Source Code Pro", monospace;
+        font-size: 0.68rem;
+        padding: 0.15em 0.5em;
+        border-radius: 2px;
+        border: 1px solid var(--rule);
+        color: var(--muted);
+        margin-right: 0.3rem;
+        margin-bottom: 0.2rem;
+      }
+      footer {
+        max-width: var(--col-width);
+        margin: 3rem auto 0;
+        border-top: 1px solid var(--rule);
+        padding-top: 1rem;
+        font-family: "Source Code Pro", monospace;
+        font-size: 0.7rem;
+        color: var(--muted);
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="masthead">
+      <p class="eyebrow">
+        Power Fox BI · Curso Claude Code · Recap personalizado
+      </p>
+      <h1>Bladimir Muñoz</h1>
+      <p class="subtitle">
+        Resumen acumulado del curso — generado a partir de las sesiones,
+        presentaciones y tu bitácora personal.
+      </p>
+    </header>
 
-<header class="masthead">
-  <p class="eyebrow">Power Fox BI · Curso Claude Code · Recap personalizado</p>
-  <h1>Bladimir Muñoz</h1>
-  <p class="subtitle">Resumen acumulado del curso — generado a partir de las sesiones, presentaciones y tu bitácora personal.</p>
-</header>
-
-<div class="profile-strip">
-  <div class="profile-item"><span class="label">Rol</span><span class="value">Analista</span></div>
-  <div class="profile-item"><span class="label">Experiencia PP</span><span class="value">4 años</span></div>
-  <div class="profile-item"><span class="label">IDE</span><span class="value">VS Code</span></div>
-  <div class="profile-item"><span class="label">Plan Claude</span><span class="value">Pro</span></div>
-  <div class="profile-item"><span class="label">SO</span><span class="value">Windows</span></div>
-</div>
-
-<div class="main">
-
-  <div class="progress-bar-wrap">
-    <div class="progress-meta">
-      <span>Progreso del curso</span>
-      <span>5 / 12 sesiones completadas</span>
-    </div>
-    <div class="progress-bar"><div class="progress-fill"></div></div>
-  </div>
-
-  <h2 class="section-title">Sesiones completadas</h2>
-
-  <!-- Sesión 1 -->
-  <div class="session-card">
-    <div class="session-header">
-      <span class="session-num">Sesión 1 · S1-Lunes</span>
-      <h3>Arquitectura y Ecosistema Power Platform</h3>
-      <span class="session-date">14 Abr 2026</span>
-    </div>
-    <ul>
-      <li>Visión 360° del ecosistema: Power Apps, Power Automate, Power BI, Copilot Studio, Power Pages</li>
-      <li>Capas de arquitectura: Presentación → Lógica → Datos → Integración → Seguridad</li>
-      <li>Dataverse como almacén central; modelo de seguridad con Roles, Business Units, Teams y FLS</li>
-      <li>4 soluciones del sistema real: Core, WebResources, Dataflows, CustomAPI</li>
-      <li>5 tablas clave: <code>pfx_project</code>, <code>pfx_project_activity</code>, <code>pfx_offer</code>, <code>pfx_time_entry</code>, <code>pfx_project_progress</code></li>
-      <li>Demo en vivo: Claude Code generando diccionario de datos y matriz de permisos</li>
-    </ul>
-    <div class="session-bitacora">
-      <span class="bit-label">Tu bitácora</span>
-      <div class="bit-row">
-        <div class="bit-cell"><strong>Lo mejor</strong>Repaso práctico de Power Platform, agentes y skills aplicados en VS Code en escenarios reales.</div>
-        <div class="bit-cell"><strong>Lo que te costó</strong>Instalación y configuración inicial, permisos y dependencias para arrancar.</div>
+    <div class="profile-strip">
+      <div class="profile-item">
+        <span class="label">Rol</span><span class="value">Analista</span>
       </div>
-      <div class="prompt-saved">
-        <span class="bit-label">Prompt guardado</span>
-        Analiza una solución completa de Power Platform (tablas, flujos, web resources y dependencias) y genera un checklist detallado de despliegue entre entornos, incluyendo validaciones técnicas, conexiones, variables de entorno y posibles errores.
+      <div class="profile-item">
+        <span class="label">Experiencia PP</span
+        ><span class="value">4 años</span>
+      </div>
+      <div class="profile-item">
+        <span class="label">IDE</span><span class="value">VS Code</span>
+      </div>
+      <div class="profile-item">
+        <span class="label">Plan Claude</span><span class="value">Pro</span>
+      </div>
+      <div class="profile-item">
+        <span class="label">SO</span><span class="value">Windows</span>
       </div>
     </div>
-  </div>
 
-  <!-- Sesión 2 -->
-  <div class="session-card">
-    <div class="session-header">
-      <span class="session-num">Sesión 2 · S1-Miércoles</span>
-      <h3>Entornos, Herramientas y Diseño de Tablas</h3>
-      <span class="session-date">15 Abr 2026</span>
-    </div>
-    <ul>
-      <li>ALM: flujo DEV → TEST → PROD en 6 pasos; soluciones Managed vs Unmanaged</li>
-      <li>Anatomía de tabla: Primary Name, Primary Key, Owner, Status; herencia entre tablas</li>
-      <li>VS Code + Power Platform Tools, Dataverse DevTools, GitLens, ESLint</li>
-      <li>XRMToolBox: FetchXML Builder, Metadata Browser, Bulk Data Updater, Plugin Trace Viewer</li>
-      <li>JavaScript: estructura básica, eventos <code>OnLoad / OnChange / OnSave</code>, <code>formContext</code></li>
-      <li>Demo: FetchXML Builder con datos reales, vinculación de Web Resource a formulario</li>
-    </ul>
-    <div class="session-bitacora">
-      <span class="bit-label">Tu bitácora</span>
-      <div class="bit-row">
-        <div class="bit-cell"><strong>Lo mejor</strong>Uso de Claude en Excel para analizar, explicar y corregir errores automáticamente.</div>
-        <div class="bit-cell"><strong>Lo que te costó</strong>Adaptarte a JavaScript y los skills, estás en proceso de aprendizaje de Open Source.</div>
+    <div class="main">
+      <div class="progress-bar-wrap">
+        <div class="progress-meta">
+          <span>Progreso del curso</span>
+          <span>5 / 12 sesiones completadas</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
       </div>
-      <div class="prompt-saved">
-        <span class="bit-label">Prompt guardado</span>
-        Analiza una solución de Power Platform (tablas, flujos, web resources, dependencias) y genera un checklist completo de despliegue entre entornos (dev, test, producción), incluyendo validaciones, dependencias y pasos post-implementación.
+
+      <h2 class="section-title">Sesiones completadas</h2>
+
+      <!-- Sesión 1 -->
+      <div class="session-card">
+        <div class="session-header">
+          <span class="session-num">Sesión 1 · S1-Lunes</span>
+          <h3>Arquitectura y Ecosistema Power Platform</h3>
+          <span class="session-date">14 Abr 2026</span>
+        </div>
+        <ul>
+          <li>
+            Visión 360° del ecosistema: Power Apps, Power Automate, Power BI,
+            Copilot Studio, Power Pages
+          </li>
+          <li>
+            Capas de arquitectura: Presentación → Lógica → Datos → Integración →
+            Seguridad
+          </li>
+          <li>
+            Dataverse como almacén central; modelo de seguridad con Roles,
+            Business Units, Teams y FLS
+          </li>
+          <li>
+            4 soluciones del sistema real: Core, WebResources, Dataflows,
+            CustomAPI
+          </li>
+          <li>
+            5 tablas clave: <code>pfx_project</code>,
+            <code>pfx_project_activity</code>, <code>pfx_offer</code>,
+            <code>pfx_time_entry</code>, <code>pfx_project_progress</code>
+          </li>
+          <li>
+            Demo en vivo: Claude Code generando diccionario de datos y matriz de
+            permisos
+          </li>
+        </ul>
+        <div class="session-bitacora">
+          <span class="bit-label">Tu bitácora</span>
+          <div class="bit-row">
+            <div class="bit-cell">
+              <strong>Lo mejor</strong>Repaso práctico de Power Platform,
+              agentes y skills aplicados en VS Code en escenarios reales.
+            </div>
+            <div class="bit-cell">
+              <strong>Lo que te costó</strong>Instalación y configuración
+              inicial, permisos y dependencias para arrancar.
+            </div>
+          </div>
+          <div class="prompt-saved">
+            <span class="bit-label">Prompt guardado</span>
+            Analiza una solución completa de Power Platform (tablas, flujos, web
+            resources y dependencias) y genera un checklist detallado de
+            despliegue entre entornos, incluyendo validaciones técnicas,
+            conexiones, variables de entorno y posibles errores.
+          </div>
+        </div>
+      </div>
+
+      <!-- Sesión 2 -->
+      <div class="session-card">
+        <div class="session-header">
+          <span class="session-num">Sesión 2 · S1-Miércoles</span>
+          <h3>Entornos, Herramientas y Diseño de Tablas</h3>
+          <span class="session-date">15 Abr 2026</span>
+        </div>
+        <ul>
+          <li>
+            ALM: flujo DEV → TEST → PROD en 6 pasos; soluciones Managed vs
+            Unmanaged
+          </li>
+          <li>
+            Anatomía de tabla: Primary Name, Primary Key, Owner, Status;
+            herencia entre tablas
+          </li>
+          <li>
+            VS Code + Power Platform Tools, Dataverse DevTools, GitLens, ESLint
+          </li>
+          <li>
+            XRMToolBox: FetchXML Builder, Metadata Browser, Bulk Data Updater,
+            Plugin Trace Viewer
+          </li>
+          <li>
+            JavaScript: estructura básica, eventos
+            <code>OnLoad / OnChange / OnSave</code>, <code>formContext</code>
+          </li>
+          <li>
+            Demo: FetchXML Builder con datos reales, vinculación de Web Resource
+            a formulario
+          </li>
+        </ul>
+        <div class="session-bitacora">
+          <span class="bit-label">Tu bitácora</span>
+          <div class="bit-row">
+            <div class="bit-cell">
+              <strong>Lo mejor</strong>Uso de Claude en Excel para analizar,
+              explicar y corregir errores automáticamente.
+            </div>
+            <div class="bit-cell">
+              <strong>Lo que te costó</strong>Adaptarte a JavaScript y los
+              skills, estás en proceso de aprendizaje de Open Source.
+            </div>
+          </div>
+          <div class="prompt-saved">
+            <span class="bit-label">Prompt guardado</span>
+            Analiza una solución de Power Platform (tablas, flujos, web
+            resources, dependencias) y genera un checklist completo de
+            despliegue entre entornos (dev, test, producción), incluyendo
+            validaciones, dependencias y pasos post-implementación.
+          </div>
+        </div>
+      </div>
+
+      <!-- Sesión 3 -->
+      <div class="session-card">
+        <div class="session-header">
+          <span class="session-num">Sesión 3 · S1-Viernes</span>
+          <h3>JavaScript en Model-Driven Apps + Skills y Agents en vivo</h3>
+          <span class="session-date">16 Abr 2026</span>
+        </div>
+        <ul>
+          <li>
+            <code>formContext</code> como mando a distancia del formulario:
+            <code>getAttribute</code>, <code>getValue</code>,
+            <code>setVisible</code>, notificaciones
+          </li>
+          <li>
+            <code>Xrm.WebApi</code> para consultas cross-tabla con OData
+            (<code>$select</code>, <code>$filter</code>, <code>$orderby</code>)
+          </li>
+          <li>
+            Patrón de namespace; librerías compartidas <code>pfx_Common</code> y
+            <code>pfx_Common_Helpers</code>
+          </li>
+          <li>Cuándo usar JS vs Business Rules vs Power Automate vs Plugins</li>
+          <li>
+            Creación en vivo de un <strong>Skill</strong> ("MDA JavaScript
+            Writer") con reglas automáticas de generación
+          </li>
+          <li>
+            Creación de <strong>Agents</strong>: "MDA Code Reviewer" y "MDA
+            Refactor Assistant"
+          </li>
+        </ul>
+        <div class="session-bitacora">
+          <span class="bit-label">Tu bitácora</span>
+          <div class="bit-row">
+            <div class="bit-cell">
+              <strong>Lo mejor</strong>Uso práctico de GitHub para trabajo
+              colaborativo e integración con Claude en escenarios reales.
+            </div>
+            <div class="bit-cell">
+              <strong>Lo que te costó</strong>Gestión de accesos y permisos para
+              el equipo, habilitar correctamente el trabajo colaborativo.
+            </div>
+          </div>
+          <div class="prompt-saved">
+            <span class="bit-label">Prompt guardado</span>
+            Explícame las buenas prácticas para desarrollar en JavaScript de
+            forma clara y práctica, de manera que alguien técnico y no técnico
+            pueda entender cómo aplicar ese conocimiento en distintos
+            escenarios.
+          </div>
+        </div>
+      </div>
+
+      <!-- Sesión 4 -->
+      <div class="session-card">
+        <div class="session-header">
+          <span class="session-num">Sesión 4 · S2-Lunes</span>
+          <h3>Claude Code + GitHub + Tu Primer Proyecto</h3>
+          <span class="session-date">21 Abr 2026</span>
+        </div>
+        <ul>
+          <li>Claude Code vs Claude.ai: diferencias, cuándo usar cada uno</li>
+          <li>
+            Git fundamentals:
+            <code>working directory → staging → commit → push</code>
+          </li>
+          <li>
+            Conventional Commits: <code>feat:</code>, <code>fix:</code>,
+            <code>docs:</code>, <code>refactor:</code>, <code>test:</code>,
+            <code>chore:</code>
+          </li>
+          <li>
+            3 templates de proyecto: landing HTML/CSS/JS, React con Vite, script
+            Node.js con API externa
+          </li>
+          <li>
+            Configuración global vs local; <code>CLAUDE.md</code> como memoria
+            del proyecto
+          </li>
+          <li>
+            Taller en vivo: primer commit, ramas, PR, merge con main protegida
+          </li>
+        </ul>
+        <div class="session-bitacora">
+          <span class="bit-label">Tu bitácora</span>
+          <div class="bit-row">
+            <div class="bit-cell">
+              <strong>Lo mejor</strong>Conocer la variedad de opciones de
+              Claude: desde VS Code hasta diseño y automatización.
+            </div>
+            <div class="bit-cell">
+              <strong>Lo que te costó</strong>Adaptarte a las nuevas interfaces
+              de Claude, especialmente frente a GitHub Copilot.
+            </div>
+          </div>
+          <div class="prompt-saved">
+            <span class="bit-label">Prompt guardado</span>
+            Explícame paso a paso cómo instalar y empezar a usar Claude Code
+            desde cero, incluyendo qué necesito (licencia, permisos,
+            repositorio), cómo crear mi primer proyecto y qué conceptos básicos
+            debo entender como Git.
+          </div>
+        </div>
+      </div>
+
+      <!-- Sesión 5 -->
+      <div class="session-card">
+        <div class="session-header">
+          <span class="session-num">Sesión 5 · S2-Miércoles</span>
+          <h3>Repo Compartido + Skills/Agents + Repos HOT</h3>
+          <span class="session-date">22 Abr 2026</span>
+        </div>
+        <ul>
+          <li>
+            Organización en GitHub (powerfoxbi), repo público, rama main
+            protegida
+          </li>
+          <li>
+            Flujo colaborativo: <code>feature/alumno-[nombre]</code> → PR →
+            revisión → merge
+          </li>
+          <li>
+            Skills versionados en <code>.claude/skills/</code> — se aplican a
+            todo el equipo
+          </li>
+          <li>
+            Agents en <code>.claude/agents/</code> — revisores especializados
+            por tarea
+          </li>
+          <li>
+            Demo "Weather Report": CSV input → Open-Meteo API → CSV + HTML con
+            informe
+          </li>
+          <li>
+            Repos HOT: templates, marketplaces de skills/agents, MCP servers
+            (GitHub, Jira, Slack, Postgres)
+          </li>
+        </ul>
+        <div class="session-bitacora">
+          <span class="bit-label">Tu bitácora</span>
+          <div class="bit-row">
+            <div class="bit-cell">
+              <strong>Lo mejor</strong>Aplicar Claude en un informe real de la
+              empresa, automatizando en minutos lo que tomaría horas.
+            </div>
+            <div class="bit-cell">
+              <strong>Lo que te costó</strong>Ajustar prompts para optimizar el
+              uso de tokens y evitar consumo excesivo.
+            </div>
+          </div>
+          <div class="prompt-saved">
+            <span class="bit-label">Prompt guardado</span>
+            Tengo un problema con un formato condicional en Excel que no está
+            funcionando correctamente. Analiza qué está pasando, explícame el
+            error y corrígelo automáticamente.
+          </div>
+        </div>
+      </div>
+
+      <h2 class="section-title">Temas transversales del curso</h2>
+
+      <div class="themes-grid">
+        <div class="theme-card">
+          <h4>IA como copiloto de desarrollo</h4>
+          <p>
+            De usar Claude para documentar a usarlo para generar, auditar y
+            refactorizar código. El patrón skill → agent → CLAUDE.md aparece en
+            cada sesión.
+          </p>
+        </div>
+        <div class="theme-card">
+          <h4>ALM y trabajo colaborativo</h4>
+          <p>
+            DEV → TEST → PROD en Power Platform tiene su espejo en Git: ramas →
+            PR → merge → deploy. Los dos flujos se aprenden en paralelo.
+          </p>
+        </div>
+        <div class="theme-card">
+          <h4>JavaScript en Model-Driven Apps</h4>
+          <p>
+            <code>formContext</code>, <code>Xrm.WebApi</code>, namespace pattern
+            y null checks son los cuatro pilares que vuelven en cada revisión de
+            código.
+          </p>
+        </div>
+        <div class="theme-card">
+          <h4>Prompts como estándares</h4>
+          <p>
+            Tu insight clave: lo que antes eran archivos .md de procedimientos
+            ahora son skills. El conocimiento del equipo se vuelve
+            automatizable.
+          </p>
+        </div>
+      </div>
+
+      <h2 class="section-title">Tus prompts del curso</h2>
+
+      <ul class="prompts-list">
+        <li>
+          Usar Claude para transformar lo que conocías como "estándares" a
+          skills: archivos <code>.md</code> de procedimientos, resúmenes,
+          barreras, ejemplos.
+        </li>
+        <li>
+          Analiza los skills de JavaScript y propón mejoras a las web resources
+          de las aplicaciones que tenemos en Power Platform.
+        </li>
+        <li>
+          <em
+            >"Asume rol de Desarrollador Senior con +10 años de experiencia en
+            GitHub y lista las mejores prácticas para uso colaborativo
+            empresarial."</em
+          >
+        </li>
+        <li>
+          Para la siguiente modificación al desarrollo, considera las reglas de
+          negocio de la carpeta <code>./reglas</code>
+        </li>
+        <li>
+          <em
+            >"Revisa el proceso requerido en el archivo .md y crea un plan de
+            desarrollo."</em
+          >
+        </li>
+      </ul>
+
+      <h2 class="section-title">Notas sueltas</h2>
+
+      <div class="notes-block">
+        Me gustaría ver más prácticas del ciclo de ALM en Power Platform,
+        incluyendo uso de GitHub.
+      </div>
+
+      <h2 class="section-title">Etiquetas de tu trayectoria</h2>
+
+      <div style="margin-top: 0.75rem">
+        <span class="tag">Power Platform · 4 años</span>
+        <span class="tag">ALM / soluciones</span>
+        <span class="tag">JavaScript MDA</span>
+        <span class="tag">Claude Code</span>
+        <span class="tag">GitHub colaborativo</span>
+        <span class="tag">Skills como estándares</span>
+        <span class="tag">Optimización de prompts</span>
+        <span class="tag">Empresa use case</span>
       </div>
     </div>
-  </div>
 
-  <!-- Sesión 3 -->
-  <div class="session-card">
-    <div class="session-header">
-      <span class="session-num">Sesión 3 · S1-Viernes</span>
-      <h3>JavaScript en Model-Driven Apps + Skills y Agents en vivo</h3>
-      <span class="session-date">16 Abr 2026</span>
-    </div>
-    <ul>
-      <li><code>formContext</code> como mando a distancia del formulario: <code>getAttribute</code>, <code>getValue</code>, <code>setVisible</code>, notificaciones</li>
-      <li><code>Xrm.WebApi</code> para consultas cross-tabla con OData (<code>$select</code>, <code>$filter</code>, <code>$orderby</code>)</li>
-      <li>Patrón de namespace; librerías compartidas <code>pfx_Common</code> y <code>pfx_Common_Helpers</code></li>
-      <li>Cuándo usar JS vs Business Rules vs Power Automate vs Plugins</li>
-      <li>Creación en vivo de un <strong>Skill</strong> ("MDA JavaScript Writer") con reglas automáticas de generación</li>
-      <li>Creación de <strong>Agents</strong>: "MDA Code Reviewer" y "MDA Refactor Assistant"</li>
-    </ul>
-    <div class="session-bitacora">
-      <span class="bit-label">Tu bitácora</span>
-      <div class="bit-row">
-        <div class="bit-cell"><strong>Lo mejor</strong>Uso práctico de GitHub para trabajo colaborativo e integración con Claude en escenarios reales.</div>
-        <div class="bit-cell"><strong>Lo que te costó</strong>Gestión de accesos y permisos para el equipo, habilitar correctamente el trabajo colaborativo.</div>
-      </div>
-      <div class="prompt-saved">
-        <span class="bit-label">Prompt guardado</span>
-        Explícame las buenas prácticas para desarrollar en JavaScript de forma clara y práctica, de manera que alguien técnico y no técnico pueda entender cómo aplicar ese conocimiento en distintos escenarios.
-      </div>
-    </div>
-  </div>
-
-  <!-- Sesión 4 -->
-  <div class="session-card">
-    <div class="session-header">
-      <span class="session-num">Sesión 4 · S2-Lunes</span>
-      <h3>Claude Code + GitHub + Tu Primer Proyecto</h3>
-      <span class="session-date">21 Abr 2026</span>
-    </div>
-    <ul>
-      <li>Claude Code vs Claude.ai: diferencias, cuándo usar cada uno</li>
-      <li>Git fundamentals: <code>working directory → staging → commit → push</code></li>
-      <li>Conventional Commits: <code>feat:</code>, <code>fix:</code>, <code>docs:</code>, <code>refactor:</code>, <code>test:</code>, <code>chore:</code></li>
-      <li>3 templates de proyecto: landing HTML/CSS/JS, React con Vite, script Node.js con API externa</li>
-      <li>Configuración global vs local; <code>CLAUDE.md</code> como memoria del proyecto</li>
-      <li>Taller en vivo: primer commit, ramas, PR, merge con main protegida</li>
-    </ul>
-    <div class="session-bitacora">
-      <span class="bit-label">Tu bitácora</span>
-      <div class="bit-row">
-        <div class="bit-cell"><strong>Lo mejor</strong>Conocer la variedad de opciones de Claude: desde VS Code hasta diseño y automatización.</div>
-        <div class="bit-cell"><strong>Lo que te costó</strong>Adaptarte a las nuevas interfaces de Claude, especialmente frente a GitHub Copilot.</div>
-      </div>
-      <div class="prompt-saved">
-        <span class="bit-label">Prompt guardado</span>
-        Explícame paso a paso cómo instalar y empezar a usar Claude Code desde cero, incluyendo qué necesito (licencia, permisos, repositorio), cómo crear mi primer proyecto y qué conceptos básicos debo entender como Git.
-      </div>
-    </div>
-  </div>
-
-  <!-- Sesión 5 -->
-  <div class="session-card">
-    <div class="session-header">
-      <span class="session-num">Sesión 5 · S2-Miércoles</span>
-      <h3>Repo Compartido + Skills/Agents + Repos HOT</h3>
-      <span class="session-date">22 Abr 2026</span>
-    </div>
-    <ul>
-      <li>Organización en GitHub (powerfoxbi), repo público, rama main protegida</li>
-      <li>Flujo colaborativo: <code>feature/alumno-[nombre]</code> → PR → revisión → merge</li>
-      <li>Skills versionados en <code>.claude/skills/</code> — se aplican a todo el equipo</li>
-      <li>Agents en <code>.claude/agents/</code> — revisores especializados por tarea</li>
-      <li>Demo "Weather Report": CSV input → Open-Meteo API → CSV + HTML con informe</li>
-      <li>Repos HOT: templates, marketplaces de skills/agents, MCP servers (GitHub, Jira, Slack, Postgres)</li>
-    </ul>
-    <div class="session-bitacora">
-      <span class="bit-label">Tu bitácora</span>
-      <div class="bit-row">
-        <div class="bit-cell"><strong>Lo mejor</strong>Aplicar Claude en un informe real de Litoclean, automatizando en minutos lo que tomaría horas.</div>
-        <div class="bit-cell"><strong>Lo que te costó</strong>Ajustar prompts para optimizar el uso de tokens y evitar consumo excesivo.</div>
-      </div>
-      <div class="prompt-saved">
-        <span class="bit-label">Prompt guardado</span>
-        Tengo un problema con un formato condicional en Excel que no está funcionando correctamente. Analiza qué está pasando, explícame el error y corrígelo automáticamente.
-      </div>
-    </div>
-  </div>
-
-  <h2 class="section-title">Temas transversales del curso</h2>
-
-  <div class="themes-grid">
-    <div class="theme-card">
-      <h4>IA como copiloto de desarrollo</h4>
-      <p>De usar Claude para documentar a usarlo para generar, auditar y refactorizar código. El patrón skill → agent → CLAUDE.md aparece en cada sesión.</p>
-    </div>
-    <div class="theme-card">
-      <h4>ALM y trabajo colaborativo</h4>
-      <p>DEV → TEST → PROD en Power Platform tiene su espejo en Git: ramas → PR → merge → deploy. Los dos flujos se aprenden en paralelo.</p>
-    </div>
-    <div class="theme-card">
-      <h4>JavaScript en Model-Driven Apps</h4>
-      <p><code>formContext</code>, <code>Xrm.WebApi</code>, namespace pattern y null checks son los cuatro pilares que vuelven en cada revisión de código.</p>
-    </div>
-    <div class="theme-card">
-      <h4>Prompts como estándares</h4>
-      <p>Tu insight clave: lo que antes eran archivos .md de procedimientos ahora son skills. El conocimiento del equipo se vuelve automatizable.</p>
-    </div>
-  </div>
-
-  <h2 class="section-title">Tus prompts del curso</h2>
-
-  <ul class="prompts-list">
-    <li>Usar Claude para transformar lo que conocías como "estándares" a skills: archivos <code>.md</code> de procedimientos, resúmenes, barreras, ejemplos.</li>
-    <li>Analiza los skills de JavaScript y propón mejoras a las web resources de las aplicaciones que tenemos en Power Platform.</li>
-    <li><em>"Asume rol de Desarrollador Senior con +10 años de experiencia en GitHub y lista las mejores prácticas para uso colaborativo empresarial."</em></li>
-    <li>Para la siguiente modificación al desarrollo, considera las reglas de negocio de la carpeta <code>./reglas</code></li>
-    <li><em>"Revisa el proceso requerido en el archivo .md y crea un plan de desarrollo."</em></li>
-  </ul>
-
-  <h2 class="section-title">Notas sueltas</h2>
-
-  <div class="notes-block">
-    Me gustaría ver más prácticas del ciclo de ALM en Power Platform, incluyendo uso de GitHub.
-  </div>
-
-  <h2 class="section-title">Etiquetas de tu trayectoria</h2>
-
-  <div style="margin-top: 0.75rem;">
-    <span class="tag">Power Platform · 4 años</span>
-    <span class="tag">ALM / soluciones</span>
-    <span class="tag">JavaScript MDA</span>
-    <span class="tag">Claude Code</span>
-    <span class="tag">GitHub colaborativo</span>
-    <span class="tag">Skills como estándares</span>
-    <span class="tag">Optimización de prompts</span>
-    <span class="tag">Litoclean use case</span>
-  </div>
-
-</div>
-
-<footer>
-  <span>alumnos/bladimir-munoz/recap.html</span>
-  <span>Power Fox BI · Curso Claude Code · Generado 28 Abr 2026</span>
-</footer>
-
-</body>
+    <footer>
+      <span>alumnos/bladimir-munoz/recap.html</span>
+      <span>Power Fox BI · Curso Claude Code · Generado 28 Abr 2026</span>
+    </footer>
+  </body>
 </html>
