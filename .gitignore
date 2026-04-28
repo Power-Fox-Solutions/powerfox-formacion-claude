@@ -134,6 +134,9 @@ dist
 # Transcripts crudos en formato Word — solo se commitean los .md procesados
 RAW/*.docx
 
+# Estado runtime local de Claude Code (lock files de tareas programadas)
+.claude/scheduled_tasks.lock
+
 # yarn v3
 .pnp.*
 .yarn/*
