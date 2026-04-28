@@ -1,6 +1,6 @@
-# [Tu Nombre]
+# Bladimir Muñoz
 
-> Carpeta personal del alumno. Copia este archivo a `/alumnos/[tu-nombre]/README.md` y rellénalo.
+> Carpeta personal de alumno del curso Claude Code — Power Fox BI.
 
 ## Sobre mí
 
