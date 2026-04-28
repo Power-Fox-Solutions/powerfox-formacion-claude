@@ -131,6 +131,9 @@ dist
 # Notas privadas del facilitador — fuera del repo público
 .facilitador/
 
+# Transcripts crudos en formato Word — solo se commitean los .md procesados
+RAW/*.docx
+
 # yarn v3
 .pnp.*
 .yarn/*
