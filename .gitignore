@@ -128,6 +128,9 @@ dist
 # VS Code workspace settings — preferencias personales de IDE, no de equipo
 .vscode/
 
+# Notas privadas del facilitador — fuera del repo público
+.facilitador/
+
 # yarn v3
 .pnp.*
 .yarn/*

@@ -33,3 +33,9 @@
 ## Notas sueltas
 
 <!-- Cualquier cosa: enlaces, ideas, recordatorios. -->
+
+## Mi recap personalizado
+
+Tu carpeta puede tener un archivo `recap.html` generado por el agent `personal-html-recap-generator`. Es un resumen acumulado del curso adaptado a tu perfil — cruza todas las presentaciones, los transcripts y tu bitácora.
+
+Para generarlo o actualizarlo, invoca el agent en Claude Code y pásale tu carpeta. Lo regeneras tras cada sesión nueva.
