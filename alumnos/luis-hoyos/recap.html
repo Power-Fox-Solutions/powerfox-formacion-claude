@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recap Personal · Luis Hoyos · Curso Claude Code</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;700&family=Manrope:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Editorial Warm Palette */
+        :root {
+            /* Claro */
+            --bg-light: #faf6f0;
+            --text-light: #2a1f1a;
+            --accent-primary: #c14a2a;
+            --accent-secondary: #5d6d3e;
+            --alert: #d49520;
+            --border-light: #e8dfd6;
+
+            /* Oscuro */
+            --bg-dark: #1a1614;
+            --text-dark: #f0e8dc;
+            --accent-dark: #e87b5e;
+
+            --font-display: 'Fraunces', serif;
+            --font-body: 'Manrope', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            --radius: 8px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-current: var(--bg-dark);
+                --text-current: var(--text-dark);
+                --accent-current: var(--accent-dark);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-current: var(--bg-light);
+                --text-current: var(--text-light);
+                --accent-current: var(--accent-primary);
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            background: var(--bg-current, var(--bg-light));
+            color: var(--text-current, var(--text-light));
+        }
+
+        body {
+            font-family: var(--font-body);
+            line-height: 1.6;
+            background: var(--bg-current, var(--bg-light));
+            color: var(--text-current, var(--text-light));
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 3px solid var(--accent-primary);
+        }
+
+        .eyebrow {
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+            color: var(--text-current, var(--text-light));
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: var(--accent-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .meta {
+            font-size: 0.9rem;
+            color: var(--text-current, var(--text-light));
+            opacity: 0.7;
+        }
+
+        /* Secciones principales */
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--accent-secondary);
+            color: var(--text-current, var(--text-light));
+        }
+
+        /* Perfil de aprendizaje */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .profile-card {
+            background: var(--bg-current, var(--bg-light));
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .profile-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent-primary);
+        }
+
+        .profile-card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-current, var(--text-light));
+        }
+
+        .profile-card ul {
+            margin-left: 1.25rem;
+            margin-top: 0.75rem;
+        }
+
+        .profile-card li {
+            margin-bottom: 0.4rem;
+            font-size: 0.95rem;
+        }
+
+        /* Session Cards */
+        .sessions-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .session-card {
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius);
+            padding: 2rem;
+            background: var(--bg-current, var(--bg-light));
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: border-color 0.3s ease;
+        }
+
+        .session-card:hover {
+            border-color: var(--accent-primary);
+        }
+
+        .session-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .session-title {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .session-date {
+            font-size: 0.9rem;
+            color: var(--text-current, var(--text-light));
+            opacity: 0.7;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-left: 0.5rem;
+        }
+
+        .badge-complete {
+            background: var(--accent-secondary);
+            color: white;
+        }
+
+        .badge-pending {
+            background: var(--alert);
+            color: #1a1614;
+        }
+
+        .session-content {
+            margin-top: 1.5rem;
+        }
+
+        .session-content h4 {
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 1rem;
+            margin-top: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent-primary);
+        }
+
+        .session-content h4:first-child {
+            margin-top: 0;
+        }
+
+        .session-content ul {
+            margin-left: 1.25rem;
+        }
+
+        .session-content li {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        /* Callout box */
+        .callout {
+            background: rgba(193, 74, 42, 0.08);
+            border-left: 4px solid var(--accent-primary);
+            padding: 1rem 1.25rem;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+
+        .callout strong {
+            color: var(--accent-primary);
+        }
+
+        /* Prompts */
+        .prompt-block {
+            background: #f5f1eb;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            overflow-x: auto;
+            color: var(--text-light);
+        }
+
+        .prompt-label {
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 0.5rem;
+            font-family: var(--font-body);
+        }
+
+        /* Trajectoria */
+        .trajectory {
+            background: rgba(93, 109, 62, 0.05);
+            border-left: 4px solid var(--accent-secondary);
+            padding: 1.5rem;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            margin: 1.5rem 0;
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        /* Próximo paso */
+        .next-step {
+            background: var(--bg-current, var(--bg-light));
+            border: 2px solid var(--accent-primary);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .next-step h3 {
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+        }
+
+        .next-step ol {
+            margin-left: 1.5rem;
+        }
+
+        .next-step li {
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        /* Prompts guardados */
+        .saved-prompts {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .prompt-item {
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            background: var(--bg-current, var(--bg-light));
+        }
+
+        .prompt-item h4 {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-primary);
+        }
+
+        .prompt-purpose {
+            font-size: 0.9rem;
+            font-style: italic;
+            color: var(--text-current, var(--text-light));
+            opacity: 0.8;
+            margin-bottom: 1rem;
+        }
+
+        .prompt-text {
+            font-family: var(--font-mono);
+            font-size: 0.82rem;
+            background: rgba(0,0,0,0.02);
+            padding: 1rem;
+            border-radius: 4px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            border-top: 2px solid var(--border-light);
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            color: var(--text-current, var(--text-light));
+            opacity: 0.7;
+        }
+
+        .footer strong {
+            color: var(--text-current, var(--text-light));
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .section-title {
+                font-size: 1.4rem;
+            }
+
+            .session-title {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="eyebrow">Recap personal · curso Claude Code</div>
+            <h1>Tu trayectoria, Luis Hoyos</h1>
+            <p class="subtitle">Gerente GGPI — Liderando equipos técnicos desde la visión de gobernanza</p>
+            <p class="meta">Generado el 29 de abril de 2026 · Semanas 1–2 de formación</p>
+        </div>
+
+        <!-- Perfil de Aprendizaje -->
+        <div class="section">
+            <h2 class="section-title">Tu perfil de aprendizaje</h2>
+
+            <div class="profile-grid">
+                <div class="profile-card">
+                    <h3>Rol y contexto</h3>
+                    <p>Eres Gerente GGPI en LitoClean, con background en ingeniería civil y +20 años en proyectos ambientales. Tu fortaleza: ver sistemas complejos en cascada, automatización de procesos (VBA legacy), y liderazgo de equipos técnicos.</p>
+                </div>
+
+                <div class="profile-card">
+                    <h3>Expectativas del curso</h3>
+                    <p>No venir a programar, sino a entender arquitectura y gobernanza para liderar a Vladimir y Lucho de forma estructurada. Tu objetivo: <strong>crear líderes referentes técnicos en el equipo usando un GitHub corporativo y Cloud Code como hub central</strong>.</p>
+                </div>
+
+                <div class="profile-card">
+                    <h3>Dudas activas detectadas</h3>
+                    <ul>
+                        <li>Trasladar skills y contexto de Claude entre máquinas (LightRack/EverythingRack pendiente de investigación)</li>
+                        <li>Coordinar equipos con herramientas diferentes (open source vs Power Platform)</li>
+                        <li>Implementar gobernanza sin frenar velocidad de desarrollo</li>
+                    </ul>
+                </div>
+
+                <div class="profile-card">
+                    <h3>Setup</h3>
+                    <ul>
+                        <li>SO: Windows</li>
+                        <li>IDE: VS Code</li>
+                        <li>Claude: Plan Team (8 licencias aprobadas)</li>
+                        <li>Experiencia previa con IA: Sí (propio)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sesión a Sesión -->
+        <div class="section">
+            <h2 class="section-title">Sesión a sesión — tu perspectiva</h2>
+
+            <div class="sessions-grid">
+                <!-- S1 Lunes -->
+                <div class="session-card">
+                    <div class="session-header">
+                        <div>
+                            <div class="session-title">S1 · Arquitectura y Ecosistema Power Platform</div>
+                            <div class="session-date">Lunes 14 de abril · 3 horas</div>
+                        </div>
+                        <span class="badge badge-complete">Completa</span>
+                    </div>
+
+                    <div class="session-content">
+                        <h4>Qué se cubrió desde tu rol de gerente</h4>
+                        <ul>
+                            <li><strong>Ecosistema integrado:</strong> Los 5 pilares (Power Apps, Power Automate, Power BI, Copilot Studio, Power Pages) como partes de un sistema, no silos.</li>
+                            <li><strong>Modelo de seguridad:</strong> 10 roles custom, niveles de acceso, principio de mínimo privilegio — gobernanza desde la base.</li>
+                            <li><strong>Tablas y relaciones reales:</strong> Visión de Project Hub (pfx_project como entidad central), cascade behavior con impacto en deuda técnica futura.</li>
+                            <li><strong>Claude Code como acelerador:</strong> Genera documentación, matriz de permisos, comparativas — trabajo que días hacen especialistas, minutos con IA.</li>
+                        </ul>
+
+                        <h4>Tu pregunta clave en vivo</h4>
+                        <p style="font-size: 0.95rem; margin: 1rem 0;">Planteaste la tensión real: dos equipos con herramientas distintas (Vladimir en open source, Lucho en Power Platform). La respuesta: <strong>Git como hub central, Cloud Code para leer ambos</strong>. No necesitas suites idénticas, sino visibilidad compartida y estándares de trabajo.</p>
+
+                        <h4>Tu síntesis hacia el final</h4>
+                        <p style="font-size: 0.95rem; margin: 1rem 0;">Expresaste claramente tu visión: <strong>"El pipeline es fundamental. Si tú le pones un pipeline con las herramientas de IA a gente que tiene el concepto del negocio, la curva de aprendizaje es muy parada."</strong> Y nombró a Renny, Agustín, Foix como potenciales líderes técnicos con mentoría.</p>
+                    </div>
+                </div>
+
+                <!-- S1 Miércoles -->
+                <div class="session-card">
+                    <div class="session-header">
+                        <div>
+                            <div class="session-title">S1 · Entornos, Herramientas y Diseño de Tablas</div>
+                            <div class="session-date">Miércoles 15 de abril · 3 horas</div>
+                        </div>
+                        <span class="badge badge-complete">Completa</span>
+                    </div>
+
+                    <div class="session-content">
+                        <h4>Qué se cubrió desde tu rol</h4>
+                        <ul>
+                            <li><strong>El viaje de un cambio:</strong> DEV → TEST → PROD con validaciones en cada etapa. Explicó por qué "solo un campo" toma 2–3 días en producción (cierre de requerimiento, testing, UAT).</li>
+                            <li><strong>Múltiples entornos:</strong> Aislamiento de riesgo, control de versiones, gobernanza. Tu caso: desarrollo + producción (modelo simplificado, coherente con vuestra estrategia).</li>
+                            <li><strong>Herramientas team:</strong> VS Code, PAC CLI, XRMToolBox, GitHub — el stack que tu equipo necesita para moverse de PowerPoint a código de verdad.</li>
+                            <li><strong>Managed vs Unmanaged:</strong> Concepto crítico de capas — si tocas un componente managed en producción, lo bloqueas para futuros desarrollos. Deuda técnica visual.</li>
+                        </ul>
+
+                        <h4>Tu intervención magistral</h4>
+                        <p style="font-size: 0.95rem; margin: 1rem 0;">Resumiste la lección: <strong>"Todos los componentes unmanaged los puedo editar en desarrollo y los llevo a producción como capa dominante. Pero si tengo un elemento managed y lo modifico en producción, eso es una fuente de error."</strong> Luego preguntaste: "¿Por qué alguien tocaría un managed en producción?" Y la respuesta fue: hotfixes en vivo bajo presión. Entendiste la tensión real entre velocidad y gobernanza.</p>
+                    </div>
+                </div>
+
+                <!-- S1 Viernes -->
+                <div class="session-card">
+                    <div class="session-header">
+                        <div>
+                            <div class="session-title">S1 · JavaScript en Model-Driven Apps + Skills/Agents</div>
+                            <div class="session-date">Viernes 16 de abril · 3 horas</div>
+                        </div>
+                        <span class="badge badge-complete">Completa</span>
+                    </div>
+
+                    <div class="session-content">
+                        <h4>Qué se cubrió desde tu rol</h4>
+                        <ul>
+                            <li><strong>JavaScript solo funciona en formulario:</strong> No toca API calls ni flujos sin intervención. Implicación: limitación clara para lógica omnicanal.</li>
+                            <li><strong>formContext y los 3 eventos:</strong> OnLoad, OnChange, OnSave. Punto de entrada para cualquier interacción dinámica.</li>
+                            <li><strong>Skills y Agents en vivo:</strong> Crearon una Skill "MDA JavaScript Writer" que aplica buenas prácticas automáticamente. Concepto: código nuevo nace correcto, no necesita auditoría después.</li>
+                            <li><strong>Implicación organizacional:</strong> Un skill por equipo = código homogéneo sin depender del seniority individual.</li>
+                        </ul>
+
+                        <h4>Tu aportación sobre seguridad</h4>
+                        <p style="font-size: 0.95rem; margin: 1rem 0;">Levantaste la mano sobre <strong>ciberseguridad en ChatGPT Teams</strong>: querías que detecte violaciones de seguridad en tus recomendaciones. Observación correcta: Chat GPT es stateless (olvida contexto). La solución: Cloud Code con un custom agent de auditoría, o Notion como segundo cerebro. Identificaste una brecha real en flujos de desarrollo asistido.</p>
+                    </div>
+                </div>
+
+                <!-- S2 Lunes -->
+                <div class="session-card">
+                    <div class="session-header">
+                        <div>
+                            <div class="session-title">S2 · Claude Code + GitHub + Tu Primer Proyecto</div>
+                            <div class="session-date">Lunes 21 de abril · 3 horas</div>
+                        </div>
+                        <span class="badge badge-complete">Completa</span>
+                    </div>
+
+                    <div class="session-content">
+                        <h4>Qué se cubrió desde tu rol</h4>
+                        <ul>
+                            <li><strong>Instalar Cloud Code:</strong> Extensión en VS Code, autenticación con Team plan, primer prompt en vivo.</li>
+                            <li><strong>Git vs GitHub:</strong> Git = local (historial), GitHub = remoto (colaboración). Los 10 comandos que resuelven el 95% del día.</li>
+                            <li><strong>Ramas + PR + merge:</strong> Flujo de gobernanza: main protegida, todo por PR, revisión obligatoria. Anti-patrón: push directo a main.</li>
+                            <li><strong>Modelos de AI:</strong> Claude Code (para código), Claude.ai (para prototipos), Google Stitch (para UI). Cada herramienta en su momento.</li>
+                        </ul>
+
+                        <h4>Tu enfoque práctico inmediato</h4>
+                        <p style="font-size: 0.95rem; margin: 1rem 0;">Expresaste: <strong>"Yo estoy asegurándome de tener el todo el set de herramientas para que apenas nos den el aviso, poner en práctica el GitHub, Cloud Code, Visual Studio. Voy a gestionar la adquisición de un GitHub corporativo."</strong> Visión clara: infraestructura primero, desarrollo después. Pedir 8 licencias de Claude aprobadas = decisión ejecutiva.</p>
+                    </div>
+                </div>
+
+                <!-- S2 Miércoles -->
+                <div class="session-card">
+                    <div class="session-header">
+                        <div>
+                            <div class="session-title">S2 · Repo Compartido + Skills/Agents + Repos HOT</div>
+                            <div class="session-date">Miércoles 22 de abril · 3 horas</div>
+                        </div>
+                        <span class="badge badge-complete">Completa</span>
+                    </div>
+
+                    <div class="session-content">
+                        <h4>Qué se cubrió desde tu rol</h4>
+                        <ul>
+                            <li><strong>Repositorio público del curso:</strong> Presentaciones, demos, prompts, carpeta por alumno. Base de conocimiento versionada.</li>
+                            <li><strong>GitHub corporativo como estrategia:</strong> Taxonomía (web apps, Power Platform, open source), roles de participante, gobernanza por proyecto.</li>
+                            <li><strong>Responsabilidad intelectual:</strong> Código en GitHub público del equipo ≠ propiedad individual. Es del equipo mientras estés en contrato.</li>
+                            <li><strong>MCPs (Model Context Protocol):</strong> Claude conectado a Jira, Slack, bases de datos. Siguiente nivel: integración con tu stack operativo.</li>
+                        </ul>
+
+                        <h4>Tu mapeo de gobernanza corporativa</h4>
+                        <p style="font-size: 0.95rem; margin: 1rem 0;">Presentaste el plan concreto: <strong>GitHub corporativo de LitoClean con 4 áreas: taxonomía (aplicaciones web, Microsoft 365, open source, Power Platform), roles (desarrolladores, aprobadores), capas (Perú, España), seguridad.</strong> Resolviste la tensión Bladimir/Yeriel: mientras Project Hub sea responsabilidad de Power Fox, el código vive allá; cuando sea tuyo, lo movés a corporativo con gobierno claro.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tu trayectoria -->
+        <div class="section">
+            <h2 class="section-title">Tu trayectoria hasta aquí</h2>
+
+            <div class="trajectory">
+                <p>Llegaste al curso con una pregunta operativa concreta: "¿Cómo coordino dos equipos con herramientas distintas?" En dos semanas evolucionaste desde esa tensión hacia una visión arquitectónica: <strong>el sistema (Git + Cloud Code + GitHub corporativo) es lo que estandariza, no el IDE de cada desarrollador.</strong> Viste que Yeriel no rehúye la complejidad (managed vs unmanaged, roles, capas); la llama "decisión consciente". Y allí es donde apoyas: en que el equipo las tome informado. Tu énfasis en el pipeline, la formación de líderes internos, y la propiedad intelectual corporativa revela un gerente que piensa en escala: no dónde están hoy, sino dónde pueden estar en 12 meses si se estructura bien ahora.</p>
+            </div>
+        </div>
+
+        <!-- Tu próximo paso -->
+        <div class="section">
+            <h2 class="section-title">Tu próximo paso recomendado</h2>
+
+            <div class="next-step">
+                <h3>Esta semana, estas acciones te sitúan a la vanguardia</h3>
+                <ol>
+                    <li><strong>Cierra el GitHub corporativo.</strong> Contacta a la persona que te invitó, confirma estructura, roles (Bladimir, Lucho, Adolfo, tú como aprobador). Documentá la taxonomía: dónde viven proyectos web, dónde Power Platform, dónde open source. 4 dólares por usuario/mes: decisión ejecutiva sin fricción.</li>
+                    <li><strong>Arma un CLAUDE.md corporativo.</strong> 3 párrafos: "En nuestro GitHub, así se trabaja: PR obligatorio en main, revisión de [nombre], convención de commits Conventional, no se suben credenciales." Básico pero coherente. Súbelo al repo del curso para que Yeriel lo audite.</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Prompts que guardaste -->
+        <div class="section">
+            <h2 class="section-title">Los prompts que merece la pena que guardes</h2>
+
+            <div class="saved-prompts">
+                <div class="prompt-item">
+                    <h4>Resumen amigable de sesión (tu favorito)</h4>
+                    <p class="prompt-purpose">Convierte transcripts largos en documentos ejecutivos con timestamps — clave para que equipo no técnico aproveche el video.</p>
+                    <div class="prompt-text">Eres un consultor técnico. A partir de esta transcripción, genera un documento estructurado por secciones con los puntos clave de la reunión. Añade el timestamp de cada punto para que cualquier persona pueda ir directamente al video. El tono debe ser claro para perfiles tanto técnicos como no técnicos.</div>
+                </div>
+
+                <div class="prompt-item">
+                    <h4>Evaluación de proceso o aplicación con scoring</h4>
+                    <p class="prompt-purpose">Audita arquitectura, rendimiento, security de un sistema con métrica numérica clara (1-10) y comparativa con mercado.</p>
+                    <div class="prompt-text">Evalúa este [proceso / aplicación / código] y dame un score del 1 al 10. Explica por qué está en ese valor, compáralo con buenas prácticas del mercado y dime qué cambios concretos harían falta para alcanzar un 9 o 9.5.</div>
+                </div>
+
+                <div class="prompt-item">
+                    <h4>Revisión de código con contexto histórico</h4>
+                    <p class="prompt-purpose">Aprovecha el historial del proyecto para no repetir errores pasados — vital cuando lidera equipos con desarrollo acumulado.</p>
+                    <div class="prompt-text">Revisa este código teniendo en cuenta el historial del proyecto. No repitas errores anteriores [describir error si se conoce]. Prioriza [criterio: rendimiento / mantenibilidad / seguridad].</div>
+                </div>
+
+                <div class="prompt-item">
+                    <h4>Análisis de mercado con profundidad (Pro)</h4>
+                    <p class="prompt-purpose">Cloud.ai con modo Research es ideal para decisiones ejecutivas (Stack selección, competitive analysis, evaluación de proveedores).</p>
+                    <div class="prompt-text">Analiza [herramienta / tecnología / proveedor] en el mercado actual. Dame un reporte de 40 páginas: fortalezas, debilidades, costo TCO, referentes en el mercado similar al nuestro, y recomendación final. Usa modo Research para profundidad.</div>
+                </div>
+
+                <div class="prompt-item">
+                    <h4>Auditoría de seguridad en código/arquitectura</h4>
+                    <p class="prompt-purpose">Detecta leaks, credenciales expuestas, vulnerabilidades antes de que salgan a producción — crítico para gobernanza corporativa.</p>
+                    <div class="prompt-text">Auditá este código/repositorio/arquitectura buscando: credenciales hardcodeadas, API keys expuestas, violaciones de OWASP top 10, permisos elevados innecesarios. Dame un reporte categorizado por severidad y acción correctiva concreta.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><strong>Luis Hoyos Tincopa</strong> · Generado el 29 de abril de 2026 · <strong>Power Fox BI · Curso Claude Code</strong></p>
+            <p style="margin-top: 0.5rem; font-size: 0.8rem;">Notas: Los transcripts completos se añadirán al repositorio conforme avance el curso. Este recap refleja sesiones 1 (lunes–viernes) y 2 (lunes–miércoles). Semanas 3–4 pendientes.</p>
+        </div>
+    </div>
+</body>
+</html>
