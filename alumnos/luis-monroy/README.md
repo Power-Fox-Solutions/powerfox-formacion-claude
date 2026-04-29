@@ -3,9 +3,7 @@
 ## Sobre mí
 
 - **Nombre:** Luis Monroy
-- **Empresa:** TEMA
-- **Correo:** lmonroy@tema.com.pe
-- **Rol:** Desarrollador
+- **Rol en tu empresa:** Desarrollador
 - **Años en Power Platform / Dynamics:** 1 año
 - **Qué espero del curso:** Ser un experto de IA con Power Platform y Open Source
 
@@ -20,7 +18,7 @@
 
 <!-- Añade una entrada por sesión con lo aprendido, prompts favoritos, dudas pendientes. -->
 
-### Sesión 1 — Lunes
+### Sesión 1 — 28 Abr 2026
 
 - **Lo mejor:** Claude Code en VS Code
 - **Lo que me costó:** El flujo con Git/GitHub (ramas, PRs y el workflow completo)
