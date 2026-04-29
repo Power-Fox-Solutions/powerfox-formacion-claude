@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El proyecto: Gestión de Documentos del Curso · Power Fox</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  :root {
+    --bg: #FAF7F2;
+    --ink: #1A1A1A;
+    --ink-mid: #4A4A4A;
+    --ink-light: #8A8A8A;
+    --paper: #FFFFFF;
+    --line: #E5E0D5;
+    --accent: #1F5C7A;
+    --accent-soft: #E5EEF3;
+    --gold: #C8932B;
+    --green: #4A7C2F;
+    --green-soft: #EEF3E8;
+    --red: #A33;
+    --red-soft: #F8E5E5;
+    --blue: #2E5C8A;
+    --blue-soft: #E5EEF6;
+    --r: 4px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0F1518;
+      --ink: #E8F0F4;
+      --ink-mid: #A8B5BC;
+      --ink-light: #6B7880;
+      --paper: #18222A;
+      --line: #2A3540;
+      --accent: #6FB5D5;
+      --accent-soft: #1A2A33;
+      --gold: #E0B14A;
+      --green: #8DB36A;
+      --green-soft: #1E2818;
+      --red: #D67373;
+      --red-soft: #2A1818;
+      --blue: #7AABD8;
+      --blue-soft: #1A2530;
+    }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.65;
+    font-size: 15px;
+  }
+  .container { max-width: 980px; margin: 0 auto; padding: 2.5rem 1.5rem; }
+
+  header.hero {
+    text-align: center;
+    padding: 2rem 0 2rem;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 2.5rem;
+  }
+  header.hero .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+  header.hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(1.9rem, 5vw, 3.2rem);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 0.6rem;
+  }
+  header.hero h1 em {
+    color: var(--accent);
+    font-style: normal;
+  }
+  header.hero p.lead {
+    font-size: 1.05rem;
+    color: var(--ink-mid);
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  section { margin-bottom: 2.5rem; }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 0.6rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .section-head .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 0.2rem 0.6rem;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+  .section-head h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.9rem;
+    font-weight: 400;
+    flex: 1;
+  }
+
+  .pitch-card {
+    background: var(--paper);
+    border: 2px solid var(--accent);
+    border-radius: var(--r);
+    padding: 1.5rem 1.75rem;
+    margin: 1.25rem 0 2rem;
+    font-size: 1.08rem;
+    line-height: 1.65;
+    color: var(--ink);
+  }
+  .pitch-card .pitch-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+    font-weight: 600;
+  }
+  .pitch-card strong { color: var(--accent); }
+
+  .mermaid-wrap {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    padding: 1.5rem;
+    margin: 1.25rem 0;
+    text-align: center;
+  }
+
+  .anatomy {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.85rem;
+    margin: 1.25rem 0;
+  }
+  .anatomy .col {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    padding: 1.1rem 1.2rem;
+  }
+  .anatomy .col-input { border-top: 4px solid var(--accent); }
+  .anatomy .col-process { border-top: 4px solid var(--blue); }
+  .anatomy .col-output { border-top: 4px solid var(--gold); }
+  .anatomy h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+  }
+  .anatomy .col-cat {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 0.35rem;
+  }
+  .anatomy .col-input .col-cat { color: var(--accent); }
+  .anatomy .col-process .col-cat { color: var(--blue); }
+  .anatomy .col-output .col-cat { color: var(--gold); }
+  .anatomy ul {
+    margin: 0.6rem 0 0 1.2rem;
+    color: var(--ink-mid);
+    font-size: 0.92rem;
+  }
+  .anatomy li { margin-bottom: 0.35rem; }
+  .anatomy code {
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 0.05rem 0.35rem;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82em;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.92rem;
+    background: var(--paper);
+    border-radius: var(--r);
+    overflow: hidden;
+  }
+  thead th {
+    text-align: left;
+    border-bottom: 2px solid var(--ink);
+    padding: 0.7rem 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    color: var(--ink);
+    background: var(--bg);
+  }
+  tbody td {
+    padding: 0.65rem 0.85rem;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-mid);
+    vertical-align: top;
+  }
+  tbody tr:last-child td { border-bottom: 0; }
+  tbody td strong { color: var(--ink); }
+  td.col-good { color: var(--green); font-weight: 600; }
+  td.col-meh { color: var(--ink-light); }
+
+  .step-list {
+    counter-reset: step;
+    list-style: none;
+    margin: 1rem 0;
+  }
+  .step-list > li {
+    counter-increment: step;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    padding: 0.85rem 1rem 0.85rem 3rem;
+    margin-bottom: 0.6rem;
+    border-radius: 0 var(--r) var(--r) 0;
+    position: relative;
+    color: var(--ink-mid);
+  }
+  .step-list > li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0.85rem;
+    top: 0.85rem;
+    background: var(--accent);
+    color: var(--paper);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+  }
+  .step-list > li strong { color: var(--ink); }
+
+  .tip {
+    background: var(--green-soft);
+    border-left: 3px solid var(--green);
+    padding: 0.85rem 1.1rem;
+    margin: 1rem 0;
+    border-radius: 0 var(--r) var(--r) 0;
+    font-size: 0.95rem;
+  }
+  .tip strong { color: var(--green); }
+
+  .prompt-card {
+    background: #1F1B16;
+    color: #E8DDC8;
+    border-radius: var(--r);
+    margin: 1rem 0;
+    overflow: hidden;
+    border: 1px solid var(--ink-light);
+  }
+  .prompt-head {
+    background: linear-gradient(135deg, var(--accent), var(--gold));
+    color: var(--paper);
+    padding: 0.6rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .prompt-head .pnum {
+    background: rgba(0,0,0,0.25);
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+  .prompt-head .ptitle {
+    font-weight: 600;
+    font-size: 0.92rem;
+    flex: 1;
+  }
+  .copy-btn {
+    background: rgba(255,255,255,0.2);
+    color: var(--paper);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 0.25rem 0.7rem;
+    border-radius: 3px;
+    font-size: 0.72rem;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background 0.15s;
+  }
+  .copy-btn:hover { background: rgba(255,255,255,0.3); }
+  .copy-btn.copied { background: var(--green); }
+  .prompt-body {
+    padding: 1rem 1.2rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    max-height: 280px;
+    overflow-y: auto;
+  }
+  .prompt-body::-webkit-scrollbar { width: 8px; }
+  .prompt-body::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+  .prompt-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
+
+  .skill-card {
+    background: var(--green-soft);
+    border: 1px solid var(--green);
+    border-radius: var(--r);
+    padding: 1rem 1.25rem;
+    margin: 0.75rem 0;
+  }
+  .skill-card .skill-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.92rem;
+    color: var(--green);
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .skill-card p { color: var(--ink); margin: 0.3rem 0; font-size: 0.92rem; }
+
+  code {
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85em;
+  }
+
+  footer {
+    margin-top: 3rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--line);
+    text-align: center;
+    color: var(--ink-light);
+    font-size: 0.82rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  footer .accent { color: var(--accent); }
+
+  @media (max-width: 768px) {
+    .container { padding: 1.5rem 1rem; }
+    .anatomy { grid-template-columns: 1fr; }
+    .section-head h2 { font-size: 1.45rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<header class="hero">
+  <div class="eyebrow">Sesiones S3 · martes y miércoles · 28-29 abr 2026</div>
+  <h1>El proyecto: <em>Gestión de Documentos del Curso</em></h1>
+  <p class="lead">El repo se autodocumenta y se autopersonaliza. Vosotros aportáis la materia prima — los transcripts y vuestros perfiles. Tres agents la procesan. Cada uno se va con un HTML que habla de él.</p>
+</header>
+
+<!-- ========================================================== -->
+<!-- PITCH -->
+<!-- ========================================================== -->
+<section>
+  <div class="section-head">
+    <span class="num">01</span>
+    <h2>El pitch en 30 segundos</h2>
+  </div>
+
+  <div class="pitch-card">
+    <div class="pitch-label">Idea central</div>
+    <p>Vamos a construir un sistema que hace que el repo <strong>se autodocumente</strong> y <strong>se autopersonalice</strong>.</p>
+    <p style="margin-top:0.6rem;"><strong>Materia prima:</strong> los transcripts de las sesiones y vuestros perfiles. <strong>Procesadores:</strong> tres agents de Claude Code. <strong>Salidas:</strong> un README por sesión y un HTML personalizado para cada uno de vosotros.</p>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- DIAGRAMA -->
+<!-- ========================================================== -->
+<section>
+  <div class="section-head">
+    <span class="num">02</span>
+    <h2>Cómo encaja todo</h2>
+  </div>
+
+  <div class="mermaid-wrap">
+    <pre class="mermaid">
+flowchart LR
+    subgraph "Materia prima"
+      A1[/sesiones/<br/>presentaciones/]
+      A2[/RAW/<br/>transcripts/]
+      A3[/alumnos/<br/>perfiles/]
+    end
+
+    subgraph "Reglas"
+      B1[skill<br/>formation-content-writer]
+    end
+
+    subgraph "Procesadores"
+      C1[agent<br/>session-recap-generator]
+      C2[agent<br/>claude-md-auditor]
+      C3[agent<br/>personal-html-recap-generator]
+    end
+
+    subgraph "Salidas"
+      D1[/sesiones/sX/<br/>README.md/]
+      D2[reporte<br/>auditoria]
+      D3[/alumnos/X/<br/>recap.html/]
+    end
+
+    A1 --> C1 --> D1
+    A1 --> C2
+    A1 --> C3
+    A2 --> C3
+    A3 --> C3 --> D3
+    B1 -.->|estilo| C1
+    B1 -.->|estilo| C3
+
+    style A1 fill:#FBEEE5,stroke:#B8451F
+    style A2 fill:#FBEEE5,stroke:#B8451F
+    style A3 fill:#FBEEE5,stroke:#B8451F
+    style B1 fill:#EEF3E8,stroke:#4A7C2F
+    style C1 fill:#E5EEF6,stroke:#2E5C8A
+    style C2 fill:#E5EEF6,stroke:#2E5C8A
+    style C3 fill:#E5EEF6,stroke:#2E5C8A
+    style D3 fill:#FFF3E0,stroke:#C8932B,stroke-width:3px
+    </pre>
+  </div>
+</section>
+
+<!-- ========================================================== -->
+<!-- ANATOMIA -->
+<!-- ========================================================== -->
+<section>
+  <div class="section-head">
+    <span class="num">03</span>
+    <h2>Anatomía del sistema</h2>
+  </div>
+
+  <div class="anatomy">
+    <div class="col col-input">
+      <div class="col-cat">Entradas</div>
+      <h3>Materia prima</h3>
+      <ul>
+        <li><code>/sesiones/</code> — las presentaciones HTML.</li>
+        <li><code>/RAW/</code> — los transcripts en markdown.</li>
+        <li><code>/alumnos/</code> — vuestro perfil y bitácora.</li>
+      </ul>
+    </div>
+    <div class="col col-process">
+      <div class="col-cat">Procesadores</div>
+      <h3>Tres agents</h3>
+      <ul>
+        <li><code>session-recap-generator</code> — resume cada sesión.</li>
+        <li><code>claude-md-auditor</code> — revisa los <code>CLAUDE.md</code>.</li>
+        <li><code>personal-html-recap-generator</code> — crea tu recap personal.</li>
+      </ul>
+    </div>
+    <div class="col col-output">
+      <div class="col-cat">Salidas</div>
+      <h3>Lo que obtienes</h3>
+      <ul>
+        <li><code>README.md</code> de cada sesión.</li>
+        <li>Reporte de auditoría del <code>CLAUDE.md</code>.</li>
+        <li>Tu <code>recap.html</code> personal en tu carpeta.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="tip"><strong>La pieza clave:</strong> la skill <code>formation-content-writer</code>. Es la que impone el estilo (español, directo, sin corporativismo, listas máximo de 6 items). Los agents la siguen para que todas las salidas suenen al mismo tono.</div>
+</section>
+
+<!-- ========================================================== -->
+<!-- POR QUE -->
+<!-- ========================================================== -->
+<section>
+  <div class="section-head">
+    <span class="num">04</span>
+    <h2>Por qué es el proyecto principal del curso</h2>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Aspecto</th><th>Gestión de Documentos</th><th>Una app cualquiera</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Único de este repo</strong></td>
+        <td class="col-good">Sí — los transcripts y perfiles son del curso</td>
+        <td class="col-meh">No — cualquier tutorial lo hace</td>
+      </tr>
+      <tr>
+        <td><strong>Enseña Claude Code</strong></td>
+        <td class="col-good">Sí — skills, agents, lectura del repo</td>
+        <td class="col-meh">Solo enseña el lenguaje</td>
+      </tr>
+      <tr>
+        <td><strong>Ownership</strong></td>
+        <td class="col-good">Cada uno firma su PR personal</td>
+        <td class="col-meh">Solo lo construye el facilitador</td>
+      </tr>
+      <tr>
+        <td><strong>Wow factor</strong></td>
+        <td class="col-good">"Este HTML habla de mí"</td>
+        <td class="col-meh">"Funciona, sí"</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ========================================================== -->
+<!-- TU TURNO -->
+<!-- ========================================================== -->
+<section>
+  <div class="section-head">
+    <span class="num">05</span>
+    <h2>Tu turno: cómo lo usas</h2>
+  </div>
+
+  <ol class="step-list">
+    <li><strong>Asegúrate de estar al día</strong> con <code>git switch main</code> y <code>git pull</code>. Los transcripts y los agents ya viven en main.</li>
+    <li><strong>Abre tu carpeta personal</strong> en <code>/alumnos/[tu-nombre]/</code> y revisa tu <code>README.md</code>. Eso es tu materia prima — rol, expectativas, bitácora.</li>
+    <li><strong>Invoca el agent</strong> escribiendo en Claude Code: <em>"Genera mi recap personalizado, mi carpeta es <code>/alumnos/[tu-nombre]/</code>."</em></li>
+    <li><strong>Revisa el plan</strong> que te muestra el agent antes de generar nada. Si te encaja, le das OK.</li>
+    <li><strong>Abre el HTML resultante</strong> en <code>/alumnos/[tu-nombre]/recap.html</code>. Ahí tienes tu trayectoria del curso adaptada a tu perfil.</li>
+    <li><strong>Sube tu cambio</strong> con un PR. El facilitador lo mergea y queda en main para que puedas regenerarlo más adelante con sesiones nuevas.</li>
+  </ol>
+
+  <div class="tip"><strong>Cuándo regenerarlo:</strong> tras cada sesión nueva, vuelves a invocar el agent. El recap crece contigo a lo largo del curso.</div>
+</section>
+
+<!-- ========================================================== -->
+<!-- PROMPTS -->
+<!-- ========================================================== -->
+<section>
+  <div class="section-head">
+    <span class="num">06</span>
+    <h2>Prompts que vais a usar</h2>
+  </div>
+  <p class="lead" style="color: var(--ink-mid); margin-bottom: 1rem;">Tres prompts. Cada uno con botón de copiar. Lo pegáis en Claude Code dentro del repo.</p>
+
+  <div class="prompt-card">
+    <div class="prompt-head">
+      <span class="pnum">P1</span>
+      <span class="ptitle">Generar tu recap personalizado</span>
+      <button class="copy-btn" data-target="p1-recap">Copiar</button>
+    </div>
+    <div class="prompt-body" id="p1-recap">Invoca el agent personal-html-recap-generator. Mi carpeta es /alumnos/[mi-nombre]/.
+
+Quiero que cruce mi perfil, mi bitácora, las presentaciones de las sesiones y los transcripts disponibles para generar un recap.html adaptado a mi rol.
+
+Antes de generar nada, muéstrame el plan de qué vas a leer y qué secciones tendrá el HTML, y espera mi OK.</div>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-head">
+      <span class="pnum">P2</span>
+      <span class="ptitle">Generar el README de una sesión</span>
+      <button class="copy-btn" data-target="p2-recap">Copiar</button>
+    </div>
+    <div class="prompt-body" id="p2-recap">Invoca el agent session-recap-generator sobre /sesiones/s3-martes/presentacion.html.
+
+Genera el README.md resumen en la misma carpeta, siguiendo el formato del agent: título, fecha, objetivos, agenda, prompts, herramientas, conceptos clave, takeaways y reto.
+
+Si algún apartado no aparece en la presentación, omítelo. No inventes información.</div>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-head">
+      <span class="pnum">P3</span>
+      <span class="ptitle">Auditar tu CLAUDE.md personal</span>
+      <button class="copy-btn" data-target="p3-recap">Copiar</button>
+    </div>
+    <div class="prompt-body" id="p3-recap">Invoca el agent claude-md-auditor sobre /alumnos/[mi-nombre]/CLAUDE.md.
+
+Quiero un reporte estructurado por severidad (críticos, recomendados, opcionales) con propuestas de mejora ancladas a líneas concretas. No modifiques el archivo, solo genera el reporte.
+
+Si no tengo CLAUDE.md aún, avísame y dime qué debería contener para mi carpeta personal.</div>
+  </div>
+
+  <div class="tip"><strong>Consejo:</strong> antes de pegar un prompt, asegúrate de tener Claude Code abierto en la carpeta correcta del repo. El agent necesita ver el sistema de archivos para funcionar.</div>
+</section>
+
+<!-- ========================================================== -->
+<!-- SKILLS -->
+<!-- ========================================================== -->
+<section>
+  <div class="section-head">
+    <span class="num">07</span>
+    <h2>Skills que el repo ya tiene activas</h2>
+  </div>
+  <p class="lead" style="color: var(--ink-mid); margin-bottom: 1rem;">Las skills viven en <code>.claude/skills/</code> y los agents las siguen automáticamente. Vosotros también podéis invocarlas en cualquier conversación.</p>
+
+  <div class="skill-card">
+    <div class="skill-name">formation-content-writer</div>
+    <p><strong>Qué hace:</strong> impone el estilo del repo — español directo, máximo 6 items por lista, ejemplos antes que teoría, sin emojis decorativos, privacidad estricta.</p>
+    <p><strong>Cuándo invocarla:</strong> cuando le pidas a Claude un README, una guía o un resumen y quieras que suene como el resto del repo. Le dices: <em>"sigue la skill formation-content-writer"</em>.</p>
+  </div>
+
+  <div class="skill-card">
+    <div class="skill-name">session-html-guide-writer</div>
+    <p><strong>Qué hace:</strong> genera guías HTML self-contained con paleta y tipografía cuidadas, evitando el aspecto genérico de IA.</p>
+    <p><strong>Cuándo invocarla:</strong> si quieres documentar algo que aprendiste hoy en una guía visual para tu propia carpeta. Pídeselo a Claude y menciona la skill.</p>
+  </div>
+
+  <div class="tip"><strong>Tres agents ya disponibles:</strong> <code>session-recap-generator</code>, <code>claude-md-auditor</code>, <code>personal-html-recap-generator</code>. Viven en <code>.claude/agents/</code> del repo. Cualquier alumno puede invocarlos.</div>
+</section>
+
+<footer>
+  <span>Power Fox BI · curso Claude Code · S3 — Gestión de Documentos</span><br>
+  <span class="accent">Material para alumnos · 28-29 abril 2026</span>
+</footer>
+
+</div>
+
+<script>
+  mermaid.initialize({ startOnLoad: true, theme: 'default', flowchart: { useMaxWidth: true, curve: 'basis' } });
+
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.getAttribute('data-target');
+      const target = document.getElementById(targetId);
+      if (!target) return;
+      navigator.clipboard.writeText(target.textContent.trim()).then(() => {
+        const original = btn.textContent;
+        btn.textContent = 'Copiado';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = original;
+          btn.classList.remove('copied');
+        }, 1400);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
