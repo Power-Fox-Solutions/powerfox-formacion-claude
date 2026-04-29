@@ -2,978 +2,1398 @@
 <!--
   Recap personal · FoixSB
   Paleta: "Editorial cálido" — Fraunces + Manrope + JetBrains Mono
-  Fondo crema (#faf6f0), acento terracota (#c14a2a), verde oliva (#5d6d3e)
+  Fondo crema (#faf6f0), terracota (#c14a2a), verde oliva (#5d6d3e), ámbar (#d49520)
+  Estructura: temática (no por sesión) — hero, resumen por tema, puntos clave por rol,
+  tareas pendientes, ejercicios propuestos, notas de evolución.
   Generado: 2026-04-29 · Power Fox BI · curso Claude Code
 -->
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Recap personal · FoixSB · Curso Claude Code</title>
+<title>Recap personal · FoixSB · curso Claude Code</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-/* ── Variables de color ─────────────────────────────── */
-:root {
-  --bg:        #faf6f0;
-  --bg-card:   #ffffff;
-  --bg-soft:   #f3ede5;
-  --text:      #2a1f1a;
-  --text-mid:  #5a4840;
-  --text-mute: #9a8880;
-  --border:    #e5ddd5;
-  --terra:     #c14a2a;
-  --terra-soft:#fdf0eb;
-  --olive:     #5d6d3e;
-  --olive-soft:#eef2e6;
-  --amber:     #d49520;
-  --amber-soft:#fdf6e3;
-  --shadow:    rgba(42,31,26,.07);
-  --r:         10px;
 
-  --ff-display: 'Fraunces', Georgia, serif;
-  --ff-body:    'Manrope', system-ui, sans-serif;
-  --ff-mono:    'JetBrains Mono', 'Courier New', monospace;
+<style>
+/* ===== TOKENS ===== */
+:root {
+  --cream:    #faf6f0;
+  --ink:      #2a1f1a;
+  --ink-mid:  #5a4a42;
+  --ink-soft: #8a7a72;
+  --terra:    #c14a2a;
+  --terra-soft: #f5e6e0;
+  --olive:    #5d6d3e;
+  --olive-soft: #eaeddf;
+  --amber:    #d49520;
+  --amber-soft: #fdf3d8;
+  --card-bg:  #ffffff;
+  --border:   #e8e0d5;
+  --shadow:   0 2px 12px rgba(42,31,26,.07);
+  --shadow-md: 0 4px 24px rgba(42,31,26,.10);
+  --r:        12px;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg:        #1a1614;
-    --bg-card:   #221e1b;
-    --bg-soft:   #2a2420;
-    --text:      #f0e8dc;
-    --text-mid:  #c8b8ac;
-    --text-mute: #7a6a60;
-    --border:    #3a3028;
-    --terra:     #e87b5e;
-    --terra-soft:#2e1e18;
-    --olive:     #8aab5a;
-    --olive-soft:#1e2818;
-    --amber:     #e6b040;
-    --amber-soft:#2a2010;
-    --shadow:    rgba(0,0,0,.25);
+    --cream:    #1a1614;
+    --ink:      #f0e8dc;
+    --ink-mid:  #c8b8a8;
+    --ink-soft: #8a7a72;
+    --terra:    #e87b5e;
+    --terra-soft: #2a1a14;
+    --olive:    #8faa60;
+    --olive-soft: #1a201a;
+    --amber:    #f0b840;
+    --amber-soft: #241e0a;
+    --card-bg:  #241f1c;
+    --border:   #3a302a;
+    --shadow:   0 2px 12px rgba(0,0,0,.25);
+    --shadow-md: 0 4px 24px rgba(0,0,0,.35);
   }
 }
 
+/* ===== RESET ===== */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; transition: none !important; }
+  *, *::before, *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
 }
 
-/* ── Reset y base ───────────────────────────────────── */
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
+/* ===== BASE ===== */
 body {
-  font-family: var(--ff-body);
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.7;
+  font-family: 'Manrope', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.75;
   font-size: 1rem;
 }
 
-/* ── Nav ─────────────────────────────────────────────── */
-.nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: .6rem 2rem;
-  background: var(--bg-card);
-  border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-.nav-logo {
-  font-family: var(--ff-display);
+h1, h2, h3 {
+  font-family: 'Fraunces', serif;
   font-weight: 700;
-  font-size: .9rem;
-  color: var(--terra);
-  letter-spacing: .5px;
-}
-.nav-right {
-  font-size: .78rem;
-  color: var(--text-mute);
-  font-weight: 500;
-}
-
-/* ── Hero ────────────────────────────────────────────── */
-.hero {
-  background: var(--text);
-  color: var(--bg);
-  padding: 4rem 2rem 3.5rem;
-  position: relative;
-  overflow: hidden;
-}
-.hero::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 80% 20%, rgba(193,74,42,.18) 0%, transparent 55%),
-    radial-gradient(circle at 20% 80%, rgba(93,109,62,.12) 0%, transparent 50%);
-  pointer-events: none;
-}
-.hero-eyebrow {
-  font-family: var(--ff-mono);
-  font-size: .72rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--terra);
-  margin-bottom: .75rem;
-  position: relative;
-  z-index: 1;
-}
-.hero h1 {
-  font-family: var(--ff-display);
-  font-size: clamp(2.2rem, 5vw, 3.2rem);
-  font-weight: 700;
-  line-height: 1.1;
-  margin-bottom: .6rem;
-  position: relative;
-  z-index: 1;
-}
-.hero-sub {
-  font-size: 1rem;
-  opacity: .75;
-  max-width: 620px;
-  position: relative;
-  z-index: 1;
-  margin-bottom: 1.25rem;
-}
-.hero-meta {
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  position: relative;
-  z-index: 1;
-}
-.hero-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: .4rem;
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.15);
-  padding: .3rem .85rem;
-  border-radius: 20px;
-  font-size: .8rem;
-  font-weight: 500;
-}
-
-/* ── Contenedor ─────────────────────────────────────── */
-.container {
-  max-width: 920px;
-  margin: 0 auto;
-  padding: 3rem 2rem;
-}
-
-/* ── Sección ─────────────────────────────────────────── */
-.section { margin-bottom: 4rem; }
-.section-label {
-  font-family: var(--ff-mono);
-  font-size: .7rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--terra);
-  margin-bottom: .5rem;
-  display: flex;
-  align-items: center;
-  gap: .6rem;
-}
-.section-label::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--border);
-}
-.section-title {
-  font-family: var(--ff-display);
-  font-size: 1.65rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
   line-height: 1.2;
 }
 
-/* ── Cards ───────────────────────────────────────────── */
-.card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  padding: 1.5rem;
-  box-shadow: 0 2px 10px var(--shadow);
-  margin-bottom: 1.25rem;
+code, .mono {
+  font-family: 'JetBrains Mono', monospace;
 }
-.card-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.1rem;
-}
-@media (max-width: 768px) {
-  .card-grid { grid-template-columns: 1fr; }
-}
-.card-full { grid-column: 1 / -1; }
 
-.card h3 {
-  font-family: var(--ff-display);
-  font-size: 1.05rem;
-  font-weight: 600;
-  margin-bottom: .75rem;
-  color: var(--text);
+/* ===== NAV ===== */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--card-bg);
+  border-bottom: 1px solid var(--border);
+  padding: .65rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow);
 }
-.card p, .card li {
-  font-size: .875rem;
-  color: var(--text-mid);
-  line-height: 1.7;
-}
-.card ul {
-  padding-left: 1.2rem;
-}
-.card li { margin-bottom: .3rem; }
 
-/* ── Badges de estado ──────────────────────────────── */
-.badge {
-  display: inline-block;
-  padding: .2rem .6rem;
-  border-radius: 4px;
-  font-size: .68rem;
+.nav-logo {
+  font-family: 'Fraunces', serif;
+  font-size: .95rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  color: var(--terra);
+  letter-spacing: .02em;
 }
-.badge-full   { background: var(--olive-soft); color: var(--olive); }
-.badge-pres   { background: var(--amber-soft); color: var(--amber); }
-.badge-pend   { background: var(--amber-soft); color: var(--amber); border: 1px solid var(--amber); }
 
-/* ── Cards de sesión ─────────────────────────────────── */
-.session-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  padding: 1.75rem;
-  box-shadow: 0 2px 10px var(--shadow);
-  margin-bottom: 1.5rem;
-  position: relative;
+.nav-links {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
 }
-.session-card::before {
+
+.nav-links a {
+  font-size: .75rem;
+  font-weight: 600;
+  color: var(--ink-mid);
+  text-decoration: none;
+  padding: .25rem .6rem;
+  border-radius: 6px;
+  transition: background .15s, color .15s;
+}
+
+.nav-links a:hover {
+  background: var(--terra-soft);
+  color: var(--terra);
+}
+
+/* ===== LAYOUT ===== */
+.container {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+/* ===== HERO ===== */
+.hero {
+  background: var(--ink);
+  color: var(--cream);
+  padding: 3.5rem 2.5rem 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
   content: '';
   position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-  background: var(--terra);
-  border-radius: var(--r) 0 0 var(--r);
+  inset: 0;
+  background: radial-gradient(ellipse at 80% 20%, rgba(193,74,42,.25) 0%, transparent 60%),
+              radial-gradient(ellipse at 10% 90%, rgba(93,109,62,.20) 0%, transparent 50%);
+  pointer-events: none;
 }
-.session-header {
+
+.hero-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .72rem;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--terra);
+  margin-bottom: 1.1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 700;
+  color: var(--cream);
+  position: relative;
+  z-index: 1;
+  margin-bottom: .5rem;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--terra);
+}
+
+.hero-sub {
+  font-size: 1.05rem;
+  color: var(--ink-mid);
+  max-width: 580px;
+  position: relative;
+  z-index: 1;
+  margin-top: .75rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .hero-sub { color: #a89888; }
+}
+
+.hero-meta {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .75rem;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.12);
+  color: var(--cream);
+  padding: .3rem .7rem;
+  border-radius: 6px;
+}
+
+.hero-chip.terra { background: var(--terra); border-color: var(--terra); }
+
+/* ===== SECTION TITLES ===== */
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: .85rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.section-num {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .8rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.num-terra  { background: var(--terra); }
+.num-olive  { background: var(--olive); }
+.num-amber  { background: var(--amber); color: var(--ink); }
+.num-ink    { background: var(--ink); }
+
+.section-title h2 {
+  font-size: 1.35rem;
+  color: var(--ink);
+}
+
+/* ===== CARDS ===== */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+@media (max-width: 768px) {
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+}
+
+.col-full { grid-column: 1 / -1; }
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1.4rem;
+  box-shadow: var(--shadow);
+}
+
+.card h3 {
+  font-size: 1rem;
+  margin-bottom: .75rem;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+}
+
+.card p, .card li {
+  font-size: .875rem;
+  color: var(--ink-mid);
+  line-height: 1.7;
+}
+
+.card ul {
+  padding-left: 1.25rem;
+}
+
+.card li {
+  margin-bottom: .3rem;
+}
+
+/* ===== TOPIC BLOCKS ===== */
+.topic {
+  margin-bottom: 3rem;
+}
+
+.topic-header {
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
   gap: 1rem;
-  flex-wrap: wrap;
   margin-bottom: 1.25rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--border);
-}
-.session-title {
-  font-family: var(--ff-display);
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--text);
-}
-.session-date {
-  font-size: .8rem;
-  color: var(--text-mute);
-  font-weight: 500;
-  margin-top: .2rem;
-}
-.session-badges { display: flex; gap: .4rem; flex-wrap: wrap; margin-top: .3rem; }
-
-.session-block { margin-bottom: 1.1rem; }
-.session-block-label {
-  font-family: var(--ff-mono);
-  font-size: .68rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text-mute);
-  margin-bottom: .45rem;
-  font-weight: 500;
-}
-.session-block ul {
-  padding-left: 1.2rem;
-}
-.session-block li {
-  font-size: .875rem;
-  color: var(--text-mid);
-  margin-bottom: .3rem;
-  line-height: 1.6;
+  padding: 1.1rem 1.4rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--terra);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
 }
 
-/* ── Callout de conexión ─────────────────────────────── */
-.callout-conexion {
-  background: var(--olive-soft);
-  border-left: 3px solid var(--olive);
+.topic-header.olive  { border-left-color: var(--olive); }
+.topic-header.amber  { border-left-color: var(--amber); }
+.topic-header.ink    { border-left-color: var(--ink-mid); }
+
+.topic-icon {
+  font-size: 1.4rem;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: .15rem;
+}
+
+.topic-header h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.15rem;
+  margin-bottom: .2rem;
+}
+
+.topic-header p {
+  font-size: .83rem;
+  color: var(--ink-soft);
+}
+
+/* ===== CALLOUT BOXES ===== */
+.callout {
+  padding: 1rem 1.2rem;
   border-radius: 0 var(--r) var(--r) 0;
-  padding: .85rem 1.1rem;
-  margin-top: .75rem;
-  font-size: .85rem;
-  color: var(--text-mid);
-}
-.callout-conexion strong { color: var(--olive); }
-
-/* ── Intervención / citas ────────────────────────────── */
-.quote-block {
-  background: var(--bg-soft);
-  border-radius: var(--r);
-  padding: 1rem 1.25rem;
-  margin-top: .75rem;
-}
-.quote-block-label {
-  font-family: var(--ff-mono);
-  font-size: .68rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--terra);
-  font-weight: 600;
-  margin-bottom: .6rem;
-}
-.quote {
-  border-left: 3px solid var(--terra);
-  padding-left: .85rem;
-  font-size: .85rem;
-  color: var(--text-mid);
-  font-style: italic;
-  line-height: 1.65;
-  margin-bottom: .6rem;
-}
-.quote:last-child { margin-bottom: 0; }
-.quote-attr {
-  font-size: .75rem;
-  color: var(--text-mute);
-  font-style: normal;
-  margin-top: .3rem;
-  font-family: var(--ff-mono);
-}
-
-/* ── Prompt cards ─────────────────────────────────────── */
-.prompt-card {
-  background: var(--bg-soft);
-  border: 1px solid var(--border);
-  border-radius: var(--r);
-  padding: 1.25rem;
-  margin-bottom: 1rem;
-}
-.prompt-title {
-  font-weight: 700;
+  margin: 1rem 0;
   font-size: .875rem;
-  color: var(--terra);
-  margin-bottom: .3rem;
+  color: var(--ink);
 }
-.prompt-purpose {
+
+.callout p { font-size: .875rem; color: var(--ink); }
+.callout strong { color: inherit; }
+
+.callout-terra {
+  border-left: 4px solid var(--terra);
+  background: var(--terra-soft);
+}
+
+.callout-olive {
+  border-left: 4px solid var(--olive);
+  background: var(--olive-soft);
+}
+
+.callout-amber {
+  border-left: 4px solid var(--amber);
+  background: var(--amber-soft);
+}
+
+/* ===== QUOTE ===== */
+.quote-block {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--terra);
+  border-radius: 0 var(--r) var(--r) 0;
+  padding: 1.1rem 1.4rem;
+  margin: 1.25rem 0;
+}
+
+.quote-block blockquote {
+  font-style: italic;
+  font-size: .92rem;
+  color: var(--ink-mid);
+  line-height: 1.7;
+}
+
+.quote-block cite {
+  display: block;
+  font-size: .75rem;
+  font-style: normal;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--ink-soft);
+  margin-top: .5rem;
+}
+
+/* ===== PROMPT CARDS ===== */
+.prompt-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.prompt-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.prompt-card-header {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .7rem 1rem;
+  background: var(--ink);
+  color: var(--cream);
+}
+
+.prompt-card-header .mono {
+  font-size: .72rem;
+  letter-spacing: .06em;
+  color: var(--terra);
+}
+
+.prompt-card-title {
+  font-weight: 700;
+  font-size: .88rem;
+  color: var(--cream);
+}
+
+.prompt-card-purpose {
   font-size: .8rem;
-  color: var(--text-mute);
-  margin-bottom: .65rem;
+  color: var(--ink-mid);
+  padding: .5rem 1rem .4rem;
+  border-bottom: 1px solid var(--border);
   font-style: italic;
 }
-.prompt-text {
-  font-family: var(--ff-mono);
-  font-size: .78rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: .85rem 1rem;
-  color: var(--text-mid);
-  line-height: 1.6;
+
+.prompt-card-body {
+  padding: .9rem 1rem;
+}
+
+.prompt-card-body code {
+  display: block;
+  font-size: .8rem;
+  color: var(--ink);
+  line-height: 1.65;
   white-space: pre-wrap;
   word-break: break-word;
 }
 
-/* ── Trayectoria ─────────────────────────────────────── */
-.trayectoria-text {
-  font-size: 1rem;
-  color: var(--text-mid);
-  line-height: 1.85;
-  font-family: var(--ff-display);
-  font-style: italic;
+@media (prefers-color-scheme: dark) {
+  .prompt-card-body code { color: #cdd6f4; }
 }
-.trayectoria-text p { margin-bottom: .75rem; }
 
-/* ── Próximo paso ─────────────────────────────────────── */
-.next-step-card {
-  background: var(--terra-soft);
-  border: 1px solid rgba(193,74,42,.2);
-  border-radius: var(--r);
-  padding: 1.5rem;
-  margin-bottom: 1rem;
+/* ===== TASK LIST ===== */
+.task-list {
   display: flex;
-  gap: 1rem;
+  flex-direction: column;
+  gap: .6rem;
+}
+
+.task-item {
+  display: flex;
   align-items: flex-start;
-}
-.next-step-num {
-  flex-shrink: 0;
-  width: 2rem;
-  height: 2rem;
-  background: var(--terra);
-  color: #fff;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--ff-display);
-  font-weight: 700;
-  font-size: .9rem;
-}
-.next-step-body h4 {
-  font-weight: 700;
-  font-size: .95rem;
-  color: var(--text);
-  margin-bottom: .3rem;
-}
-.next-step-body p {
-  font-size: .875rem;
-  color: var(--text-mid);
-  line-height: 1.65;
-}
-
-/* ── Perfil chips ─────────────────────────────────────── */
-.perfil-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-.perfil-item {
-  background: var(--bg-card);
+  gap: .75rem;
+  padding: .85rem 1rem;
+  background: var(--card-bg);
   border: 1px solid var(--border);
   border-radius: var(--r);
-  padding: 1rem 1.25rem;
-}
-.perfil-item-label {
-  font-family: var(--ff-mono);
-  font-size: .68rem;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--text-mute);
-  margin-bottom: .35rem;
-}
-.perfil-item-value {
-  font-size: .9rem;
-  font-weight: 600;
-  color: var(--text);
+  box-shadow: var(--shadow);
 }
 
-/* ── Cita de expectativas ────────────────────────────── */
-.expectativa-box {
-  background: var(--bg-soft);
-  border-left: 3px solid var(--terra);
-  border-radius: 0 var(--r) var(--r) 0;
-  padding: 1rem 1.25rem;
-  font-size: .9rem;
-  color: var(--text-mid);
-  font-style: italic;
-  margin-bottom: 1.25rem;
+.task-marker {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  flex-shrink: 0;
+  margin-top: .15rem;
 }
 
-/* ── Bloque de relevancia ────────────────────────────── */
-.relevance-block {
-  background: var(--olive-soft);
-  border: 1px solid rgba(93,109,62,.2);
-  border-left: 3px solid var(--olive);
-  border-radius: 0 var(--r) var(--r) 0;
-  padding: 1rem 1.25rem;
-  margin-bottom: 1.1rem;
+.task-item strong {
+  font-size: .88rem;
+  display: block;
+  margin-bottom: .15rem;
 }
-.relevance-block-label {
-  font-family: var(--ff-mono);
+
+.task-item span {
+  font-size: .82rem;
+  color: var(--ink-soft);
+}
+
+/* ===== EXERCISE CARDS ===== */
+.exercise-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+@media (max-width: 768px) {
+  .exercise-grid { grid-template-columns: 1fr; }
+}
+
+.exercise-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.exercise-card-top {
+  padding: 1rem 1.2rem;
+  background: var(--olive);
+  color: #fff;
+}
+
+.exercise-card-top .label {
+  font-family: 'JetBrains Mono', monospace;
   font-size: .68rem;
-  letter-spacing: 1.5px;
+  letter-spacing: .1em;
   text-transform: uppercase;
-  color: var(--olive);
-  font-weight: 600;
-  margin-bottom: .5rem;
-  display: flex;
-  align-items: center;
-  gap: .5rem;
+  opacity: .8;
+  margin-bottom: .25rem;
 }
-.relevance-block-label::before {
-  content: '▲';
-  font-size: .6rem;
+
+.exercise-card-top h4 {
+  font-family: 'Fraunces', serif;
+  font-size: 1rem;
+  font-weight: 700;
 }
-.relevance-block ul {
+
+.exercise-card-body {
+  padding: 1rem 1.2rem;
+}
+
+.exercise-card-body p {
+  font-size: .855rem;
+  color: var(--ink-mid);
+  margin-bottom: .65rem;
+}
+
+.exercise-card-body ul {
   padding-left: 1.2rem;
 }
-.relevance-block li {
-  font-size: .875rem;
-  color: var(--text-mid);
-  margin-bottom: .35rem;
-  line-height: 1.6;
-}
-.relevance-block strong { color: var(--olive); }
 
-/* ── Alerta amber ────────────────────────────────────── */
-.alert-amber {
-  background: var(--amber-soft);
-  border: 1px solid rgba(212,149,32,.25);
+.exercise-card-body li {
+  font-size: .83rem;
+  color: var(--ink-soft);
+  margin-bottom: .25rem;
+}
+
+/* ===== EVOLUTION NARRATIVE ===== */
+.evolution-strip {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
   border-radius: var(--r);
-  padding: 1rem 1.25rem;
-  font-size: .875rem;
-  color: var(--text-mid);
-  margin-bottom: 1.25rem;
+  padding: 1.75rem 2rem;
+  box-shadow: var(--shadow-md);
 }
-.alert-amber strong { color: var(--amber); }
 
-/* ── Footer ──────────────────────────────────────────── */
+.evolution-strip p {
+  font-size: .92rem;
+  color: var(--ink-mid);
+  line-height: 1.85;
+  margin-bottom: .65rem;
+}
+
+.evolution-strip p:last-child { margin-bottom: 0; }
+
+/* ===== PILL BADGES ===== */
+.badge {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .68rem;
+  font-weight: 500;
+  padding: .2rem .55rem;
+  border-radius: 4px;
+  letter-spacing: .04em;
+}
+
+.badge-terra { background: var(--terra-soft); color: var(--terra); }
+.badge-olive { background: var(--olive-soft); color: var(--olive); }
+.badge-amber { background: var(--amber-soft); color: var(--amber); }
+
+/* ===== TABLE ===== */
+.table-wrap { overflow-x: auto; margin: 1rem 0; }
+
+table { width: 100%; border-collapse: collapse; font-size: .855rem; }
+
+th {
+  background: var(--ink);
+  color: var(--cream);
+  padding: .55rem 1rem;
+  text-align: left;
+  font-size: .75rem;
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: .05em;
+  font-weight: 500;
+}
+
+td {
+  padding: .55rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--ink-mid);
+}
+
+tr:last-child td { border-bottom: none; }
+
+/* ===== SEPARATOR ===== */
+.sep {
+  height: 1px;
+  background: var(--border);
+  margin: 2.5rem 0;
+}
+
+/* ===== FOOTER ===== */
 .footer {
   text-align: center;
-  padding: 2rem;
+  padding: 2rem 1.5rem;
   border-top: 1px solid var(--border);
   font-size: .8rem;
-  color: var(--text-mute);
-  line-height: 1.9;
-}
-.footer strong { color: var(--terra); }
-
-/* ── Responsive ──────────────────────────────────────── */
-@media (max-width: 768px) {
-  .hero { padding: 2.5rem 1.25rem 2rem; }
-  .container { padding: 2rem 1.25rem; }
-  .session-card { padding: 1.25rem; }
+  color: var(--ink-soft);
+  font-family: 'JetBrains Mono', monospace;
+  line-height: 1.8;
 }
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav class="nav">
-  <div class="nav-logo">Power Fox BI — Formación</div>
-  <div class="nav-right">Recap personal · FoixSB</div>
+<nav class="nav" aria-label="Navegación del recap">
+  <div class="nav-logo">Power Fox BI — Recap personal</div>
+  <div class="nav-links">
+    <a href="#perfil">Perfil</a>
+    <a href="#temas">Temas</a>
+    <a href="#rol">Para tu rol</a>
+    <a href="#tareas">Tareas</a>
+    <a href="#ejercicios">Ejercicios</a>
+    <a href="#evolucion">Evolución</a>
+  </div>
 </nav>
 
 <!-- HERO -->
-<div class="hero">
-  <div class="hero-eyebrow">Recap personal · Curso Claude Code</div>
-  <h1>Tu trayectoria,&nbsp;Foix</h1>
-  <p class="hero-sub">Técnica de Proyectos y Laboratorio &middot; Aprendiendo a usar Claude como herramienta real de trabajo, desde cero.</p>
+<header class="hero" id="perfil">
+  <div class="hero-eyebrow">Recap personal · curso Claude Code · Semana 1</div>
+  <h1>Tu trayectoria, <em>Foix</em></h1>
+  <p class="hero-sub">Técnica de proyectos y del dept. Ensayos Piloto y Laboratorio · Punto de partida: cero en Power Platform, curiosidad activa.</p>
   <div class="hero-meta">
-    <span class="hero-chip">Windows 11 &middot; VS Code &middot; Plan Pro</span>
-    <span class="hero-chip">Sesiones completadas: 5 de 12</span>
-    <span class="hero-chip">Generado: 29 abr 2026</span>
+    <span class="hero-chip terra">FoixSB</span>
+    <span class="hero-chip">Windows 11 Pro · VS Code</span>
+    <span class="hero-chip">Claude Pro</span>
+    <span class="hero-chip">29 abr 2026</span>
   </div>
-</div>
+</header>
 
-<!-- ─────────────────────────────────────────────────────── -->
-<div class="container">
+<!-- CONTAINER -->
+<main class="container">
 
-  <!-- SECCIÓN 1: PERFIL -->
-  <section class="section" id="perfil">
-    <div class="section-label">Tu perfil de aprendizaje</div>
-    <h2 class="section-title">Quién eres en este curso</h2>
+  <!-- ===== 0. PERFIL DE APRENDIZAJE ===== -->
+  <section style="margin-bottom:3rem">
+    <div class="section-title">
+      <div class="section-num num-terra">00</div>
+      <h2>Tu perfil de aprendizaje</h2>
+    </div>
 
-    <div class="perfil-grid">
-      <div class="perfil-item">
-        <div class="perfil-item-label">Rol</div>
-        <div class="perfil-item-value">Técnica de Proyectos y Laboratorio</div>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Quién eres en el curso</h3>
+        <ul>
+          <li><strong>Rol:</strong> Técnica de proyectos y del dept. Ensayos Piloto y Laboratorio</li>
+          <li><strong>Experiencia previa en Power Platform:</strong> 0 años</li>
+          <li><strong>Experiencia con Claude:</strong> Ya la usabas como chat, sobre todo para escritura y revisión de textos</li>
+          <li><strong>Punto de partida con código:</strong> Conocimientos básicos de programación (estudios y Excel avanzado)</li>
+        </ul>
       </div>
-      <div class="perfil-item">
-        <div class="perfil-item-label">Contexto</div>
-        <div class="perfil-item-value">Ensayos piloto y laboratorio &mdash; Dept. técnico</div>
-      </div>
-      <div class="perfil-item">
-        <div class="perfil-item-label">SO / IDE</div>
-        <div class="perfil-item-value">Windows 11 Pro &middot; VS Code</div>
-      </div>
-      <div class="perfil-item">
-        <div class="perfil-item-label">Plan Claude</div>
-        <div class="perfil-item-value">Pro (20&euro;/mes)</div>
-      </div>
-      <div class="perfil-item">
-        <div class="perfil-item-label">Experiencia previa con IA</div>
-        <div class="perfil-item-value">Claude.ai como chat para escritura y revisión</div>
-      </div>
-      <div class="perfil-item">
-        <div class="perfil-item-label">Experiencia en Power Platform</div>
-        <div class="perfil-item-value">Cero &mdash; aprende desde la base</div>
+      <div class="card">
+        <h3>Qué esperas del curso</h3>
+        <div class="quote-block" style="margin:0">
+          <blockquote>"Aprender los fundamentos de las herramientas de Power Platform e IA (sobre todo con Claude). Sentar bien los conocimientos y encontrar varios casos de aplicación dentro de mi área de trabajo."</blockquote>
+          <cite>— README de FoixSB</cite>
+        </div>
       </div>
     </div>
 
-    <div class="expectativa-box">
-      "Aprender a usar las herramientas de Power Platform y Claude" &mdash; lo que espero de este curso.
+    <div class="callout callout-amber" style="margin-top:1.25rem">
+      <p><strong>Pendientes activos detectados en la bitácora:</strong> la arquitectura general de la plataforma y JavaScript en formularios te costaron en la primera semana. Este recap está organizado para que ambos queden más claros antes de la Semana 2.</p>
     </div>
 
-    <div class="card card-full">
-      <h3>Pendientes y puntos de atenci&oacute;n activos</h3>
-      <ul>
-        <li><strong>Permisos de IT pendientes:</strong> en S2-Lunes no pod&iacute;as instalar Claude Desktop ni Git por restricciones del equipo corporativo. Esto se resolvi&oacute; parcialmente hablando con IT.</li>
-        <li><strong>Bitacora de S1 sin rellenar:</strong> los campos "lo mejor", "lo que me cost&oacute;" y "prompt que guardo" est&aacute;n vac&iacute;os en tu README. Vale la pena completarlos para que el curso te quede documentado.</li>
-        <li><strong>Uso de Claude en modo chat:</strong> hasta el curso usabas Claude solo como chat individual. El objetivo es que pases a usarlo con contexto, proyectos y prompts estructurados.</li>
-      </ul>
+    <div class="quote-block" style="margin-top:1.25rem">
+      <blockquote>"Yo vengo a aprender casi desde cero [...] sí que tengo conocimientos, algo de programación y así muy básicos, porque bueno en los estudios y así y también en el día a día, pues usando Excel y al final indagando curiosamente."</blockquote>
+      <cite>— Foix, intervención en S1-Miércoles (transcript, 00:04:47 – 00:05:25)</cite>
     </div>
   </section>
 
-  <!-- SECCIÓN 2: SESIÓN A SESIÓN -->
-  <section class="section" id="sesiones">
-    <div class="section-label">Sesi&oacute;n a sesi&oacute;n</div>
-    <h2 class="section-title">Qu&eacute; se cubri&oacute; y qu&eacute; te aplica a ti</h2>
+  <!-- ===== 1. RESUMEN POR TEMA ===== -->
+  <section id="temas" style="margin-bottom:3rem">
+    <div class="section-title">
+      <div class="section-num num-terra">01</div>
+      <h2>Resumen por tema — Semana 1</h2>
+    </div>
+    <p style="font-size:.9rem;color:var(--ink-mid);margin-bottom:1.75rem">Todo el contenido de las tres sesiones (Lunes, Miércoles, Viernes) organizado por bloques temáticos, no por fecha. Así lo puedes consultar cuando necesites un concepto concreto.</p>
 
-    <!-- S1 LUNES -->
-    <div class="session-card">
-      <div class="session-header">
+    <!-- TEMA 1: ECOSISTEMA -->
+    <div class="topic">
+      <div class="topic-header">
+        <div class="topic-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--terra)"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        </div>
         <div>
-          <div class="session-title">S1 &middot; Lunes &mdash; Arquitectura y Ecosistema Power Platform</div>
-          <div class="session-date">Lunes 14 de abril 2026 &middot; D&iacute;a 1 de 12</div>
-          <div class="session-badges">
-            <span class="badge badge-full">Presentaci&oacute;n + Transcript</span>
+          <h3>Ecosistema Power Platform — Los 5 pilares</h3>
+          <p>S1-Lunes · Bloque 1</p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Los 5 pilares</h3>
+          <ul>
+            <li><strong>Power Apps</strong> — Crea interfaces de usuario. Dos tipos: Model-Driven (sigue la estructura de Dataverse) y Canvas (diseño libre).</li>
+            <li><strong>Power Automate</strong> — Automatiza flujos y procesos. Se conecta con más de 1.000 servicios externos.</li>
+            <li><strong>Power BI</strong> — Análisis y visualización conectada directamente a los datos de Dataverse.</li>
+            <li><strong>Copilot Studio</strong> — Agentes de IA con acceso a datos empresariales.</li>
+            <li><strong>Power Pages</strong> — Portales web para usuarios externos, también sobre Dataverse.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>La clave que une todo: Dataverse</h3>
+          <p>Todos los pilares convergen en <strong>Microsoft Dataverse</strong>, que es la capa de datos. Sobre él se construye todo el sistema: tablas, relaciones, permisos y lógica de negocio.</p>
+          <div class="callout callout-terra" style="margin-top:.85rem">
+            <p><strong>Una imagen para recordarlo:</strong> Dataverse es como el suelo de un edificio. Power Apps, Power Automate y Power BI son las habitaciones que se construyen encima. Sin suelo, no hay edificio.</p>
           </div>
         </div>
       </div>
 
-      <div class="session-block">
-        <div class="session-block-label">Qu&eacute; se cubri&oacute; desde tu rol</div>
-        <ul>
-          <li><strong>Ecosistema Power Platform:</strong> Power Apps, Power Automate, Power BI, Copilot Studio y Power Pages, todos conectados sobre Microsoft Dataverse.</li>
-          <li><strong>Qu&eacute; es Claude Code</strong> frente a Claude.ai: Claude Code vive en tu editor, lee archivos reales, ejecuta comandos; Claude.ai es el chat en el navegador.</li>
-          <li><strong>Las tablas principales del sistema:</strong> Proyecto, Actividad, Oferta, Parte de Horas y Avance &mdash; &eacute;stas son las entidades que el equipo usa en el d&iacute;a a d&iacute;a.</li>
-          <li><strong>Roles y seguridad:</strong> 10 roles custom, Business Units, permisos CRUD. Como t&eacute;cnica, lo relevante es saber qu&eacute; puede ver y hacer cada rol en el sistema.</li>
-          <li><strong>Introducci&oacute;n en vivo de Claude Code</strong> generando documentaci&oacute;n real del sistema (diccionario de datos, matriz de permisos).</li>
-        </ul>
+      <div class="card col-full" style="margin-top:1.25rem">
+        <h3>Las 4 soluciones del sistema (cómo está organizado el proyecto)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Solución</th><th>Contenido</th><th>Por qué separada</th></tr></thead>
+            <tbody>
+              <tr><td><code>smart_project_solution</code></td><td>Tablas, roles, lógica de negocio</td><td>Es el núcleo. Se despliega primero.</td></tr>
+              <tr><td><code>SmartProjectSolutionWebResources</code></td><td>JavaScript y recursos web</td><td>Si solo cambia un script, no redespliegas tablas.</td></tr>
+              <tr><td><code>SmartProjectSolutionDataflows</code></td><td>Dataflows de integración</td><td>Flujos de datos aislados.</td></tr>
+              <tr><td><code>PFXCustomAPISolution</code></td><td>APIs personalizadas</td><td>Se verá en Semana 3.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:.83rem;color:var(--ink-soft);margin-top:.5rem">Prefijo <code>pfx_</code> en todas las tablas y campos del sistema. Así se distinguen los elementos del proyecto de los nativos de la plataforma.</p>
       </div>
+    </div>
 
-      <div class="relevance-block">
-        <div class="relevance-block-label">Lo m&aacute;s relevante para tu rol</div>
-        <ul>
-          <li><strong>Las tablas Proyecto, Actividad y Avance</strong> son las que toca una t&eacute;cnica de proyectos en el d&iacute;a a d&iacute;a. Saber qu&eacute; hay en cada una te permite pedirle a Claude que genere informes o res&uacute;menes sin tener que conocer Dataverse.</li>
-          <li><strong>Los roles del sistema</strong>: entender qu&eacute; puede ver y hacer cada rol te ayuda cuando algo no te deja guardar o acceder a un registro &mdash; sabes si es un problema tuyo o de permisos del sistema.</li>
-          <li><strong>Claude generando documentaci&oacute;n autom&aacute;tica</strong>: la demo de esta sesi&oacute;n es exactamente lo que puedes aplicar &mdash; pedirle que te explique cualquier tabla del sistema en lenguaje de negocio, sin tecnicismos.</li>
-        </ul>
-      </div>
-
-      <div class="session-block">
-        <div class="session-block-label">Prompts que encajan contigo</div>
-        <div class="prompt-card" style="margin-bottom:.75rem">
-          <div class="prompt-title">P2 &mdash; Diccionario de datos</div>
-          <div class="prompt-purpose">Para entender qu&eacute; contiene cada tabla sin necesidad de conocer Dataverse en profundidad.</div>
-          <div class="prompt-text">Genera un diccionario de datos completo de la tabla pfx_project en Dataverse: nombre de columna, tipo, descripci&oacute;n de negocio, y relaciones con otras tablas. F&oacute;rmato markdown.</div>
+    <!-- TEMA 2: MODELO DE DATOS -->
+    <div class="topic">
+      <div class="topic-header olive">
+        <div class="topic-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--olive)"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+        </div>
+        <div>
+          <h3>Modelo de datos y Dataverse</h3>
+          <p>S1-Lunes · Bloques 2 y 3 · S1-Miércoles · Bloque 3</p>
         </div>
       </div>
 
-      <div class="session-block">
-        <div class="session-block-label">Tu intervenci&oacute;n</div>
-        <div class="quote-block">
-          <div class="quote-block-label">Transcript S1-Lunes</div>
-          <p style="font-size:.85rem;color:var(--text-mute);font-style:italic;">No hay intervenciones de Foix registradas en el transcript de esta sesi&oacute;n (asistencia en directo no confirmada).</p>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Tipos de tablas</h3>
+          <ul>
+            <li><strong>Standard</strong> — Predefinidas por Microsoft (Account, Contact...).</li>
+            <li><strong>Custom</strong> — Las que crea el equipo para el proyecto (prefijo <code>pfx_</code>).</li>
+            <li><strong>Virtual</strong> — Conectan datos externos sin migrarlos.</li>
+            <li><strong>Elastic</strong> — Para grandes volúmenes de datos.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Tipos de relaciones</h3>
+          <ul>
+            <li><strong>1:N (uno a muchos)</strong> — La más común. Ej: un Proyecto tiene muchas Actividades. La entidad "hija" tiene un campo Lookup al "padre".</li>
+            <li><strong>N:N (muchos a muchos)</strong> — Tabla intermedia automática. Ej: un Contacto puede tener varias Habilidades.</li>
+            <li><strong>1:1 (uno a uno)</strong> — Se simula con un Lookup único.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card col-full" style="margin-top:1.25rem">
+        <h3>Tipos de columnas que más te encontrarás</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tipo</th><th>Uso</th><th>Ejemplo en el sistema</th></tr></thead>
+            <tbody>
+              <tr><td><code>Lookup</code></td><td>Referencia a otra tabla</td><td>Proyecto padre en una Actividad</td></tr>
+              <tr><td><code>Choice</code></td><td>Lista de opciones fija</td><td>Estado del proyecto</td></tr>
+              <tr><td><code>Calculated</code></td><td>Fórmula recalculada periódicamente</td><td>Días desde creación</td></tr>
+              <tr><td><code>Rollup</code></td><td>Agrega datos de registros hijos</td><td>Total de horas de actividades</td></tr>
+              <tr><td><code>Formula 🔒</code></td><td>Cálculo en tiempo real, solo lectura</td><td>Margen estimado %, margen real %</td></tr>
+              <tr><td><code>Auto-number</code></td><td>Código secuencial automático</td><td>Código de proyecto (PRY-00001)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout callout-amber" style="margin-top:.75rem">
+          <p><strong>Ojo con el cascade behavior:</strong> cuando defines una relación padre-hijo, debes decidir qué pasa si borras el padre. Con comportamiento "Parental", borrar un Proyecto elimina también TODAS sus Actividades, Partes de Horas y Avances. Hay que configurarlo conscientemente.</p>
+        </div>
+      </div>
+
+      <div class="card col-full" style="margin-top:1.25rem">
+        <h3>Tablas principales del sistema que ya conoces</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Tabla</th><th>Schema Name</th><th>Qué representa</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Proyecto</strong></td><td><code>pfx_project</code></td><td>Entidad central. Todo gira alrededor del proyecto.</td></tr>
+              <tr><td><strong>Actividad de Proyecto</strong></td><td><code>pfx_project_activity</code></td><td>Desglose del trabajo dentro de un proyecto.</td></tr>
+              <tr><td><strong>Oferta</strong></td><td><code>pfx_offer</code></td><td>Fase comercial previa al proyecto.</td></tr>
+              <tr><td><strong>Parte de Horas</strong></td><td><code>pfx_time_entry</code></td><td>Registro semanal de horas por recurso.</td></tr>
+              <tr><td><strong>Avance del Proyecto</strong></td><td><code>pfx_project_progress</code></td><td>Seguimiento mensual con aprobación en dos niveles.</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
 
-    <!-- S1 MIÉRCOLES -->
-    <div class="session-card">
-      <div class="session-header">
+    <!-- TEMA 3: ENTORNOS Y ALM -->
+    <div class="topic">
+      <div class="topic-header amber">
+        <div class="topic-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--amber)"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </div>
         <div>
-          <div class="session-title">S1 &middot; Mi&eacute;rcoles &mdash; Entornos, Herramientas y Dise&ntilde;o de Tablas</div>
-          <div class="session-date">Mi&eacute;rcoles 15 de abril 2026 &middot; D&iacute;a 2 de 12</div>
-          <div class="session-badges">
-            <span class="badge badge-full">Presentaci&oacute;n + Transcript</span>
+          <h3>Entornos y ALM — DEV / TEST / PROD</h3>
+          <p>S1-Miércoles · Bloque 1</p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>¿Por qué múltiples entornos?</h3>
+          <ul>
+            <li><strong>DEV</strong> — Aquí se construye y prueba sin riesgo. Los errores no afectan a nadie.</li>
+            <li><strong>TEST</strong> — Se valida con datos reales de prueba. Los usuarios pueden probar sin miedo.</li>
+            <li><strong>PROD</strong> — El entorno real. Solo llega aquí lo que ha pasado DEV y TEST.</li>
+          </ul>
+          <div class="callout callout-olive" style="margin-top:.75rem">
+            <p><strong>Para ti como técnica:</strong> cuando un cambio "no aparece todavía", es porque está en DEV o en TEST esperando validación. No es un bug, es el proceso.</p>
           </div>
         </div>
-      </div>
-
-      <div class="session-block">
-        <div class="session-block-label">Qu&eacute; se cubri&oacute; desde tu rol</div>
-        <ul>
-          <li><strong>El viaje de un cambio:</strong> de la idea a producci&oacute;n &mdash; DEV &rarr; TEST &rarr; UAT &rarr; PROD. Como t&eacute;cnica, saber en qu&eacute; entorno est&aacute;s trabajando evita sorpresas.</li>
-          <li><strong>Herramientas del equipo:</strong> VS Code, Claude Code, GitHub/DevOps, XRMToolBox. Se presento la pila completa que usa el equipo de desarrollo.</li>
-          <li><strong>Dise&ntilde;o de tablas y relaciones</strong> en Dataverse: tipos 1:N, N:N, comportamientos en cascada y por qu&eacute; importan.</li>
-          <li><strong>Intro a JavaScript en formularios Model-Driven:</strong> contexto sobre c&oacute;mo se a&ntilde;ade l&oacute;gica a los formularios que usa el equipo.</li>
-        </ul>
-      </div>
-
-      <div class="relevance-block">
-        <div class="relevance-block-label">Lo m&aacute;s relevante para tu rol</div>
-        <ul>
-          <li><strong>El flujo DEV &rarr; TEST &rarr; PROD</strong>: no para desarrollar, sino para saber en qu&eacute; entorno est&aacute;s cuando alguien te pasa un formulario o una app para probar. &ldquo;&iquest;Esto es de pruebas o de producci&oacute;n?&rdquo; deja de ser una pregunta.</li>
-          <li><strong>VS Code como canal hacia Claude Code</strong>: no lo necesitas para programar &mdash; lo necesitas como interfaz para pedirle a Claude que haga cosas por ti sobre archivos reales.</li>
-          <li><strong>XRMToolBox existe</strong>: si alguna vez necesitas explorar o exportar datos del sistema sin tocar nada en producci&oacute;n, es la herramienta adecuada. Merece la pena que sepas que existe antes de necesitarla.</li>
-        </ul>
-      </div>
-
-      <div class="session-block">
-        <div class="session-block-label">Prompts que encajan contigo</div>
-        <div class="prompt-card" style="margin-bottom:.75rem">
-          <div class="prompt-title">Explorar herramientas del entorno</div>
-          <div class="prompt-purpose">Para entender con qu&eacute; trabaja el equipo antes de tocar nada.</div>
-          <div class="prompt-text">Explica c&oacute;mo funciona el flujo DEV-TEST-PROD en Power Platform. &iquest;Qu&eacute; significa Managed vs Unmanaged? Dame una analog&iacute;a sencilla.</div>
-        </div>
-      </div>
-
-      <div class="session-block">
-        <div class="session-block-label">Tu intervenci&oacute;n</div>
-        <div class="quote-block">
-          <div class="quote-block-label">Transcript S1-Mi&eacute;rcoles (Foix, 00:04&ndash;00:07)</div>
-          <div class="quote">
-            "Yo bueno yo tengo, o sea no tengo tanto conocimiento como otros compa&ntilde;eros en cuanto a automatizaci&oacute;n o power platform. S&iacute; que tengo conocimientos, algo de programaci&oacute;n y as&iacute; muy b&aacute;sicos, porque bueno en los estudios y as&iacute; y tambi&eacute;n en el d&iacute;a a d&iacute;a, pues usando Excel y al final indagando curiosamente... Entonces yo vengo a aprender casi desde cero."
-            <div class="quote-attr">&mdash; Foix presentando su perfil al facilitador, S1-Mi&eacute;rcoles</div>
+        <div class="card">
+          <h3>Managed vs Unmanaged</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Tipo</th><th>Dónde</th><th>¿Editable?</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Unmanaged</strong></td><td>Solo en DEV</td><td>Sí, libre</td></tr>
+                <tr><td><strong>Managed</strong></td><td>TEST, UAT, PROD</td><td>No — bloqueada</td></tr>
+              </tbody>
+            </table>
           </div>
-          <div class="quote">
-            "Creo que Cloud. De hecho." [respondiendo qu&eacute; IA usa] &mdash; y aclar&oacute; que lo usa "a nivel muy b&aacute;sico como chat, sobre todo para ayudarme en cuanto a escritura y revisi&oacute;n."
-            <div class="quote-attr">&mdash; Foix, S1-Mi&eacute;rcoles, 00:05&ndash;00:07</div>
-          </div>
+          <p style="font-size:.83rem;color:var(--ink-soft);margin-top:.5rem">En PROD siempre soluciones managed. Así se puede quitar todo de golpe si algo falla.</p>
         </div>
       </div>
 
-      <div class="callout-conexion">
-        <strong>Conexi&oacute;n:</strong> Viniste a esta sesi&oacute;n en diferido (la viste por la tarde). El facilitador lo sabe y lo valor&oacute;. Este h&aacute;bito de ver las grabaciones te pone al d&iacute;a aunque no puedas estar en todas en directo.
-      </div>
-    </div>
-
-    <!-- S1 VIERNES -->
-    <div class="session-card">
-      <div class="session-header">
-        <div>
-          <div class="session-title">S1 &middot; Viernes &mdash; JavaScript en Model-Driven + Skills y Agents</div>
-          <div class="session-date">Viernes 16 de abril 2026 &middot; D&iacute;a 3 de 12</div>
-          <div class="session-badges">
-            <span class="badge badge-full">Presentaci&oacute;n + Transcript</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="session-block">
-        <div class="session-block-label">Qu&eacute; se cubri&oacute; desde tu rol</div>
-        <ul>
-          <li><strong>JavaScript en formularios:</strong> cu&aacute;ndo usarlo y cu&aacute;ndo no. Lo importante: Business Rules para l&oacute;gica simple, JavaScript para lo complejo. Como t&eacute;cnica que no programa, lo que te aplica es saber <em>pedirle a Claude</em> que genere este c&oacute;digo.</li>
-          <li><strong>Los 3 eventos clave:</strong> OnLoad (al abrir el formulario), OnChange (al cambiar un campo), OnSave (al guardar). Entender esto permite describir bien qu&eacute; quieres automatizar.</li>
-          <li><strong>Skills y Agents de Claude Code creados en vivo:</strong> c&oacute;mo instruir a Claude con reglas permanentes para que trabaje mejor en tu contexto.</li>
-          <li><strong>Regla de oro del bloque:</strong> si la l&oacute;gica tiene que aplicarse siempre (incluyendo desde la API o un flujo), necesitas un Plugin o Power Automate, no JavaScript.</li>
-        </ul>
-      </div>
-
-      <div class="relevance-block">
-        <div class="relevance-block-label">Lo m&aacute;s relevante para tu rol</div>
-        <ul>
-          <li><strong>Skills y Agents permanentes</strong>: puedes crear un &ldquo;perfil&rdquo; de trabajo que describa tu rol, tus tareas habituales y las reglas del sistema. Claude lo lee siempre al empezar, sin que t&uacute; tengas que repetirlo cada vez.</li>
-          <li><strong>Los 3 eventos del formulario</strong> (OnLoad, OnChange, OnSave): no para programarlos t&uacute;, sino para describir con precisi&oacute;n qu&eacute; quieres que pase y cu&aacute;ndo. Claude entiende mejor tu petici&oacute;n si usas estos t&eacute;rminos.</li>
-          <li><strong>Business Rules vs JavaScript</strong>: si la l&oacute;gica es simple (campo obligatorio, ocultar algo), se hace sin c&oacute;digo. S&oacute;lo necesitas JavaScript para lo complejo &mdash; y ah&iacute; es cuando le pides a Claude que lo escriba por ti.</li>
-        </ul>
-      </div>
-
-      <div class="session-block">
-        <div class="session-block-label">Prompts que encajan contigo</div>
-        <div class="prompt-card" style="margin-bottom:.75rem">
-          <div class="prompt-title">Pedir c&oacute;digo de formulario sin saber JavaScript</div>
-          <div class="prompt-purpose">Para automatizar algo en un formulario del sistema sin tener que escribir c&oacute;digo t&uacute; misma.</div>
-          <div class="prompt-text">Necesito un JavaScript para un formulario Model-Driven de Dataverse. Cuando el campo [nombre_campo] cambie a [valor], quiero que el campo [otro_campo] se oculte. Usa formContext, el patr&oacute;n OnChange, y sigue las buenas pr&aacute;cticas del sistema pfx_. Dame el c&oacute;digo listo para pegar en una Web Resource.</div>
-        </div>
-      </div>
-
-      <div class="session-block">
-        <div class="session-block-label">Tu intervenci&oacute;n</div>
-        <div class="quote-block">
-          <div class="quote-block-label">Transcript S1-Viernes</div>
-          <p style="font-size:.85rem;color:var(--text-mute);font-style:italic;">No hay intervenciones de Foix registradas en el transcript de esta sesi&oacute;n.</p>
+      <div class="card col-full" style="margin-top:1.25rem">
+        <h3>El viaje de un cambio — de la idea a producción</h3>
+        <div style="display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;padding:.75rem 0;font-size:.83rem">
+          <span style="background:var(--olive-soft);color:var(--olive);padding:.4rem .8rem;border-radius:8px;font-weight:700">1. Petición</span>
+          <span style="color:var(--ink-soft)">&#8594;</span>
+          <span style="background:var(--olive-soft);color:var(--olive);padding:.4rem .8rem;border-radius:8px;font-weight:700">2. Diseño</span>
+          <span style="color:var(--ink-soft)">&#8594;</span>
+          <span style="background:var(--olive-soft);color:var(--olive);padding:.4rem .8rem;border-radius:8px;font-weight:700">3. DEV</span>
+          <span style="color:var(--ink-soft)">&#8594;</span>
+          <span style="background:var(--amber-soft);color:var(--amber);padding:.4rem .8rem;border-radius:8px;font-weight:700">4. TEST</span>
+          <span style="color:var(--ink-soft)">&#8594;</span>
+          <span style="background:var(--amber-soft);color:var(--amber);padding:.4rem .8rem;border-radius:8px;font-weight:700">5. UAT</span>
+          <span style="color:var(--ink-soft)">&#8594;</span>
+          <span style="background:var(--terra-soft);color:var(--terra);padding:.4rem .8rem;border-radius:8px;font-weight:700">6. PROD</span>
         </div>
       </div>
     </div>
 
-    <!-- S2 LUNES -->
-    <div class="session-card">
-      <div class="session-header">
+    <!-- TEMA 4: HERRAMIENTAS DEL DÍA A DÍA -->
+    <div class="topic">
+      <div class="topic-header">
+        <div class="topic-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--terra)"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </div>
         <div>
-          <div class="session-title">S2 &middot; Lunes &mdash; Instalar Claude Code + GitHub + Tu Primer Proyecto</div>
-          <div class="session-date">Lunes 21 de abril 2026 &middot; D&iacute;a 4 de 12</div>
-          <div class="session-badges">
-            <span class="badge badge-full">Presentaci&oacute;n + Transcript</span>
-          </div>
+          <h3>Herramientas del día a día</h3>
+          <p>S1-Miércoles · Bloque 2</p>
         </div>
       </div>
 
-      <div class="session-block">
-        <div class="session-block-label">Qu&eacute; se cubri&oacute; desde tu rol</div>
-        <ul>
-          <li><strong>Diferencia Claude Code vs Claude.ai:</strong> Claude Code vive en el editor, lee y modifica archivos reales, ejecuta comandos. Claude.ai es el chat en el navegador donde ya trabajabas.</li>
-          <li><strong>Instalar Claude Code en VS Code</strong> paso a paso, incluyendo login con la licencia Team de LitoClean.</li>
-          <li><strong>GitHub desde cero:</strong> qu&eacute; es Git vs GitHub, el flujo de trabajo diario (add &rarr; commit &rarr; push), los 10 comandos esenciales.</li>
-          <li><strong>Expectativas realistas:</strong> Claude no sabe de tu empresa hasta que se lo cuentas. Da contexto. Revisa siempre antes de aceptar.</li>
-        </ul>
-      </div>
-
-      <div class="relevance-block">
-        <div class="relevance-block-label">Lo m&aacute;s relevante para tu rol</div>
-        <ul>
-          <li><strong>Dar contexto a Claude</strong>: este es el salto m&aacute;s importante para ti. Sin contexto Claude da respuestas gen&eacute;ricas; con contexto (&ldquo;soy t&eacute;cnica de laboratorio, trabajo en ensayos piloto, necesito...&rdquo;) las respuestas son adapt&aacute;das a tu situaci&oacute;n real.</li>
-          <li><strong>Los 4 comandos de Git que usas t&uacute;</strong>: <code>pull</code>, <code>add</code>, <code>commit</code>, <code>push</code>. Con esos cuatro puedes contribuir al repo del curso y a cualquier proyecto del equipo. El resto es avanzado y no lo necesitas a&uacute;n.</li>
-          <li><strong>Expectativas realistas</strong>: Claude no sustituye el juicio t&eacute;cnico &mdash; lo amplia. Con una buena descripci&oacute;n del problema puede hacer el 80% del trabajo que te llevar&iacute;a horas aprender. T&uacute; revisas y decides.</li>
-        </ul>
-      </div>
-
-      <div class="session-block">
-        <div class="session-block-label">Prompts que encajan contigo</div>
-        <div class="prompt-card" style="margin-bottom:.75rem">
-          <div class="prompt-title">P1 &mdash; Presentaci&oacute;n inicial a Claude Code</div>
-          <div class="prompt-purpose">El primer prompt que lanzas en cualquier proyecto nuevo para que Claude sepa d&oacute;nde est&aacute; y qui&eacute;n eres.</div>
-          <div class="prompt-text">Hola Claude. Soy Foix, t&eacute;cnica de proyectos y laboratorio en LitoClean. Trabajo con Windows 11 y VS Code. Tengo conocimientos b&aacute;sicos de programaci&oacute;n. Mi objetivo es aprender a usar Claude Code para automatizar tareas del d&iacute;a a d&iacute;a relacionadas con ensayos y proyectos. &iquest;Qu&eacute; ves en esta carpeta y c&oacute;mo puedes ayudarme?</div>
+      <div class="grid-3">
+        <div class="card">
+          <h3>VS Code</h3>
+          <p>IDE principal. Donde se escribe y edita el código. Con extensiones <strong>Power Platform Tools</strong> y <strong>Dataverse DevTools</strong> puedes navegar tablas y columnas sin salir del editor.</p>
         </div>
-      </div>
-
-      <div class="session-block">
-        <div class="session-block-label">Tu intervenci&oacute;n</div>
-        <div class="quote-block">
-          <div class="quote-block-label">Transcript S2-Lunes (Foix Soler Balaguer)</div>
-          <div class="quote">
-            "A ver, cloud.ia ser&iacute;a el chatbot, &iquest;no? Y Cloud Code es el que se incorpora igual en el IDE para revisar el c&oacute;digo. Que est&aacute; como especializado en programaci&oacute;n, no b&aacute;sicamente."
-            <div class="quote-attr">&mdash; Foix respondiendo la pregunta del facilitador en directo &mdash; S2-Lunes, 4:27</div>
-          </div>
-          <div class="quote">
-            "Yo lo estoy intentando, pero es que no puedo porque me pide permisos, s&iacute;, y de hecho me est&aacute; dando el error este que es error uno del Claude." [...] "Igual ir&iacute;a bien una lista de todas las extensiones o lo que deber&iacute;amos de instalar, porque as&iacute; ya yo, por ejemplo, lo pido todo de golpe y ya est&aacute;, no tengo que estar pidiendo."
-            <div class="quote-attr">&mdash; Foix identificando el problema de permisos y proponiendo una soluci&oacute;n concreta &mdash; S2-Lunes, 1:13&ndash;1:14</div>
-          </div>
+        <div class="card">
+          <h3>Claude Code</h3>
+          <p>Asistente IA integrado en el terminal y en VS Code. Genera JavaScript para formularios, crea consultas, depura errores y documenta código. Ya lo usas como chat — aquí vas más allá.</p>
         </div>
-      </div>
-
-      <div class="callout-conexion">
-        <strong>Conexi&oacute;n directa con tu situaci&oacute;n:</strong> El problema de permisos que apareci&oacute; en esta sesi&oacute;n (Git no instalado, Claude Desktop bloqueado por IT) es exactamente el freno m&aacute;s habitual para alguien en tu posici&oacute;n. Tu propuesta de pedir todo de una vez fue la m&aacute;s pragm&aacute;tica de la sesi&oacute;n. En S2-Mi&eacute;rcoles Yeriel te menciona como ejemplo de c&oacute;mo resolverlo correctamente.
+        <div class="card">
+          <h3>XRMToolBox</h3>
+          <p>Herramienta de administración de Dataverse. La más útil para empezar: <strong>FetchXML Builder</strong>, que permite construir consultas visualmente sin escribir código.</p>
+        </div>
+        <div class="card">
+          <h3>PAC CLI</h3>
+          <p>Línea de comandos de Power Platform. Permite exportar e importar soluciones entre entornos. Se usa junto con Git para el control de versiones.</p>
+        </div>
+        <div class="card">
+          <h3>FetchXML Builder</h3>
+          <p>Dentro de XRMToolBox. Construyes consultas arrastrando tablas y condiciones, las pruebas contra el entorno real y copias el resultado. No necesitas saber código para empezar.</p>
+        </div>
+        <div class="card">
+          <h3>GitHub / DevOps</h3>
+          <p>Control de versiones y pipelines de despliegue. Gestiona qué versión de la solución está en cada entorno y automatiza el proceso de DEV a PROD.</p>
+        </div>
       </div>
     </div>
 
-    <!-- S2 MIÉRCOLES -->
-    <div class="session-card">
-      <div class="session-header">
+    <!-- TEMA 5: FORMULARIOS MODEL-DRIVEN -->
+    <div class="topic">
+      <div class="topic-header olive">
+        <div class="topic-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--olive)"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
+        </div>
         <div>
-          <div class="session-title">S2 &middot; Mi&eacute;rcoles &mdash; Repo Compartido + Skills / Agents + Repos HOT</div>
-          <div class="session-date">Mi&eacute;rcoles 22 de abril 2026 &middot; D&iacute;a 5 de 12</div>
-          <div class="session-badges">
-            <span class="badge badge-full">Presentaci&oacute;n + Transcript</span>
+          <h3>Formularios Model-Driven App</h3>
+          <p>S1-Miércoles · Bloque 4 · S1-Viernes · Bloques 1, 2 y 3</p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Tipos de formularios</h3>
+          <ul>
+            <li><strong>Main Form</strong> — El formulario principal de edición de un registro.</li>
+            <li><strong>Quick View Form</strong> — Muestra datos del registro padre dentro del hijo sin necesidad de código.</li>
+            <li><strong>Card Form</strong> — Vista compacta para listas de tarjetas.</li>
+          </ul>
+          <div class="callout callout-olive" style="margin-top:.75rem">
+            <p><strong>Truco útil:</strong> Formula selector para mostrar formularios distintos según el rol del usuario. Un gerente puede ver campos económicos que un técnico no ve.</p>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Business Rules — lógica sin código</h3>
+          <p>Antes de llegar a JavaScript, las Business Rules permiten:</p>
+          <ul>
+            <li>Mostrar u ocultar campos según condiciones</li>
+            <li>Hacer un campo obligatorio si otro tiene un valor determinado</li>
+            <li>Establecer valores por defecto</li>
+          </ul>
+          <p style="margin-top:.5rem;font-size:.83rem;color:var(--ink-soft)">Son visuales, sin código, y suficientes para mucha lógica sencilla. Si Business Rule puede hacerlo, úsala primero.</p>
+        </div>
+        <div class="card">
+          <h3>Subgrids</h3>
+          <p>Muestran registros relacionados dentro de un formulario. Desde un Proyecto puedes ver directamente sus Actividades o sus Partes de Horas sin salir del formulario.</p>
+        </div>
+        <div class="card">
+          <h3>Vistas</h3>
+          <ul>
+            <li><strong>System Views</strong> — Compartidas con todos los usuarios.</li>
+            <li><strong>Lookup Views</strong> — Controla qué columnas ve el usuario al buscar en un lookup.</li>
+            <li><strong>Quick Find View</strong> — Define qué campos son buscables.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEMA 6: JAVASCRIPT -->
+    <div class="topic">
+      <div class="topic-header amber">
+        <div class="topic-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--amber)"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <div>
+          <h3>JavaScript en formularios</h3>
+          <p>S1-Miércoles · Bloque 6 · S1-Viernes · Bloques 1, 2, 3 y 4</p>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <p>Este fue el bloque que te costó más. El objetivo aquí es que te quede el esqueleto claro, no que lo domines aún. JavaScript en formularios se consolida practicando.</p>
+      </div>
+
+      <div class="grid-2" style="margin-top:1.25rem">
+        <div class="card">
+          <h3>¿Cuándo se usa JavaScript?</h3>
+          <p>Solo cuando Business Rule no llega:</p>
+          <ul>
+            <li>Validaciones complejas con varias condiciones</li>
+            <li>Consultar datos de otra tabla al abrir el formulario</li>
+            <li>Filtrar lookups dinámicamente según otro campo</li>
+            <li>Lógica que necesita cálculos en tiempo real</li>
+          </ul>
+          <div class="callout callout-amber" style="margin-top:.75rem">
+            <p><strong>Limitación importante:</strong> JavaScript solo se ejecuta en el formulario del navegador. Si alguien crea un registro desde la API o un flow, el JS no se ejecuta. Para lógica que debe aplicarse siempre, necesitas Plugin o Power Automate.</p>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Los 3 eventos básicos</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Evento</th><th>Cuándo</th></tr></thead>
+              <tbody>
+                <tr><td><strong>OnLoad</strong></td><td>Al abrir el formulario — inicializar, ocultar campos</td></tr>
+                <tr><td><strong>OnChange</strong></td><td>Al modificar un campo — calcular, auto-rellenar</td></tr>
+                <tr><td><strong>OnSave</strong></td><td>Antes de guardar — validar, prevenir guardado si hay error</td></tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
 
-      <div class="session-block">
-        <div class="session-block-label">Qu&eacute; se cubri&oacute; desde tu rol</div>
-        <ul>
-          <li><strong>El repositorio del curso en GitHub:</strong> se cre&oacute; el repo compartido <code>powerfox-formacion-claude</code> donde viven las presentaciones, demos y las carpetas de cada alumno.</li>
-          <li><strong>Primera contribuci&oacute;n real (PR):</strong> cada alumno cre&oacute; su carpeta en <code>/alumnos/[nombre]/</code>, hizo un commit y abri&oacute; un Pull Request real que el facilitador revis&oacute; y merge&oacute;.</li>
-          <li><strong>Skills y Agents en vivo:</strong> c&oacute;mo crear instrucciones permanentes para Claude dentro de un repositorio, para que trabaje con las reglas del equipo sin tener que repetirlas cada vez.</li>
-          <li><strong>MCPs (Model Context Protocol):</strong> conectores que permiten a Claude Code hablar con herramientas externas (Google Sheets, bases de datos, APIs).</li>
-        </ul>
-      </div>
+      <div class="card col-full" style="margin-top:1.25rem">
+        <h3>La puerta de entrada: formContext</h3>
+        <p style="margin-bottom:.85rem;font-size:.875rem;color:var(--ink-mid)">formContext es el "mando a distancia" del formulario. Con él puedes leer y escribir campos, ocultar secciones, y notificar al usuario. Siempre se obtiene del executionContext — nunca de Xrm.Page (que está obsoleto).</p>
+        <div style="background:#1a1614;border-radius:8px;padding:1.2rem;overflow-x:auto">
+          <code style="display:block;font-family:'JetBrains Mono',monospace;font-size:.79rem;color:#cdd6f4;line-height:1.7;white-space:pre"><span style="color:#6c7086">// Patrón base — siempre así</span>
+<span style="color:#cba6f7">function</span> <span style="color:#89b4fa">onLoad</span>(executionContext) {
+    <span style="color:#cba6f7">const</span> fc = executionContext.<span style="color:#89b4fa">getFormContext</span>();
 
-      <div class="relevance-block">
-        <div class="relevance-block-label">Lo m&aacute;s relevante para tu rol</div>
-        <ul>
-          <li><strong>MCPs (Model Context Protocol)</strong>: si en LitoClean us&aacute;is Google Sheets, Excel o alguna API para datos de laboratorio o ensayos, un MCP conectar&iacute;a a Claude directamente con esos datos. Es lo que ver&eacute;is en sesiones futuras &mdash; tenlo en mente.</li>
-          <li><strong>Skills permanentes para tu trabajo de lab</strong>: imagina tener un skill que siempre sabe que eres t&eacute;cnica de laboratorio, qu&eacute; protocolos usas y c&oacute;mo se llaman tus tipos de ensayo. No tendr&iacute;as que explicarlo nunca m&aacute;s. Esto se puede hacer y se ver&aacute; en el curso.</li>
-          <li><strong>El flujo fork &rarr; PR &rarr; merge que ya hiciste</strong>: es exactamente el mismo proceso que usar&aacute; tu equipo para colaborar en proyectos reales. Ya no es algo abstracto &mdash; lo has hecho.</li>
-        </ul>
-      </div>
+    <span style="color:#6c7086">// Leer un valor</span>
+    <span style="color:#cba6f7">const</span> nombre = fc.<span style="color:#89b4fa">getAttribute</span>(<span style="color:#a6e3a1">"pfx_name"</span>).<span style="color:#89b4fa">getValue</span>();
 
-      <div class="session-block">
-        <div class="session-block-label">Prompts que encajan contigo</div>
-        <div class="prompt-card" style="margin-bottom:.75rem">
-          <div class="prompt-title">Crear tu carpeta de alumno</div>
-          <div class="prompt-purpose">El prompt que se us&oacute; en clase para generar la estructura inicial de cada alumno en el repo.</div>
-          <div class="prompt-text">Crea la carpeta alumnos/foix-sb/ con un README.md que contenga: nombre, rol, qu&eacute; espero del curso, mi setup (SO, IDE, plan Claude), y una secci&oacute;n de Bits&aacute;cora vac&iacute;a con campos para "lo mejor", "lo que me cost&oacute;" y "prompt que guardo" por cada sesi&oacute;n. Tono directo, en espa&ntilde;ol.</div>
+    <span style="color:#6c7086">// Ocultar un campo</span>
+    fc.<span style="color:#89b4fa">getControl</span>(<span style="color:#a6e3a1">"pfx_campo"</span>).<span style="color:#89b4fa">setVisible</span>(<span style="color:#cba6f7">false</span>);
+
+    <span style="color:#6c7086">// Hacer obligatorio</span>
+    fc.<span style="color:#89b4fa">getAttribute</span>(<span style="color:#a6e3a1">"pfx_email"</span>).<span style="color:#89b4fa">setRequiredLevel</span>(<span style="color:#a6e3a1">"required"</span>);
+
+    <span style="color:#6c7086">// Mostrar notificación al usuario</span>
+    fc.ui.<span style="color:#89b4fa">setFormNotification</span>(<span style="color:#a6e3a1">"Falta información"</span>, <span style="color:#a6e3a1">"WARNING"</span>, <span style="color:#a6e3a1">"id_aviso"</span>);
+}</code>
         </div>
       </div>
 
-      <div class="session-block">
-        <div class="session-block-label">Tu intervenci&oacute;n</div>
-        <div class="quote-block">
-          <div class="quote-block-label">Transcript S2-Mi&eacute;rcoles</div>
-          <p style="font-size:.85rem;color:var(--text-mute);font-style:italic;">El facilitador te mencion&oacute; expl&iacute;citamente como ejemplo positivo de haber gestionado bien los permisos con IT ("como ustedes lo que hizo Foix"). No hay intervenciones directas registradas en el transcript de esta sesi&oacute;n.</p>
+      <div class="card col-full" style="margin-top:1.25rem">
+        <h3>Xrm.WebApi — cuando necesitas datos de otra tabla</h3>
+        <p style="margin-bottom:.85rem;font-size:.875rem;color:var(--ink-mid)">Para leer datos de otras tablas desde el formulario se usa Xrm.WebApi. Hoy conociste los dos métodos básicos:</p>
+        <div style="background:#1a1614;border-radius:8px;padding:1.2rem;overflow-x:auto">
+          <code style="display:block;font-family:'JetBrains Mono',monospace;font-size:.79rem;color:#cdd6f4;line-height:1.7;white-space:pre"><span style="color:#6c7086">// Leer un registro concreto</span>
+Xrm.WebApi.<span style="color:#89b4fa">retrieveRecord</span>(
+    <span style="color:#a6e3a1">"pfx_project"</span>,
+    <span style="color:#a6e3a1">"guid-del-registro"</span>,
+    <span style="color:#a6e3a1">"?$select=pfx_project_code,pfx_project_name"</span>
+).<span style="color:#89b4fa">then</span>(<span style="color:#cba6f7">function</span>(result) {
+    console.<span style="color:#89b4fa">log</span>(result.pfx_project_name);
+});</code>
         </div>
-      </div>
-
-      <div class="callout-conexion">
-        <strong>Conexi&oacute;n con el punto anterior:</strong> Resolver los permisos antes de esta sesi&oacute;n te permiti&oacute; participar en el ejercicio del repo compartido. Quien no lo resolvi&oacute; (Milagros) se qued&oacute; sin poder ejecutar el ejercicio en directo.
       </div>
     </div>
 
+    <!-- TEMA 7: SKILLS Y AGENTS -->
+    <div class="topic">
+      <div class="topic-header ink">
+        <div class="topic-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ink-mid)"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <div>
+          <h3>Skills y Agents en Claude Code</h3>
+          <p>S1-Viernes · Bloque 6 (bloque estrella)</p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>¿Qué es una Skill?</h3>
+          <p>Instrucciones que Claude Code aplica automáticamente cada vez que genera código nuevo. No tienes que recordarle las reglas en cada prompt.</p>
+          <p style="margin-top:.5rem">La skill <strong>MDA JavaScript Writer</strong> creada en sesión garantiza que el código nuevo nazca con buenas prácticas: <code>const/let</code> en lugar de <code>var</code>, null checks, namespace pattern, JSDoc.</p>
+        </div>
+        <div class="card">
+          <h3>¿Qué es un Agent?</h3>
+          <p>Un especialista invocable. A diferencia de la skill (siempre activa), el agent se llama cuando lo necesitas:</p>
+          <ul>
+            <li><strong>MDA Code Reviewer</strong> — Analiza código existente y genera un informe de issues sin modificar nada.</li>
+            <li><strong>MDA Refactor Assistant</strong> — Toma el código existente y lo reescribe aplicando las mejoras, explicando cada cambio.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout callout-olive" style="margin-top:1.25rem">
+        <p><strong>Por qué importa para ti:</strong> Con 0 experiencia en JS, los agents son tu red de seguridad. Cuando Claude Code te genere un script, puedes pasarlo al Code Reviewer para verificar que está bien antes de publicarlo. No necesitas saber revisarlo tú misma todavía.</p>
+      </div>
+    </div>
   </section>
 
-  <!-- SECCIÓN 3: TRAYECTORIA -->
-  <section class="section" id="trayectoria">
-    <div class="section-label">Tu trayectoria hasta aqu&iacute;</div>
-    <h2 class="section-title">C&oacute;mo has ido evolucionando</h2>
+  <!-- ===== 2. PUNTOS CLAVE PARA TU ROL ===== -->
+  <section id="rol" style="margin-bottom:3rem">
+    <div class="section-title">
+      <div class="section-num num-olive">02</div>
+      <h2>Puntos clave para tu rol</h2>
+    </div>
+    <p style="font-size:.9rem;color:var(--ink-mid);margin-bottom:1.75rem">Filtrado desde la perspectiva de Técnica de proyectos y Laboratorio. Lo que más te puede servir en tu día a día, conectado con trazabilidad de ensayos, seguimiento de proyectos y gestión de laboratorio.</p>
 
-    <div class="card card-full">
-      <div class="trayectoria-text">
-        <p>Llegaste al curso siendo la persona del grupo con menos experiencia t&eacute;cnica declarada: cero Power Platform, conocimientos de programaci&oacute;n muy b&aacute;sicos, y Claude.ai usada solo como chat para textos. Eso es exactamente desde donde se arranca bien.</p>
-        <p>Ya en la segunda sesi&oacute;n, cuando el facilitador pregunt&oacute; en directo la diferencia entre Claude.ai y Claude Code, fuiste t&uacute; quien lo explic&oacute; correctamente: "cloud.ia ser&iacute;a el chatbot, y Cloud Code es el que se incorpora en el IDE para revisar el c&oacute;digo." Eso no es poca cosa para alguien que se present&oacute; como principiante.</p>
-        <p>El episodio de los permisos de IT fue el primer obst&aacute;culo real: Git no instalado, Claude Desktop bloqueado. Tu reacci&oacute;n fue pragm&aacute;tica: proponer pedir todo de golpe en una sola solicitud a IT. Lo gestionaste, y en la sesi&oacute;n siguiente el facilitador te mencion&oacute; como ejemplo.</p>
-        <p>La gesti&oacute;n de la sesi&oacute;n S1-Mi&eacute;rcoles en diferido (vista por la tarde) muestra que te tomas el material en serio aunque no puedas asistir en directo a todas las sesiones.</p>
-        <p>La trayectoria es clara: pasaste de "vengo a aprender casi desde cero" a tener las herramientas instaladas, el concepto central entendido y el primer PR contribuido al repo del curso.</p>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Ecosistema: lo que necesitas recordar</h3>
+        <ul>
+          <li>Power Apps Model-Driven + Dataverse es la combinación para <strong>gestionar proyectos y registros de laboratorio</strong> con trazabilidad completa y permisos controlados.</li>
+          <li>Power BI se conecta directamente: si los datos de ensayos están en Dataverse, los puedes visualizar y analizar sin exportaciones manuales a Excel.</li>
+          <li>Power Automate puede notificar automáticamente cuando un ensayo cambia de estado o cuando vence un plazo — sin que nadie tenga que acordarse de enviar el email.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Modelo de datos: la base del sistema</h3>
+        <ul>
+          <li>Una <strong>tabla en Dataverse</strong> es como una hoja de Excel con lógica: columnas tipadas, relaciones a otras tablas, y reglas de negocio encima.</li>
+          <li>Para registros de ensayos, los campos <strong>Formula 🔒</strong> son útiles para calcular métricas automáticas (ej: margen, porcentaje de avance) sin que nadie los introduzca manualmente.</li>
+          <li>El prefijo <code>pfx_</code> en todos los campos del proyecto es una buena práctica de identificación que puedes aplicar si creas tus propias tablas de laboratorio.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Entornos ALM: lo que cambia en tu contexto</h3>
+        <ul>
+          <li>Como técnica, cuando alguien dice "está en TEST", significa que el cambio existe pero aún no llegó a producción. Normal, no un error.</li>
+          <li>Si algún día propones una mejora en el sistema (un campo nuevo, una vista distinta), pasará por DEV → TEST → PROD antes de ser visible. El proceso tarda pero protege los datos reales.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Herramientas: por dónde empezar</h3>
+        <ul>
+          <li><strong>FetchXML Builder</strong> es la herramienta de análisis más accesible para ti ahora mismo. Puedes hacer consultas tipo "proyectos activos sin actividades" o "ensayos del mes pasado por tipo" sin código.</li>
+          <li><strong>Claude Code como chat avanzado</strong>: ya lo usas para escritura. El siguiente paso es usarlo para interpretar código que no entiendes, o para pedir que te explique un concepto de la plataforma con ejemplos de tu área.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>JavaScript: solo el esqueleto por ahora</h3>
+        <ul>
+          <li>No necesitas escribir JS hoy. Lo que sí debes tener claro: JS solo vive en el formulario del navegador — si alguien importa datos, el JS no se ejecuta.</li>
+          <li>El prompt que guardas en tu bitácora ("explícame qué hace este código y si hay algo que mejorar") es exactamente el uso correcto para tu nivel actual.</li>
+          <li>Cuando llegues a necesitar una validación en un formulario, Business Rules llega lejos sin código.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Skills y Agents: tu ventaja desde el primer día</h3>
+        <ul>
+          <li>Con 0 experiencia en JS, los agents son tu red de seguridad para el código que generes o que recibas de Claude Code.</li>
+          <li>La skill MDA JavaScript Writer asegura que el código que Claude te genere ya sea correcto desde el principio.</li>
+          <li>Para un uso de escritura y revisión (que ya haces), Skills con instrucciones de estilo o terminología técnica de laboratorio podrían serte útiles en las próximas sesiones.</li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <!-- SECCIÓN 4: PRÓXIMO PASO -->
-  <section class="section" id="proximo-paso">
-    <div class="section-label">Tu pr&oacute;ximo paso recomendado</div>
-    <h2 class="section-title">Qu&eacute; hacer esta semana</h2>
-
-    <div class="next-step-card">
-      <div class="next-step-num">1</div>
-      <div class="next-step-body">
-        <h4>Rellena la bit&aacute;cora de S1 en tu README</h4>
-        <p>Los campos "lo mejor", "lo que me cost&oacute;" y "prompt que guardo" de la Sesi&oacute;n 1 est&aacute;n vac&iacute;os. Aunque hayan pasado los d&iacute;as, anota aunque sean 2&ndash;3 frases por campo. Esto es lo que hace que el recap de las pr&oacute;ximas semanas sea m&uacute;cho m&aacute;s &uacute;til para ti: sin bit&aacute;cora, no hay devoluciones personalizadas.</p>
-      </div>
+  <!-- ===== 3. TAREAS PENDIENTES ===== -->
+  <section id="tareas" style="margin-bottom:3rem">
+    <div class="section-title">
+      <div class="section-num num-amber">03</div>
+      <h2>Tareas pendientes para consolidar</h2>
     </div>
+    <p style="font-size:.9rem;color:var(--ink-mid);margin-bottom:1.5rem">Acciones concretas para hacer antes de la Semana 2. Sin prisa, pero con orden.</p>
 
-    <div class="next-step-card">
-      <div class="next-step-num">2</div>
-      <div class="next-step-body">
-        <h4>Prueba Claude con una tarea real de tu d&iacute;a a d&iacute;a de laboratorio</h4>
-        <p>Ya tienes acceso, las herramientas (o casi), y el concepto claro. El siguiente paso no es aprender m&aacute;s teor&iacute;a: es abrir Claude.ai (o Claude Code si ya est&aacute; instalado), darle contexto de lo que haces en ensayos piloto o laboratorio, y pedirle algo concreto: un template de informe, una checklist de protocolo, una tabla de resultados. El h&aacute;bito de darle contexto &mdash; qui&eacute;n eres, en qu&eacute; trabajas, qu&eacute; necesitas &mdash; es el salto que separa el "chat b&aacute;sico" del uso real.</p>
+    <div class="task-list">
+      <div class="task-item">
+        <div class="task-marker" style="border-color:var(--terra)"></div>
+        <div>
+          <strong>Explorar el entorno DEV del sistema</strong>
+          <span>Entra con tu usuario y navega por las tablas <code>pfx_project</code> y <code>pfx_project_activity</code> en el Maker Portal. No modifiques nada — solo observa cómo están estructuradas las columnas y las relaciones.</span>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-marker" style="border-color:var(--olive)"></div>
+        <div>
+          <strong>Hacer una consulta con FetchXML Builder</strong>
+          <span>Conecta XRMToolBox al entorno DEV y usa FetchXML Builder para obtener todos los proyectos activos. No necesitas código — es visual. Si obtienes resultados, la conexión funciona y ya entiendes la herramienta básica.</span>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-marker" style="border-color:var(--olive)"></div>
+        <div>
+          <strong>Abrir un formulario Model-Driven de Proyecto</strong>
+          <span>Desde la aplicación Model-Driven, abre un registro de proyecto y observa: ¿qué pestañas tiene? ¿qué subgrids? ¿qué campos hay en cada sección? Relaciona lo que ves con las tablas que ya conoces.</span>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-marker" style="border-color:var(--amber)"></div>
+        <div>
+          <strong>Leer el código JavaScript del prompt guardado</strong>
+          <span>Toma el prompt que guardaste en tu bitácora y pégale cualquier fragmento de JS sencillo (puedes copiar el ejemplo de onLoad del recap). Pide a Claude que te lo explique línea a línea. El objetivo no es entenderlo todo — es empezar a familiarizarte con la sintaxis.</span>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-marker" style="border-color:var(--amber)"></div>
+        <div>
+          <strong>Probar la skill MDA JavaScript Writer</strong>
+          <span>En Claude Code, pide que genere un script de onLoad sencillo para un formulario de actividad. Observa el código resultante y compáralo con el "antes/después" que visteis en sesión. La skill debería estar activa.</span>
+        </div>
+      </div>
+
+      <div class="task-item">
+        <div class="task-marker" style="border-color:var(--ink-soft)"></div>
+        <div>
+          <strong>Anotar en tu bitácora antes de S2-Lunes</strong>
+          <span>Escribe en tu README qué concepto del modelo de datos todavía no tienes claro y qué herramienta te resultó más útil de las que probaste. Lo usaremos en el próximo recap.</span>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- SECCIÓN 5: PROMPTS A GUARDAR -->
-  <section class="section" id="prompts">
-    <div class="section-label">Prompts que merece la pena que guardes</div>
-    <h2 class="section-title">Tu biblioteca de arranque</h2>
-
-    <div class="alert-amber">
-      <strong>Nota:</strong> estos prompts est&aacute;n extra&iacute;dos o adaptados directamente del contenido de las sesiones. Ninguno est&aacute; inventado. Si a&ntilde;ades tus propios prompts al <code>## Mis prompts</code> del README, complementan perfectamente estos.
+  <!-- ===== 4. EJERCICIOS PROPUESTOS ===== -->
+  <section id="ejercicios" style="margin-bottom:3rem">
+    <div class="section-title">
+      <div class="section-num num-olive">04</div>
+      <h2>Ejercicios propuestos</h2>
     </div>
+    <p style="font-size:.9rem;color:var(--ink-mid);margin-bottom:1.5rem">Adaptados a tu rol. Sin instalaciones complejas — todos se hacen desde el entorno DEV y con Claude como asistente.</p>
 
-    <div class="prompt-card">
-      <div class="prompt-title">1 &mdash; Presentaci&oacute;n de contexto (el m&aacute;s importante)</div>
-      <div class="prompt-purpose">Lanzarlo al inicio de cualquier conversaci&oacute;n nueva con Claude para que sepa con qui&eacute;n habla y qu&eacute; necesita.</div>
-      <div class="prompt-text">Soy Foix, t&eacute;cnica de proyectos y laboratorio en LitoClean. Trabajo en el &aacute;rea de ensayos piloto. Uso Windows 11, VS Code y Claude Pro. Tengo conocimientos b&aacute;sicos de programaci&oacute;n pero aprendo r&aacute;pido. Hoy quiero [describe aqu&iacute; lo que necesitas]. Dame la respuesta adaptada a alguien que no es desarrolladora.</div>
+    <div class="exercise-grid">
+      <div class="exercise-card">
+        <div class="exercise-card-top">
+          <div class="label">Ejercicio 1 · Modelado de datos</div>
+          <h4>Diseña una tabla de registro de ensayos</h4>
+        </div>
+        <div class="exercise-card-body">
+          <p>Sin crearlo en el sistema todavía: dibuja en papel o en un documento las columnas que tendría una tabla <code>pfx_ensayo_piloto</code> para registrar ensayos de laboratorio.</p>
+          <p>Piensa en:</p>
+          <ul>
+            <li>¿Qué campos necesitas? (fecha, tipo de ensayo, resultado, estado...)</li>
+            <li>¿Qué tipo de columna sería cada uno? (texto, Choice, fecha, número)</li>
+            <li>¿Habría relación con alguna tabla existente del sistema? (¿con <code>pfx_project</code>?)</li>
+          </ul>
+          <p>Después pide a Claude que revise tu diseño y te sugiera mejoras. Compara.</p>
+        </div>
+      </div>
+
+      <div class="exercise-card">
+        <div class="exercise-card-top">
+          <div class="label">Ejercicio 2 · Consultas</div>
+          <h4>Consulta de proyectos sin avance reciente</h4>
+        </div>
+        <div class="exercise-card-body">
+          <p>Con FetchXML Builder, crea una consulta que devuelva los proyectos activos que no tienen ningún registro de avance en el último mes.</p>
+          <p>Esto simula un caso real: ¿qué proyectos están "olvidados"?</p>
+          <ul>
+            <li>Tabla: <code>pfx_project</code></li>
+            <li>Filtro: estado activo</li>
+            <li>Left join con <code>pfx_project_progress</code></li>
+            <li>Condición: sin registros en los últimos 30 días</li>
+          </ul>
+          <p>Si te atascas, describe el objetivo a Claude y pide que te genere el FetchXML.</p>
+        </div>
+      </div>
+
+      <div class="exercise-card">
+        <div class="exercise-card-top">
+          <div class="label">Ejercicio 3 · Formularios</div>
+          <h4>Business Rule para un formulario de laboratorio</h4>
+        </div>
+        <div class="exercise-card-body">
+          <p>Imagina que tienes un formulario de registro de ensayo con campos "Fecha inicio" y "Fecha fin". Crea una Business Rule (sin código) que:</p>
+          <ul>
+            <li>Haga obligatorio "Fecha fin" cuando el estado sea "Completado"</li>
+            <li>Muestre un aviso si "Fecha fin" es anterior a "Fecha inicio"</li>
+          </ul>
+          <p>Puedes hacerlo en el entorno DEV creando una tabla de prueba, o pedirle a Claude que te explique exactamente los pasos paso a paso.</p>
+        </div>
+      </div>
     </div>
-
-    <div class="prompt-card">
-      <div class="prompt-title">2 &mdash; Entender el sistema sin saber Dataverse</div>
-      <div class="prompt-purpose">Cuando necesites entender qu&eacute; hace una tabla o un campo del sistema sin tener que abrir la documentaci&oacute;n t&eacute;cnica.</div>
-      <div class="prompt-text">Tengo una tabla en Dataverse llamada pfx_project_progress. Expl&iacute;came en lenguaje de negocio qu&eacute; representa, qu&eacute; tipo de datos guardar&iacute;a y c&oacute;mo se relaciona con el Proyecto principal. No necesito detalles t&eacute;cnicos, s&oacute;lo entender para qu&eacute; sirve en el d&iacute;a a d&iacute;a del equipo.</div>
-    </div>
-
-    <div class="prompt-card">
-      <div class="prompt-title">3 &mdash; Pedir una automatizaci&oacute;n de formulario</div>
-      <div class="prompt-purpose">Para cuando quieras que un formulario haga algo autom&aacute;tico y necesites el c&oacute;digo sin escribirlo t&uacute; misma.</div>
-      <div class="prompt-text">Necesito un JavaScript para un formulario Model-Driven de Dataverse. Cuando el campo [nombre del campo] tenga el valor [valor], quiero que [describe el comportamiento: ocultar, mostrar, calcular, etc.]. Usa formContext, el patr&oacute;n correcto de eventos, y d&eacute;jame el c&oacute;digo listo para pegarlo en una Web Resource en VS Code.</div>
-    </div>
-
-    <div class="prompt-card">
-      <div class="prompt-title">4 &mdash; Diagn&oacute;stico de una carpeta de proyecto</div>
-      <div class="prompt-purpose">Usado en S2-Lunes para explorar un proyecto sin tocar nada. &Uacute;til cuando entras a un repositorio que no conoces.</div>
-      <div class="prompt-text">Echa un vistazo a esta carpeta y d&eacute;jame saber qu&eacute; tipo de proyecto es, qu&eacute; archivos importantes hay, qu&eacute; tecnolog&iacute;as usa y si hay algo que deba saber antes de empezar a trabajar. No cambies nada todav&iacute;a.</div>
-    </div>
-
-    <div class="prompt-card">
-      <div class="prompt-title">5 &mdash; Git: commit con mensaje profesional</div>
-      <div class="prompt-purpose">Para cuando hayas hecho cambios en tu carpeta del repo y quieras commitearlos con el formato correcto.</div>
-      <div class="prompt-text">He modificado los siguientes archivos en mi carpeta alumnos/foix-sb/: [lista los archivos]. Genera un mensaje de commit siguiendo el formato Conventional Commits (feat:, docs:, fix:, etc.) que describa correctamente lo que he cambiado.</div>
-    </div>
-
   </section>
 
-</div>
-<!-- fin .container -->
+  <!-- ===== 5. PROMPTS QUE MERECE LA PENA GUARDAR ===== -->
+  <section style="margin-bottom:3rem">
+    <div class="section-title">
+      <div class="section-num num-terra">05</div>
+      <h2>Prompts que merece la pena que guardes</h2>
+    </div>
+    <p style="font-size:.9rem;color:var(--ink-mid);margin-bottom:1.5rem">Seleccionados de las sesiones. No los repito de tu bitácora — estos son complementarios al que ya tienes guardado.</p>
+
+    <div class="prompt-list">
+      <div class="prompt-card">
+        <div class="prompt-card-header">
+          <span class="mono">P-01</span>
+          <span class="prompt-card-title">Explicar un concepto de la plataforma desde tu área</span>
+        </div>
+        <div class="prompt-card-purpose">Para cuando un término técnico no queda claro después de clase</div>
+        <div class="prompt-card-body">
+          <code>Soy técnica de proyectos en un departamento de Ensayos Piloto y Laboratorio.
+Estamos implementando un sistema en Power Platform con Dataverse.
+Explícame qué es [concepto] como si no tuviera experiencia previa en la plataforma,
+con un ejemplo concreto que tenga sentido en gestión de proyectos o seguimiento de ensayos.</code>
+        </div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="prompt-card-header">
+          <span class="mono">P-02</span>
+          <span class="prompt-card-title">Diseñar una tabla de Dataverse para laboratorio</span>
+        </div>
+        <div class="prompt-card-purpose">Para el ejercicio de modelado y para cuando necesites proponer una estructura de datos</div>
+        <div class="prompt-card-body">
+          <code>Necesito diseñar una tabla en Dataverse para registrar [tipo de registro, ej: ensayos piloto].
+Los campos que necesito capturar son: [lista los campos que se te ocurran].
+Sugiere el tipo de columna más adecuado para cada campo,
+indica si falta algún campo importante para trazabilidad o auditoría,
+y propón el nombre en schema name con prefijo pfx_.</code>
+        </div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="prompt-card-header">
+          <span class="mono">P-03</span>
+          <span class="prompt-card-title">Generar FetchXML para una consulta de negocio</span>
+        </div>
+        <div class="prompt-card-purpose">Para cuando necesites datos concretos y no quieras escribir el XML a mano</div>
+        <div class="prompt-card-body">
+          <code>Necesito una consulta FetchXML para obtener [descripción de lo que quieres].
+Las tablas involucradas son: [lista las tablas del sistema, ej: pfx_project, pfx_project_progress].
+Los filtros son: [describe las condiciones en lenguaje natural].
+Genera el FetchXML y explícame qué hace cada parte.</code>
+        </div>
+      </div>
+
+      <div class="prompt-card">
+        <div class="prompt-card-header">
+          <span class="mono">P-04</span>
+          <span class="prompt-card-title">Revisar y auditar un script JS con el agent</span>
+        </div>
+        <div class="prompt-card-purpose">Para antes de publicar cualquier script en el formulario</div>
+        <div class="prompt-card-body">
+          <code>Revisa el siguiente script JavaScript para un formulario Model-Driven App.
+Indica si hay uso de var (debería ser const/let),
+si faltan null checks antes de getAttribute().getValue(),
+si hay GUIDs o URLs hardcodeadas,
+y cualquier otro problema de calidad o mantenibilidad.
+
+[pega el código aquí]</code>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 6. EVOLUCIÓN ===== -->
+  <section id="evolucion" style="margin-bottom:3rem">
+    <div class="section-title">
+      <div class="section-num num-ink">06</div>
+      <h2>Notas sobre tu evolución</h2>
+    </div>
+
+    <div class="evolution-strip">
+      <p>Foix arranca el curso desde cero en Power Platform pero con una base real que no siempre se tiene: curiosidad activa, hábito de indagar, y ya un uso cotidiano de Claude para escritura y revisión. Ese punto de partida es más útil de lo que parece.</p>
+      <p>En la primera semana el ecosistema de herramientas quedó claro — lo destacas explícitamente como "lo mejor" de S1 y lo confirmaste en sesión. Saber para qué sirve cada pieza (Power Apps, Dataverse, Power Automate, FetchXML Builder) es la base sobre la que todo lo demás se apoya.</p>
+      <p>Los dos bloques que costaron más — la arquitectura general y JavaScript — tienen en común que son conceptos que no se asimilan leyendo, sino tocando. La arquitectura por capas (presentación / lógica / datos / integración / seguridad) solo se consolida cuando ves cómo un cambio en una capa afecta a las demás. JavaScript, cuando escribes tu primer script y lo ves ejecutarse en el formulario.</p>
+      <p>El prompt que guardaste en la bitácora ("explícame qué hace este código") es exactamente el uso de IA correcto para tu nivel y tu objetivo: no generar código ciegamente, sino entender el que ya existe. Eso es más maduro de lo que muchas personas con más experiencia hacen.</p>
+      <p>El reto para las próximas sesiones es pasar de observadora a ejecutora: el primer ensayo en DEV, la primera consulta en FetchXML Builder, el primer Business Rule. Con 0 experiencia previa, ese primer contacto práctico es el salto que marca la diferencia.</p>
+    </div>
+
+    <div class="grid-2" style="margin-top:1.5rem">
+      <div class="card">
+        <h3>Qué tienes bien asentado</h3>
+        <ul>
+          <li>Mapa del ecosistema: los 5 pilares y Dataverse como base</li>
+          <li>Para qué sirve cada herramienta (VS Code, Claude Code, XRMToolBox, PAC CLI)</li>
+          <li>El flujo DEV → TEST → PROD y por qué existe</li>
+          <li>Tipos de relaciones entre tablas (1:N, N:N)</li>
+          <li>Qué son Skills y Agents y para qué se usan</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Qué reforzar en las próximas sesiones</h3>
+        <ul>
+          <li>La arquitectura por capas — necesita práctica para que "haga clic"</li>
+          <li>La distinción entre Business Rule, JavaScript y Plugin: cuándo usar cada uno</li>
+          <li>El patrón formContext / events / namespace en JS — estructurarlo en la cabeza antes de escribirlo</li>
+          <li>Xrm.WebApi: la idea de consultar otra tabla desde el formulario</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SEPARADOR VISUAL ===== -->
+  <div class="sep"></div>
+
+  <!-- ===== PRÓXIMO PASO ===== -->
+  <section style="margin-bottom:2rem">
+    <div class="section-title">
+      <div class="section-num num-terra">&#8594;</div>
+      <h2>Tu próximo paso recomendado</h2>
+    </div>
+
+    <div class="grid-2">
+      <div class="card" style="border-left:4px solid var(--terra)">
+        <h3>Esta semana: primer contacto con el sistema real</h3>
+        <p>Entra al entorno DEV, abre un registro de proyecto, y usa FetchXML Builder para hacer una consulta sencilla. No hace falta crear nada ni modificar nada — solo explorar. La arquitectura deja de ser abstracta cuando ves los datos reales detrás.</p>
+      </div>
+      <div class="card" style="border-left:4px solid var(--olive)">
+        <h3>Antes de S2-Lunes: practica con el prompt de JS</h3>
+        <p>Copia el bloque de código de <code>onLoad</code> de este recap, pégaselo a Claude con el prompt que guardaste en tu bitácora, y pide que te lo explique. El objetivo no es entenderlo todo — es que la sintaxis empiece a resultarte familiar antes de que en S2 se profundice.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
 
 <!-- FOOTER -->
 <footer class="footer">
-  <p><strong>FoixSB</strong> &middot; Recap generado el 29 de abril de 2026</p>
-  <p>Power Fox BI &middot; Curso Claude Code</p>
-  <p style="margin-top:.5rem;font-size:.75rem">Las citas literales proceden de los transcripts disponibles en <code>/RAW/*.md</code>. Toda la informaci&oacute;n est&aacute; extra&iacute;da de las presentaciones y transcripts reales del curso &mdash; nada inventado.</p>
+  <div>FoixSB · Técnica de proyectos y Laboratorio</div>
+  <div>Generado: 29 de abril de 2026 · Power Fox BI · curso Claude Code</div>
+  <div style="margin-top:.35rem;font-size:.72rem;opacity:.7">Las citas literales proceden del transcript de S1-Miércoles (RAW/s1-miercoles.md). Sesiones con transcript disponible: S1-Lunes, S1-Miércoles, S1-Viernes.</div>
 </footer>
 
 </body>
