@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<!--
+  Recap personal · FoixSB
+  Paleta: "Editorial cálido" — Fraunces + Manrope + JetBrains Mono
+  Fondo crema (#faf6f0), acento terracota (#c14a2a), verde oliva (#5d6d3e)
+  Generado: 2026-04-29 · Power Fox BI · curso Claude Code
+-->
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recap personal · FoixSB · Curso Claude Code</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── Variables de color ─────────────────────────────── */
+:root {
+  --bg:        #faf6f0;
+  --bg-card:   #ffffff;
+  --bg-soft:   #f3ede5;
+  --text:      #2a1f1a;
+  --text-mid:  #5a4840;
+  --text-mute: #9a8880;
+  --border:    #e5ddd5;
+  --terra:     #c14a2a;
+  --terra-soft:#fdf0eb;
+  --olive:     #5d6d3e;
+  --olive-soft:#eef2e6;
+  --amber:     #d49520;
+  --amber-soft:#fdf6e3;
+  --shadow:    rgba(42,31,26,.07);
+  --r:         10px;
+
+  --ff-display: 'Fraunces', Georgia, serif;
+  --ff-body:    'Manrope', system-ui, sans-serif;
+  --ff-mono:    'JetBrains Mono', 'Courier New', monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:        #1a1614;
+    --bg-card:   #221e1b;
+    --bg-soft:   #2a2420;
+    --text:      #f0e8dc;
+    --text-mid:  #c8b8ac;
+    --text-mute: #7a6a60;
+    --border:    #3a3028;
+    --terra:     #e87b5e;
+    --terra-soft:#2e1e18;
+    --olive:     #8aab5a;
+    --olive-soft:#1e2818;
+    --amber:     #e6b040;
+    --amber-soft:#2a2010;
+    --shadow:    rgba(0,0,0,.25);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* ── Reset y base ───────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--ff-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+/* ── Nav ─────────────────────────────────────────────── */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: .6rem 2rem;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.nav-logo {
+  font-family: var(--ff-display);
+  font-weight: 700;
+  font-size: .9rem;
+  color: var(--terra);
+  letter-spacing: .5px;
+}
+.nav-right {
+  font-size: .78rem;
+  color: var(--text-mute);
+  font-weight: 500;
+}
+
+/* ── Hero ────────────────────────────────────────────── */
+.hero {
+  background: var(--text);
+  color: var(--bg);
+  padding: 4rem 2rem 3.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 80% 20%, rgba(193,74,42,.18) 0%, transparent 55%),
+    radial-gradient(circle at 20% 80%, rgba(93,109,62,.12) 0%, transparent 50%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-family: var(--ff-mono);
+  font-size: .72rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--terra);
+  margin-bottom: .75rem;
+  position: relative;
+  z-index: 1;
+}
+.hero h1 {
+  font-family: var(--ff-display);
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: .6rem;
+  position: relative;
+  z-index: 1;
+}
+.hero-sub {
+  font-size: 1rem;
+  opacity: .75;
+  max-width: 620px;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 1.25rem;
+}
+.hero-meta {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+.hero-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.15);
+  padding: .3rem .85rem;
+  border-radius: 20px;
+  font-size: .8rem;
+  font-weight: 500;
+}
+
+/* ── Contenedor ─────────────────────────────────────── */
+.container {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+/* ── Sección ─────────────────────────────────────────── */
+.section { margin-bottom: 4rem; }
+.section-label {
+  font-family: var(--ff-mono);
+  font-size: .7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--terra);
+  margin-bottom: .5rem;
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.section-title {
+  font-family: var(--ff-display);
+  font-size: 1.65rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+/* ── Cards ───────────────────────────────────────────── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px var(--shadow);
+  margin-bottom: 1.25rem;
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.1rem;
+}
+@media (max-width: 768px) {
+  .card-grid { grid-template-columns: 1fr; }
+}
+.card-full { grid-column: 1 / -1; }
+
+.card h3 {
+  font-family: var(--ff-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: .75rem;
+  color: var(--text);
+}
+.card p, .card li {
+  font-size: .875rem;
+  color: var(--text-mid);
+  line-height: 1.7;
+}
+.card ul {
+  padding-left: 1.2rem;
+}
+.card li { margin-bottom: .3rem; }
+
+/* ── Badges de estado ──────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: .2rem .6rem;
+  border-radius: 4px;
+  font-size: .68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.badge-full   { background: var(--olive-soft); color: var(--olive); }
+.badge-pres   { background: var(--amber-soft); color: var(--amber); }
+.badge-pend   { background: var(--amber-soft); color: var(--amber); border: 1px solid var(--amber); }
+
+/* ── Cards de sesión ─────────────────────────────────── */
+.session-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1.75rem;
+  box-shadow: 0 2px 10px var(--shadow);
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+.session-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--terra);
+  border-radius: var(--r) 0 0 var(--r);
+}
+.session-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.session-title {
+  font-family: var(--ff-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.session-date {
+  font-size: .8rem;
+  color: var(--text-mute);
+  font-weight: 500;
+  margin-top: .2rem;
+}
+.session-badges { display: flex; gap: .4rem; flex-wrap: wrap; margin-top: .3rem; }
+
+.session-block { margin-bottom: 1.1rem; }
+.session-block-label {
+  font-family: var(--ff-mono);
+  font-size: .68rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  margin-bottom: .45rem;
+  font-weight: 500;
+}
+.session-block ul {
+  padding-left: 1.2rem;
+}
+.session-block li {
+  font-size: .875rem;
+  color: var(--text-mid);
+  margin-bottom: .3rem;
+  line-height: 1.6;
+}
+
+/* ── Callout de conexión ─────────────────────────────── */
+.callout-conexion {
+  background: var(--olive-soft);
+  border-left: 3px solid var(--olive);
+  border-radius: 0 var(--r) var(--r) 0;
+  padding: .85rem 1.1rem;
+  margin-top: .75rem;
+  font-size: .85rem;
+  color: var(--text-mid);
+}
+.callout-conexion strong { color: var(--olive); }
+
+/* ── Intervención / citas ────────────────────────────── */
+.quote-block {
+  background: var(--bg-soft);
+  border-radius: var(--r);
+  padding: 1rem 1.25rem;
+  margin-top: .75rem;
+}
+.quote-block-label {
+  font-family: var(--ff-mono);
+  font-size: .68rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--terra);
+  font-weight: 600;
+  margin-bottom: .6rem;
+}
+.quote {
+  border-left: 3px solid var(--terra);
+  padding-left: .85rem;
+  font-size: .85rem;
+  color: var(--text-mid);
+  font-style: italic;
+  line-height: 1.65;
+  margin-bottom: .6rem;
+}
+.quote:last-child { margin-bottom: 0; }
+.quote-attr {
+  font-size: .75rem;
+  color: var(--text-mute);
+  font-style: normal;
+  margin-top: .3rem;
+  font-family: var(--ff-mono);
+}
+
+/* ── Prompt cards ─────────────────────────────────────── */
+.prompt-card {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+.prompt-title {
+  font-weight: 700;
+  font-size: .875rem;
+  color: var(--terra);
+  margin-bottom: .3rem;
+}
+.prompt-purpose {
+  font-size: .8rem;
+  color: var(--text-mute);
+  margin-bottom: .65rem;
+  font-style: italic;
+}
+.prompt-text {
+  font-family: var(--ff-mono);
+  font-size: .78rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: .85rem 1rem;
+  color: var(--text-mid);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ── Trayectoria ─────────────────────────────────────── */
+.trayectoria-text {
+  font-size: 1rem;
+  color: var(--text-mid);
+  line-height: 1.85;
+  font-family: var(--ff-display);
+  font-style: italic;
+}
+.trayectoria-text p { margin-bottom: .75rem; }
+
+/* ── Próximo paso ─────────────────────────────────────── */
+.next-step-card {
+  background: var(--terra-soft);
+  border: 1px solid rgba(193,74,42,.2);
+  border-radius: var(--r);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+.next-step-num {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  background: var(--terra);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ff-display);
+  font-weight: 700;
+  font-size: .9rem;
+}
+.next-step-body h4 {
+  font-weight: 700;
+  font-size: .95rem;
+  color: var(--text);
+  margin-bottom: .3rem;
+}
+.next-step-body p {
+  font-size: .875rem;
+  color: var(--text-mid);
+  line-height: 1.65;
+}
+
+/* ── Perfil chips ─────────────────────────────────────── */
+.perfil-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.perfil-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 1rem 1.25rem;
+}
+.perfil-item-label {
+  font-family: var(--ff-mono);
+  font-size: .68rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  margin-bottom: .35rem;
+}
+.perfil-item-value {
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ── Cita de expectativas ────────────────────────────── */
+.expectativa-box {
+  background: var(--bg-soft);
+  border-left: 3px solid var(--terra);
+  border-radius: 0 var(--r) var(--r) 0;
+  padding: 1rem 1.25rem;
+  font-size: .9rem;
+  color: var(--text-mid);
+  font-style: italic;
+  margin-bottom: 1.25rem;
+}
+
+/* ── Alerta amber ────────────────────────────────────── */
+.alert-amber {
+  background: var(--amber-soft);
+  border: 1px solid rgba(212,149,32,.25);
+  border-radius: var(--r);
+  padding: 1rem 1.25rem;
+  font-size: .875rem;
+  color: var(--text-mid);
+  margin-bottom: 1.25rem;
+}
+.alert-amber strong { color: var(--amber); }
+
+/* ── Footer ──────────────────────────────────────────── */
+.footer {
+  text-align: center;
+  padding: 2rem;
+  border-top: 1px solid var(--border);
+  font-size: .8rem;
+  color: var(--text-mute);
+  line-height: 1.9;
+}
+.footer strong { color: var(--terra); }
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 768px) {
+  .hero { padding: 2.5rem 1.25rem 2rem; }
+  .container { padding: 2rem 1.25rem; }
+  .session-card { padding: 1.25rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">Power Fox BI — Formación</div>
+  <div class="nav-right">Recap personal · FoixSB</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Recap personal · Curso Claude Code</div>
+  <h1>Tu trayectoria,&nbsp;Foix</h1>
+  <p class="hero-sub">Técnica de Proyectos y Laboratorio &middot; Aprendiendo a usar Claude como herramienta real de trabajo, desde cero.</p>
+  <div class="hero-meta">
+    <span class="hero-chip">Windows 11 &middot; VS Code &middot; Plan Pro</span>
+    <span class="hero-chip">Sesiones completadas: 5 de 12</span>
+    <span class="hero-chip">Generado: 29 abr 2026</span>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="container">
+
+  <!-- SECCIÓN 1: PERFIL -->
+  <section class="section" id="perfil">
+    <div class="section-label">Tu perfil de aprendizaje</div>
+    <h2 class="section-title">Quién eres en este curso</h2>
+
+    <div class="perfil-grid">
+      <div class="perfil-item">
+        <div class="perfil-item-label">Rol</div>
+        <div class="perfil-item-value">Técnica de Proyectos y Laboratorio</div>
+      </div>
+      <div class="perfil-item">
+        <div class="perfil-item-label">Contexto</div>
+        <div class="perfil-item-value">Ensayos piloto y laboratorio &mdash; Dept. técnico</div>
+      </div>
+      <div class="perfil-item">
+        <div class="perfil-item-label">SO / IDE</div>
+        <div class="perfil-item-value">Windows 11 Pro &middot; VS Code</div>
+      </div>
+      <div class="perfil-item">
+        <div class="perfil-item-label">Plan Claude</div>
+        <div class="perfil-item-value">Pro (20&euro;/mes)</div>
+      </div>
+      <div class="perfil-item">
+        <div class="perfil-item-label">Experiencia previa con IA</div>
+        <div class="perfil-item-value">Claude.ai como chat para escritura y revisión</div>
+      </div>
+      <div class="perfil-item">
+        <div class="perfil-item-label">Experiencia en Power Platform</div>
+        <div class="perfil-item-value">Cero &mdash; aprende desde la base</div>
+      </div>
+    </div>
+
+    <div class="expectativa-box">
+      "Aprender a usar las herramientas de Power Platform y Claude" &mdash; lo que espero de este curso.
+    </div>
+
+    <div class="card card-full">
+      <h3>Pendientes y puntos de atenci&oacute;n activos</h3>
+      <ul>
+        <li><strong>Permisos de IT pendientes:</strong> en S2-Lunes no pod&iacute;as instalar Claude Desktop ni Git por restricciones del equipo corporativo. Esto se resolvi&oacute; parcialmente hablando con IT.</li>
+        <li><strong>Bitacora de S1 sin rellenar:</strong> los campos "lo mejor", "lo que me cost&oacute;" y "prompt que guardo" est&aacute;n vac&iacute;os en tu README. Vale la pena completarlos para que el curso te quede documentado.</li>
+        <li><strong>Uso de Claude en modo chat:</strong> hasta el curso usabas Claude solo como chat individual. El objetivo es que pases a usarlo con contexto, proyectos y prompts estructurados.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 2: SESIÓN A SESIÓN -->
+  <section class="section" id="sesiones">
+    <div class="section-label">Sesi&oacute;n a sesi&oacute;n</div>
+    <h2 class="section-title">Qu&eacute; se cubri&oacute; y qu&eacute; te aplica a ti</h2>
+
+    <!-- S1 LUNES -->
+    <div class="session-card">
+      <div class="session-header">
+        <div>
+          <div class="session-title">S1 &middot; Lunes &mdash; Arquitectura y Ecosistema Power Platform</div>
+          <div class="session-date">Lunes 14 de abril 2026 &middot; D&iacute;a 1 de 12</div>
+          <div class="session-badges">
+            <span class="badge badge-full">Presentaci&oacute;n + Transcript</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="session-block">
+        <div class="session-block-label">Qu&eacute; se cubri&oacute; desde tu rol</div>
+        <ul>
+          <li><strong>Ecosistema Power Platform:</strong> Power Apps, Power Automate, Power BI, Copilot Studio y Power Pages, todos conectados sobre Microsoft Dataverse.</li>
+          <li><strong>Qu&eacute; es Claude Code</strong> frente a Claude.ai: Claude Code vive en tu editor, lee archivos reales, ejecuta comandos; Claude.ai es el chat en el navegador.</li>
+          <li><strong>Las tablas principales del sistema:</strong> Proyecto, Actividad, Oferta, Parte de Horas y Avance &mdash; &eacute;stas son las entidades que el equipo usa en el d&iacute;a a d&iacute;a.</li>
+          <li><strong>Roles y seguridad:</strong> 10 roles custom, Business Units, permisos CRUD. Como t&eacute;cnica, lo relevante es saber qu&eacute; puede ver y hacer cada rol en el sistema.</li>
+          <li><strong>Introducci&oacute;n en vivo de Claude Code</strong> generando documentaci&oacute;n real del sistema (diccionario de datos, matriz de permisos).</li>
+        </ul>
+      </div>
+
+      <div class="session-block">
+        <div class="session-block-label">Prompts que encajan contigo</div>
+        <div class="prompt-card" style="margin-bottom:.75rem">
+          <div class="prompt-title">P2 &mdash; Diccionario de datos</div>
+          <div class="prompt-purpose">Para entender qu&eacute; contiene cada tabla sin necesidad de conocer Dataverse en profundidad.</div>
+          <div class="prompt-text">Genera un diccionario de datos completo de la tabla pfx_project en Dataverse: nombre de columna, tipo, descripci&oacute;n de negocio, y relaciones con otras tablas. F&oacute;rmato markdown.</div>
+        </div>
+      </div>
+
+      <div class="session-block">
+        <div class="session-block-label">Tu intervenci&oacute;n</div>
+        <div class="quote-block">
+          <div class="quote-block-label">Transcript S1-Lunes</div>
+          <p style="font-size:.85rem;color:var(--text-mute);font-style:italic;">No hay intervenciones de Foix registradas en el transcript de esta sesi&oacute;n (asistencia en directo no confirmada).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- S1 MIÉRCOLES -->
+    <div class="session-card">
+      <div class="session-header">
+        <div>
+          <div class="session-title">S1 &middot; Mi&eacute;rcoles &mdash; Entornos, Herramientas y Dise&ntilde;o de Tablas</div>
+          <div class="session-date">Mi&eacute;rcoles 15 de abril 2026 &middot; D&iacute;a 2 de 12</div>
+          <div class="session-badges">
+            <span class="badge badge-full">Presentaci&oacute;n + Transcript</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="session-block">
+        <div class="session-block-label">Qu&eacute; se cubri&oacute; desde tu rol</div>
+        <ul>
+          <li><strong>El viaje de un cambio:</strong> de la idea a producci&oacute;n &mdash; DEV &rarr; TEST &rarr; UAT &rarr; PROD. Como t&eacute;cnica, saber en qu&eacute; entorno est&aacute;s trabajando evita sorpresas.</li>
+          <li><strong>Herramientas del equipo:</strong> VS Code, Claude Code, GitHub/DevOps, XRMToolBox. Se presento la pila completa que usa el equipo de desarrollo.</li>
+          <li><strong>Dise&ntilde;o de tablas y relaciones</strong> en Dataverse: tipos 1:N, N:N, comportamientos en cascada y por qu&eacute; importan.</li>
+          <li><strong>Intro a JavaScript en formularios Model-Driven:</strong> contexto sobre c&oacute;mo se a&ntilde;ade l&oacute;gica a los formularios que usa el equipo.</li>
+        </ul>
+      </div>
+
+      <div class="session-block">
+        <div class="session-block-label">Prompts que encajan contigo</div>
+        <div class="prompt-card" style="margin-bottom:.75rem">
+          <div class="prompt-title">Explorar herramientas del entorno</div>
+          <div class="prompt-purpose">Para entender con qu&eacute; trabaja el equipo antes de tocar nada.</div>
+          <div class="prompt-text">Explica c&oacute;mo funciona el flujo DEV-TEST-PROD en Power Platform. &iquest;Qu&eacute; significa Managed vs Unmanaged? Dame una analog&iacute;a sencilla.</div>
+        </div>
+      </div>
+
+      <div class="session-block">
+        <div class="session-block-label">Tu intervenci&oacute;n</div>
+        <div class="quote-block">
+          <div class="quote-block-label">Transcript S1-Mi&eacute;rcoles (Foix, 00:04&ndash;00:07)</div>
+          <div class="quote">
+            "Yo bueno yo tengo, o sea no tengo tanto conocimiento como otros compa&ntilde;eros en cuanto a automatizaci&oacute;n o power platform. S&iacute; que tengo conocimientos, algo de programaci&oacute;n y as&iacute; muy b&aacute;sicos, porque bueno en los estudios y as&iacute; y tambi&eacute;n en el d&iacute;a a d&iacute;a, pues usando Excel y al final indagando curiosamente... Entonces yo vengo a aprender casi desde cero."
+            <div class="quote-attr">&mdash; Foix presentando su perfil al facilitador, S1-Mi&eacute;rcoles</div>
+          </div>
+          <div class="quote">
+            "Creo que Cloud. De hecho." [respondiendo qu&eacute; IA usa] &mdash; y aclar&oacute; que lo usa "a nivel muy b&aacute;sico como chat, sobre todo para ayudarme en cuanto a escritura y revisi&oacute;n."
+            <div class="quote-attr">&mdash; Foix, S1-Mi&eacute;rcoles, 00:05&ndash;00:07</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout-conexion">
+        <strong>Conexi&oacute;n:</strong> Viniste a esta sesi&oacute;n en diferido (la viste por la tarde). El facilitador lo sabe y lo valor&oacute;. Este h&aacute;bito de ver las grabaciones te pone al d&iacute;a aunque no puedas estar en todas en directo.
+      </div>
+    </div>
+
+    <!-- S1 VIERNES -->
+    <div class="session-card">
+      <div class="session-header">
+        <div>
+          <div class="session-title">S1 &middot; Viernes &mdash; JavaScript en Model-Driven + Skills y Agents</div>
+          <div class="session-date">Viernes 16 de abril 2026 &middot; D&iacute;a 3 de 12</div>
+          <div class="session-badges">
+            <span class="badge badge-full">Presentaci&oacute;n + Transcript</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="session-block">
+        <div class="session-block-label">Qu&eacute; se cubri&oacute; desde tu rol</div>
+        <ul>
+          <li><strong>JavaScript en formularios:</strong> cu&aacute;ndo usarlo y cu&aacute;ndo no. Lo importante: Business Rules para l&oacute;gica simple, JavaScript para lo complejo. Como t&eacute;cnica que no programa, lo que te aplica es saber <em>pedirle a Claude</em> que genere este c&oacute;digo.</li>
+          <li><strong>Los 3 eventos clave:</strong> OnLoad (al abrir el formulario), OnChange (al cambiar un campo), OnSave (al guardar). Entender esto permite describir bien qu&eacute; quieres automatizar.</li>
+          <li><strong>Skills y Agents de Claude Code creados en vivo:</strong> c&oacute;mo instruir a Claude con reglas permanentes para que trabaje mejor en tu contexto.</li>
+          <li><strong>Regla de oro del bloque:</strong> si la l&oacute;gica tiene que aplicarse siempre (incluyendo desde la API o un flujo), necesitas un Plugin o Power Automate, no JavaScript.</li>
+        </ul>
+      </div>
+
+      <div class="session-block">
+        <div class="session-block-label">Prompts que encajan contigo</div>
+        <div class="prompt-card" style="margin-bottom:.75rem">
+          <div class="prompt-title">Pedir c&oacute;digo de formulario sin saber JavaScript</div>
+          <div class="prompt-purpose">Para automatizar algo en un formulario del sistema sin tener que escribir c&oacute;digo t&uacute; misma.</div>
+          <div class="prompt-text">Necesito un JavaScript para un formulario Model-Driven de Dataverse. Cuando el campo [nombre_campo] cambie a [valor], quiero que el campo [otro_campo] se oculte. Usa formContext, el patr&oacute;n OnChange, y sigue las buenas pr&aacute;cticas del sistema pfx_. Dame el c&oacute;digo listo para pegar en una Web Resource.</div>
+        </div>
+      </div>
+
+      <div class="session-block">
+        <div class="session-block-label">Tu intervenci&oacute;n</div>
+        <div class="quote-block">
+          <div class="quote-block-label">Transcript S1-Viernes</div>
+          <p style="font-size:.85rem;color:var(--text-mute);font-style:italic;">No hay intervenciones de Foix registradas en el transcript de esta sesi&oacute;n.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- S2 LUNES -->
+    <div class="session-card">
+      <div class="session-header">
+        <div>
+          <div class="session-title">S2 &middot; Lunes &mdash; Instalar Claude Code + GitHub + Tu Primer Proyecto</div>
+          <div class="session-date">Lunes 21 de abril 2026 &middot; D&iacute;a 4 de 12</div>
+          <div class="session-badges">
+            <span class="badge badge-full">Presentaci&oacute;n + Transcript</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="session-block">
+        <div class="session-block-label">Qu&eacute; se cubri&oacute; desde tu rol</div>
+        <ul>
+          <li><strong>Diferencia Claude Code vs Claude.ai:</strong> Claude Code vive en el editor, lee y modifica archivos reales, ejecuta comandos. Claude.ai es el chat en el navegador donde ya trabajabas.</li>
+          <li><strong>Instalar Claude Code en VS Code</strong> paso a paso, incluyendo login con la licencia Team de LitoClean.</li>
+          <li><strong>GitHub desde cero:</strong> qu&eacute; es Git vs GitHub, el flujo de trabajo diario (add &rarr; commit &rarr; push), los 10 comandos esenciales.</li>
+          <li><strong>Expectativas realistas:</strong> Claude no sabe de tu empresa hasta que se lo cuentas. Da contexto. Revisa siempre antes de aceptar.</li>
+        </ul>
+      </div>
+
+      <div class="session-block">
+        <div class="session-block-label">Prompts que encajan contigo</div>
+        <div class="prompt-card" style="margin-bottom:.75rem">
+          <div class="prompt-title">P1 &mdash; Presentaci&oacute;n inicial a Claude Code</div>
+          <div class="prompt-purpose">El primer prompt que lanzas en cualquier proyecto nuevo para que Claude sepa d&oacute;nde est&aacute; y qui&eacute;n eres.</div>
+          <div class="prompt-text">Hola Claude. Soy Foix, t&eacute;cnica de proyectos y laboratorio en LitoClean. Trabajo con Windows 11 y VS Code. Tengo conocimientos b&aacute;sicos de programaci&oacute;n. Mi objetivo es aprender a usar Claude Code para automatizar tareas del d&iacute;a a d&iacute;a relacionadas con ensayos y proyectos. &iquest;Qu&eacute; ves en esta carpeta y c&oacute;mo puedes ayudarme?</div>
+        </div>
+      </div>
+
+      <div class="session-block">
+        <div class="session-block-label">Tu intervenci&oacute;n</div>
+        <div class="quote-block">
+          <div class="quote-block-label">Transcript S2-Lunes (Foix Soler Balaguer)</div>
+          <div class="quote">
+            "A ver, cloud.ia ser&iacute;a el chatbot, &iquest;no? Y Cloud Code es el que se incorpora igual en el IDE para revisar el c&oacute;digo. Que est&aacute; como especializado en programaci&oacute;n, no b&aacute;sicamente."
+            <div class="quote-attr">&mdash; Foix respondiendo la pregunta del facilitador en directo &mdash; S2-Lunes, 4:27</div>
+          </div>
+          <div class="quote">
+            "Yo lo estoy intentando, pero es que no puedo porque me pide permisos, s&iacute;, y de hecho me est&aacute; dando el error este que es error uno del Claude." [...] "Igual ir&iacute;a bien una lista de todas las extensiones o lo que deber&iacute;amos de instalar, porque as&iacute; ya yo, por ejemplo, lo pido todo de golpe y ya est&aacute;, no tengo que estar pidiendo."
+            <div class="quote-attr">&mdash; Foix identificando el problema de permisos y proponiendo una soluci&oacute;n concreta &mdash; S2-Lunes, 1:13&ndash;1:14</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout-conexion">
+        <strong>Conexi&oacute;n directa con tu situaci&oacute;n:</strong> El problema de permisos que apareci&oacute; en esta sesi&oacute;n (Git no instalado, Claude Desktop bloqueado por IT) es exactamente el freno m&aacute;s habitual para alguien en tu posici&oacute;n. Tu propuesta de pedir todo de una vez fue la m&aacute;s pragm&aacute;tica de la sesi&oacute;n. En S2-Mi&eacute;rcoles Yeriel te menciona como ejemplo de c&oacute;mo resolverlo correctamente.
+      </div>
+    </div>
+
+    <!-- S2 MIÉRCOLES -->
+    <div class="session-card">
+      <div class="session-header">
+        <div>
+          <div class="session-title">S2 &middot; Mi&eacute;rcoles &mdash; Repo Compartido + Skills / Agents + Repos HOT</div>
+          <div class="session-date">Mi&eacute;rcoles 22 de abril 2026 &middot; D&iacute;a 5 de 12</div>
+          <div class="session-badges">
+            <span class="badge badge-full">Presentaci&oacute;n + Transcript</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="session-block">
+        <div class="session-block-label">Qu&eacute; se cubri&oacute; desde tu rol</div>
+        <ul>
+          <li><strong>El repositorio del curso en GitHub:</strong> se cre&oacute; el repo compartido <code>powerfox-formacion-claude</code> donde viven las presentaciones, demos y las carpetas de cada alumno.</li>
+          <li><strong>Primera contribuci&oacute;n real (PR):</strong> cada alumno cre&oacute; su carpeta en <code>/alumnos/[nombre]/</code>, hizo un commit y abri&oacute; un Pull Request real que el facilitador revis&oacute; y merge&oacute;.</li>
+          <li><strong>Skills y Agents en vivo:</strong> c&oacute;mo crear instrucciones permanentes para Claude dentro de un repositorio, para que trabaje con las reglas del equipo sin tener que repetirlas cada vez.</li>
+          <li><strong>MCPs (Model Context Protocol):</strong> conectores que permiten a Claude Code hablar con herramientas externas (Google Sheets, bases de datos, APIs).</li>
+        </ul>
+      </div>
+
+      <div class="session-block">
+        <div class="session-block-label">Prompts que encajan contigo</div>
+        <div class="prompt-card" style="margin-bottom:.75rem">
+          <div class="prompt-title">Crear tu carpeta de alumno</div>
+          <div class="prompt-purpose">El prompt que se us&oacute; en clase para generar la estructura inicial de cada alumno en el repo.</div>
+          <div class="prompt-text">Crea la carpeta alumnos/foix-sb/ con un README.md que contenga: nombre, rol, qu&eacute; espero del curso, mi setup (SO, IDE, plan Claude), y una secci&oacute;n de Bits&aacute;cora vac&iacute;a con campos para "lo mejor", "lo que me cost&oacute;" y "prompt que guardo" por cada sesi&oacute;n. Tono directo, en espa&ntilde;ol.</div>
+        </div>
+      </div>
+
+      <div class="session-block">
+        <div class="session-block-label">Tu intervenci&oacute;n</div>
+        <div class="quote-block">
+          <div class="quote-block-label">Transcript S2-Mi&eacute;rcoles</div>
+          <p style="font-size:.85rem;color:var(--text-mute);font-style:italic;">El facilitador te mencion&oacute; expl&iacute;citamente como ejemplo positivo de haber gestionado bien los permisos con IT ("como ustedes lo que hizo Foix"). No hay intervenciones directas registradas en el transcript de esta sesi&oacute;n.</p>
+        </div>
+      </div>
+
+      <div class="callout-conexion">
+        <strong>Conexi&oacute;n con el punto anterior:</strong> Resolver los permisos antes de esta sesi&oacute;n te permiti&oacute; participar en el ejercicio del repo compartido. Quien no lo resolvi&oacute; (Milagros) se qued&oacute; sin poder ejecutar el ejercicio en directo.
+      </div>
+    </div>
+
+  </section>
+
+  <!-- SECCIÓN 3: TRAYECTORIA -->
+  <section class="section" id="trayectoria">
+    <div class="section-label">Tu trayectoria hasta aqu&iacute;</div>
+    <h2 class="section-title">C&oacute;mo has ido evolucionando</h2>
+
+    <div class="card card-full">
+      <div class="trayectoria-text">
+        <p>Llegaste al curso siendo la persona del grupo con menos experiencia t&eacute;cnica declarada: cero Power Platform, conocimientos de programaci&oacute;n muy b&aacute;sicos, y Claude.ai usada solo como chat para textos. Eso es exactamente desde donde se arranca bien.</p>
+        <p>Ya en la segunda sesi&oacute;n, cuando el facilitador pregunt&oacute; en directo la diferencia entre Claude.ai y Claude Code, fuiste t&uacute; quien lo explic&oacute; correctamente: "cloud.ia ser&iacute;a el chatbot, y Cloud Code es el que se incorpora en el IDE para revisar el c&oacute;digo." Eso no es poca cosa para alguien que se present&oacute; como principiante.</p>
+        <p>El episodio de los permisos de IT fue el primer obst&aacute;culo real: Git no instalado, Claude Desktop bloqueado. Tu reacci&oacute;n fue pragm&aacute;tica: proponer pedir todo de golpe en una sola solicitud a IT. Lo gestionaste, y en la sesi&oacute;n siguiente el facilitador te mencion&oacute; como ejemplo.</p>
+        <p>La gesti&oacute;n de la sesi&oacute;n S1-Mi&eacute;rcoles en diferido (vista por la tarde) muestra que te tomas el material en serio aunque no puedas asistir en directo a todas las sesiones.</p>
+        <p>La trayectoria es clara: pasaste de "vengo a aprender casi desde cero" a tener las herramientas instaladas, el concepto central entendido y el primer PR contribuido al repo del curso.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 4: PRÓXIMO PASO -->
+  <section class="section" id="proximo-paso">
+    <div class="section-label">Tu pr&oacute;ximo paso recomendado</div>
+    <h2 class="section-title">Qu&eacute; hacer esta semana</h2>
+
+    <div class="next-step-card">
+      <div class="next-step-num">1</div>
+      <div class="next-step-body">
+        <h4>Rellena la bit&aacute;cora de S1 en tu README</h4>
+        <p>Los campos "lo mejor", "lo que me cost&oacute;" y "prompt que guardo" de la Sesi&oacute;n 1 est&aacute;n vac&iacute;os. Aunque hayan pasado los d&iacute;as, anota aunque sean 2&ndash;3 frases por campo. Esto es lo que hace que el recap de las pr&oacute;ximas semanas sea m&uacute;cho m&aacute;s &uacute;til para ti: sin bit&aacute;cora, no hay devoluciones personalizadas.</p>
+      </div>
+    </div>
+
+    <div class="next-step-card">
+      <div class="next-step-num">2</div>
+      <div class="next-step-body">
+        <h4>Prueba Claude con una tarea real de tu d&iacute;a a d&iacute;a de laboratorio</h4>
+        <p>Ya tienes acceso, las herramientas (o casi), y el concepto claro. El siguiente paso no es aprender m&aacute;s teor&iacute;a: es abrir Claude.ai (o Claude Code si ya est&aacute; instalado), darle contexto de lo que haces en ensayos piloto o laboratorio, y pedirle algo concreto: un template de informe, una checklist de protocolo, una tabla de resultados. El h&aacute;bito de darle contexto &mdash; qui&eacute;n eres, en qu&eacute; trabajas, qu&eacute; necesitas &mdash; es el salto que separa el "chat b&aacute;sico" del uso real.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 5: PROMPTS A GUARDAR -->
+  <section class="section" id="prompts">
+    <div class="section-label">Prompts que merece la pena que guardes</div>
+    <h2 class="section-title">Tu biblioteca de arranque</h2>
+
+    <div class="alert-amber">
+      <strong>Nota:</strong> estos prompts est&aacute;n extra&iacute;dos o adaptados directamente del contenido de las sesiones. Ninguno est&aacute; inventado. Si a&ntilde;ades tus propios prompts al <code>## Mis prompts</code> del README, complementan perfectamente estos.
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-title">1 &mdash; Presentaci&oacute;n de contexto (el m&aacute;s importante)</div>
+      <div class="prompt-purpose">Lanzarlo al inicio de cualquier conversaci&oacute;n nueva con Claude para que sepa con qui&eacute;n habla y qu&eacute; necesita.</div>
+      <div class="prompt-text">Soy Foix, t&eacute;cnica de proyectos y laboratorio en LitoClean. Trabajo en el &aacute;rea de ensayos piloto. Uso Windows 11, VS Code y Claude Pro. Tengo conocimientos b&aacute;sicos de programaci&oacute;n pero aprendo r&aacute;pido. Hoy quiero [describe aqu&iacute; lo que necesitas]. Dame la respuesta adaptada a alguien que no es desarrolladora.</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-title">2 &mdash; Entender el sistema sin saber Dataverse</div>
+      <div class="prompt-purpose">Cuando necesites entender qu&eacute; hace una tabla o un campo del sistema sin tener que abrir la documentaci&oacute;n t&eacute;cnica.</div>
+      <div class="prompt-text">Tengo una tabla en Dataverse llamada pfx_project_progress. Expl&iacute;came en lenguaje de negocio qu&eacute; representa, qu&eacute; tipo de datos guardar&iacute;a y c&oacute;mo se relaciona con el Proyecto principal. No necesito detalles t&eacute;cnicos, s&oacute;lo entender para qu&eacute; sirve en el d&iacute;a a d&iacute;a del equipo.</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-title">3 &mdash; Pedir una automatizaci&oacute;n de formulario</div>
+      <div class="prompt-purpose">Para cuando quieras que un formulario haga algo autom&aacute;tico y necesites el c&oacute;digo sin escribirlo t&uacute; misma.</div>
+      <div class="prompt-text">Necesito un JavaScript para un formulario Model-Driven de Dataverse. Cuando el campo [nombre del campo] tenga el valor [valor], quiero que [describe el comportamiento: ocultar, mostrar, calcular, etc.]. Usa formContext, el patr&oacute;n correcto de eventos, y d&eacute;jame el c&oacute;digo listo para pegarlo en una Web Resource en VS Code.</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-title">4 &mdash; Diagn&oacute;stico de una carpeta de proyecto</div>
+      <div class="prompt-purpose">Usado en S2-Lunes para explorar un proyecto sin tocar nada. &Uacute;til cuando entras a un repositorio que no conoces.</div>
+      <div class="prompt-text">Echa un vistazo a esta carpeta y d&eacute;jame saber qu&eacute; tipo de proyecto es, qu&eacute; archivos importantes hay, qu&eacute; tecnolog&iacute;as usa y si hay algo que deba saber antes de empezar a trabajar. No cambies nada todav&iacute;a.</div>
+    </div>
+
+    <div class="prompt-card">
+      <div class="prompt-title">5 &mdash; Git: commit con mensaje profesional</div>
+      <div class="prompt-purpose">Para cuando hayas hecho cambios en tu carpeta del repo y quieras commitearlos con el formato correcto.</div>
+      <div class="prompt-text">He modificado los siguientes archivos en mi carpeta alumnos/foix-sb/: [lista los archivos]. Genera un mensaje de commit siguiendo el formato Conventional Commits (feat:, docs:, fix:, etc.) que describa correctamente lo que he cambiado.</div>
+    </div>
+
+  </section>
+
+</div>
+<!-- fin .container -->
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p><strong>FoixSB</strong> &middot; Recap generado el 29 de abril de 2026</p>
+  <p>Power Fox BI &middot; Curso Claude Code</p>
+  <p style="margin-top:.5rem;font-size:.75rem">Las citas literales proceden de los transcripts disponibles en <code>/RAW/*.md</code>. Toda la informaci&oacute;n est&aacute; extra&iacute;da de las presentaciones y transcripts reales del curso &mdash; nada inventado.</p>
+</footer>
+
+</body>
+</html>
