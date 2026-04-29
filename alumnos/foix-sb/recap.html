@@ -472,6 +472,42 @@ body {
   margin-bottom: 1.25rem;
 }
 
+/* ── Bloque de relevancia ────────────────────────────── */
+.relevance-block {
+  background: var(--olive-soft);
+  border: 1px solid rgba(93,109,62,.2);
+  border-left: 3px solid var(--olive);
+  border-radius: 0 var(--r) var(--r) 0;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.1rem;
+}
+.relevance-block-label {
+  font-family: var(--ff-mono);
+  font-size: .68rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--olive);
+  font-weight: 600;
+  margin-bottom: .5rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.relevance-block-label::before {
+  content: '▲';
+  font-size: .6rem;
+}
+.relevance-block ul {
+  padding-left: 1.2rem;
+}
+.relevance-block li {
+  font-size: .875rem;
+  color: var(--text-mid);
+  margin-bottom: .35rem;
+  line-height: 1.6;
+}
+.relevance-block strong { color: var(--olive); }
+
 /* ── Alerta amber ────────────────────────────────────── */
 .alert-amber {
   background: var(--amber-soft);
@@ -600,6 +636,15 @@ body {
         </ul>
       </div>
 
+      <div class="relevance-block">
+        <div class="relevance-block-label">Lo m&aacute;s relevante para tu rol</div>
+        <ul>
+          <li><strong>Las tablas Proyecto, Actividad y Avance</strong> son las que toca una t&eacute;cnica de proyectos en el d&iacute;a a d&iacute;a. Saber qu&eacute; hay en cada una te permite pedirle a Claude que genere informes o res&uacute;menes sin tener que conocer Dataverse.</li>
+          <li><strong>Los roles del sistema</strong>: entender qu&eacute; puede ver y hacer cada rol te ayuda cuando algo no te deja guardar o acceder a un registro &mdash; sabes si es un problema tuyo o de permisos del sistema.</li>
+          <li><strong>Claude generando documentaci&oacute;n autom&aacute;tica</strong>: la demo de esta sesi&oacute;n es exactamente lo que puedes aplicar &mdash; pedirle que te explique cualquier tabla del sistema en lenguaje de negocio, sin tecnicismos.</li>
+        </ul>
+      </div>
+
       <div class="session-block">
         <div class="session-block-label">Prompts que encajan contigo</div>
         <div class="prompt-card" style="margin-bottom:.75rem">
@@ -637,6 +682,15 @@ body {
           <li><strong>Herramientas del equipo:</strong> VS Code, Claude Code, GitHub/DevOps, XRMToolBox. Se presento la pila completa que usa el equipo de desarrollo.</li>
           <li><strong>Dise&ntilde;o de tablas y relaciones</strong> en Dataverse: tipos 1:N, N:N, comportamientos en cascada y por qu&eacute; importan.</li>
           <li><strong>Intro a JavaScript en formularios Model-Driven:</strong> contexto sobre c&oacute;mo se a&ntilde;ade l&oacute;gica a los formularios que usa el equipo.</li>
+        </ul>
+      </div>
+
+      <div class="relevance-block">
+        <div class="relevance-block-label">Lo m&aacute;s relevante para tu rol</div>
+        <ul>
+          <li><strong>El flujo DEV &rarr; TEST &rarr; PROD</strong>: no para desarrollar, sino para saber en qu&eacute; entorno est&aacute;s cuando alguien te pasa un formulario o una app para probar. &ldquo;&iquest;Esto es de pruebas o de producci&oacute;n?&rdquo; deja de ser una pregunta.</li>
+          <li><strong>VS Code como canal hacia Claude Code</strong>: no lo necesitas para programar &mdash; lo necesitas como interfaz para pedirle a Claude que haga cosas por ti sobre archivos reales.</li>
+          <li><strong>XRMToolBox existe</strong>: si alguna vez necesitas explorar o exportar datos del sistema sin tocar nada en producci&oacute;n, es la herramienta adecuada. Merece la pena que sepas que existe antes de necesitarla.</li>
         </ul>
       </div>
 
@@ -691,6 +745,15 @@ body {
         </ul>
       </div>
 
+      <div class="relevance-block">
+        <div class="relevance-block-label">Lo m&aacute;s relevante para tu rol</div>
+        <ul>
+          <li><strong>Skills y Agents permanentes</strong>: puedes crear un &ldquo;perfil&rdquo; de trabajo que describa tu rol, tus tareas habituales y las reglas del sistema. Claude lo lee siempre al empezar, sin que t&uacute; tengas que repetirlo cada vez.</li>
+          <li><strong>Los 3 eventos del formulario</strong> (OnLoad, OnChange, OnSave): no para programarlos t&uacute;, sino para describir con precisi&oacute;n qu&eacute; quieres que pase y cu&aacute;ndo. Claude entiende mejor tu petici&oacute;n si usas estos t&eacute;rminos.</li>
+          <li><strong>Business Rules vs JavaScript</strong>: si la l&oacute;gica es simple (campo obligatorio, ocultar algo), se hace sin c&oacute;digo. S&oacute;lo necesitas JavaScript para lo complejo &mdash; y ah&iacute; es cuando le pides a Claude que lo escriba por ti.</li>
+        </ul>
+      </div>
+
       <div class="session-block">
         <div class="session-block-label">Prompts que encajan contigo</div>
         <div class="prompt-card" style="margin-bottom:.75rem">
@@ -728,6 +791,15 @@ body {
           <li><strong>Instalar Claude Code en VS Code</strong> paso a paso, incluyendo login con la licencia Team de LitoClean.</li>
           <li><strong>GitHub desde cero:</strong> qu&eacute; es Git vs GitHub, el flujo de trabajo diario (add &rarr; commit &rarr; push), los 10 comandos esenciales.</li>
           <li><strong>Expectativas realistas:</strong> Claude no sabe de tu empresa hasta que se lo cuentas. Da contexto. Revisa siempre antes de aceptar.</li>
+        </ul>
+      </div>
+
+      <div class="relevance-block">
+        <div class="relevance-block-label">Lo m&aacute;s relevante para tu rol</div>
+        <ul>
+          <li><strong>Dar contexto a Claude</strong>: este es el salto m&aacute;s importante para ti. Sin contexto Claude da respuestas gen&eacute;ricas; con contexto (&ldquo;soy t&eacute;cnica de laboratorio, trabajo en ensayos piloto, necesito...&rdquo;) las respuestas son adapt&aacute;das a tu situaci&oacute;n real.</li>
+          <li><strong>Los 4 comandos de Git que usas t&uacute;</strong>: <code>pull</code>, <code>add</code>, <code>commit</code>, <code>push</code>. Con esos cuatro puedes contribuir al repo del curso y a cualquier proyecto del equipo. El resto es avanzado y no lo necesitas a&uacute;n.</li>
+          <li><strong>Expectativas realistas</strong>: Claude no sustituye el juicio t&eacute;cnico &mdash; lo amplia. Con una buena descripci&oacute;n del problema puede hacer el 80% del trabajo que te llevar&iacute;a horas aprender. T&uacute; revisas y decides.</li>
         </ul>
       </div>
 
@@ -779,6 +851,15 @@ body {
           <li><strong>Primera contribuci&oacute;n real (PR):</strong> cada alumno cre&oacute; su carpeta en <code>/alumnos/[nombre]/</code>, hizo un commit y abri&oacute; un Pull Request real que el facilitador revis&oacute; y merge&oacute;.</li>
           <li><strong>Skills y Agents en vivo:</strong> c&oacute;mo crear instrucciones permanentes para Claude dentro de un repositorio, para que trabaje con las reglas del equipo sin tener que repetirlas cada vez.</li>
           <li><strong>MCPs (Model Context Protocol):</strong> conectores que permiten a Claude Code hablar con herramientas externas (Google Sheets, bases de datos, APIs).</li>
+        </ul>
+      </div>
+
+      <div class="relevance-block">
+        <div class="relevance-block-label">Lo m&aacute;s relevante para tu rol</div>
+        <ul>
+          <li><strong>MCPs (Model Context Protocol)</strong>: si en LitoClean us&aacute;is Google Sheets, Excel o alguna API para datos de laboratorio o ensayos, un MCP conectar&iacute;a a Claude directamente con esos datos. Es lo que ver&eacute;is en sesiones futuras &mdash; tenlo en mente.</li>
+          <li><strong>Skills permanentes para tu trabajo de lab</strong>: imagina tener un skill que siempre sabe que eres t&eacute;cnica de laboratorio, qu&eacute; protocolos usas y c&oacute;mo se llaman tus tipos de ensayo. No tendr&iacute;as que explicarlo nunca m&aacute;s. Esto se puede hacer y se ver&aacute; en el curso.</li>
+          <li><strong>El flujo fork &rarr; PR &rarr; merge que ya hiciste</strong>: es exactamente el mismo proceso que usar&aacute; tu equipo para colaborar en proyectos reales. Ya no es algo abstracto &mdash; lo has hecho.</li>
         </ul>
       </div>
 
