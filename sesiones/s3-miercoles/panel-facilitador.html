@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panel del Facilitador · S3 Martes y Miércoles · Power Fox</title>
+<title>Panel del Facilitador · S3 Miércoles · Weather App · Power Fox</title>
 <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
@@ -527,16 +527,16 @@
 <body>
 
 <div class="top">
-  <span>Panel · S3 Martes y Miércoles</span>
+  <span>Panel · S3 Miércoles · Weather App</span>
   <span class="right">Privado · facilitador</span>
 </div>
 
 <div class="container">
 
 <header class="hero">
-  <div class="eyebrow">Sesiones 6 y 7 · 28 + 29 abril 2026</div>
-  <h1>Construir <em>Weather Report</em> en vivo<br>con React, Vite y Claude Code</h1>
-  <p>Dos sesiones encadenadas. Hoy montamos el repo y pedimos a Claude que cree la aplicación; mañana la pulimos, la conectamos a una API real y la publicamos. El objetivo no es la app — es que vean el flujo completo de "idea a producción" usando Claude Code como motor.</p>
+  <div class="eyebrow">Sesión 7 · 29 abril 2026</div>
+  <h1>Construir una <em>Weather App</em> en vivo<br>con 3 prompts a Claude Code</h1>
+  <p>Cada alumno construye su propia app del clima dentro de <code>alumnos/[su-nombre]/weather-report/</code>. Con tres prompts encadenados (scaffold con mocks → API real → pulido) llegan a tener la app corriendo en su <code>localhost:5173</code> con datos reales de Open-Meteo. No vamos a Vercel hoy — el clímax es que vean su app pintando datos reales en su pantalla. Es prueba de concepto: si funciona, en una sesión futura lo subimos a la web.</p>
 </header>
 
 <nav class="toc">
@@ -546,16 +546,15 @@
     <li><a href="#objetivos">Qué quiero que se lleven</a></li>
     <li><a href="#stack">Stack y requisitos</a></li>
     <li><a href="#flujo">Flujo completo de la app</a></li>
-    <li><a href="#timeline-martes">Timeline · Martes</a></li>
     <li><a href="#timeline-miercoles">Timeline · Miércoles</a></li>
-    <li><a href="#bloque-recap">B1 · Recap del lunes</a></li>
+    <li><a href="#bloque-recap">B1 · Recap + presentación</a></li>
     <li><a href="#bloque-setup">B2 · Setup del proyecto Weather</a></li>
-    <li><a href="#bloque-prompt-app">B3 · P1 — Crear la app</a></li>
-    <li><a href="#bloque-iterar">B4 · Iteración con Claude</a></li>
-    <li><a href="#bloque-api">B5 · Conexión a API real</a></li>
-    <li><a href="#bloque-deploy">B6 · Publicar y compartir</a></li>
+    <li><a href="#bloque-prompt-app">B3 · P1 — Crear app con mocks</a></li>
+    <li><a href="#bloque-api">B4 · P2 — Conectar a Open-Meteo</a></li>
+    <li><a href="#bloque-pulir">B5 · P3 — Pulido final</a></li>
+    <li><a href="#bloque-refuerzo">B6 · Refuerzo y cierre</a></li>
     <li><a href="#prompts">Todos los prompts (copiar/pegar)</a></li>
-    <li><a href="#skills">Skills relevantes para esta sesión</a></li>
+    <li><a href="#skills">Skills y agents disponibles</a></li>
     <li><a href="#cheatsheet">Cheatsheet de comandos</a></li>
     <li><a href="#troubleshooting">Si algo se rompe</a></li>
   </ol>
@@ -575,19 +574,20 @@
     <div class="block-body">
       <h4>De dónde venimos</h4>
       <ul>
-        <li><strong>Sesión 5 (mié 22 abr)</strong> — montamos el repo público <code>powerfox-formacion-claude</code>, los alumnos clonaron, generaron sus <code>recap.html</code> personalizados con el agent.</li>
-        <li><strong>Cierre del miércoles:</strong> "La próxima vamos a hacer el código vivo en clase, una <em>demo del reporte del clima</em>".</li>
+        <li><strong>Sesiones 1–5</strong> — repo montado, alumnos con su fork, han escrito su <code>README.md</code>, su <code>CLAUDE.md</code> y han generado el <code>recap.html</code> personalizado del curso.</li>
+        <li><strong>Hasta ahora</strong> Claude solo ha generado <em>contenido</em> (markdown, html). Nunca código ejecutable.</li>
       </ul>
 
-      <h4>A dónde vamos hoy y mañana</h4>
+      <h4>A dónde vamos hoy</h4>
       <ul>
-        <li><strong>Hoy (martes):</strong> los alumnos ven cómo Claude crea una app React desde cero con un solo prompt. Iteramos hasta que funciona en local.</li>
-        <li><strong>Mañana (miércoles):</strong> conectamos la app a una API real de clima, mejoramos UX, la subimos a Vercel para que cada alumno tenga una URL pública con su versión.</li>
+        <li><strong>Hoy (miércoles, 3h):</strong> cada alumno construye una weather app dentro de su carpeta <code>alumnos/[nombre]/weather-report/</code>. Tres prompts encadenados, llegan a <code>localhost:5173</code> con datos reales de Open-Meteo.</li>
+        <li><strong>NO vamos a Vercel hoy.</strong> El clímax es ver la app funcionando en su pantalla. Subir a la web queda para una sesión futura si la POC sale bien.</li>
+        <li><strong>Es prueba de concepto.</strong> El stack es deliberadamente sencillo (Vite + React + JS plano + CSS plano + Open-Meteo sin API key) para minimizar fricción.</li>
       </ul>
 
       <div class="how-to">
         <div class="label">Mensaje de apertura</div>
-        <p><em>"En el lunes vimos cómo Claude lee el repo. Hoy vamos a ver cómo Claude <strong>construye</strong>. La diferencia entre 'leer' y 'construir' es la diferencia entre un asistente y un compañero."</em></p>
+        <p><em>"Hasta ahora Claude os ha ayudado a escribir documentación. Hoy os va a construir software ejecutable. La diferencia es la misma que entre un escritor y un programador — y vais a ver que con Claude no necesitáis distinguir entre los dos."</em></p>
       </div>
     </div>
   </div>
@@ -608,14 +608,15 @@
       <ol>
         <li><strong>Que sepan crear un proyecto React desde cero pidiéndoselo a Claude.</strong> No memorizando comandos npm, sino sabiendo cómo <em>encargar</em> un proyecto.</li>
         <li><strong>Que entiendan el ciclo "prompt → revisar → iterar".</strong> Claude no acierta a la primera. Lo importante es saber leer su salida y corregir.</li>
-        <li><strong>Que cada uno tenga una URL pública con su Weather Report al final.</strong> Es el "trofeo" que se llevan a casa.</li>
+        <li><strong>Que cada uno tenga su weather app corriendo en su <code>localhost:5173</code> al final.</strong> Es el "trofeo" — verla pintando datos reales de cualquier ciudad del mundo.</li>
       </ol>
 
       <h4>Qué NO quiero hacer hoy</h4>
       <ul>
-        <li><strong>No</strong> entrar en CSS pixel-perfect. Si Claude lo deja "feo pero funcional", suficiente para hoy.</li>
+        <li><strong>No</strong> Vercel ni deploy. La app vive en <code>localhost</code>. Punto.</li>
+        <li><strong>No</strong> entrar en CSS pixel-perfect. Si Claude lo deja "feo pero funcional", suficiente.</li>
         <li><strong>No</strong> explicar React en profundidad. La app funciona. Si quieren entender hooks, eso lo ven en otro contexto.</li>
-        <li><strong>No</strong> meter TypeScript. JavaScript plano. Reduce fricción para los no técnicos.</li>
+        <li><strong>No</strong> meter TypeScript ni Tailwind. JavaScript plano + CSS plano. Reduce fricción para los no técnicos.</li>
       </ul>
 
       <div class="warn"><strong>Trampa habitual:</strong> querer "explicar el código" cuando Claude lo genera. Si el alumno no lo pide, no lo explicas. La curiosidad se la guardan ellos.</div>
@@ -679,36 +680,35 @@
         <div class="stack-card">
           <div class="sc-cat">api</div>
           <h5>Open-Meteo</h5>
-          <p><strong>Sin API key.</strong> Gratis, pública, fiable. Mañana la usamos.</p>
-        </div>
-        <div class="stack-card">
-          <div class="sc-cat">deploy</div>
-          <h5>Vercel</h5>
-          <p>Deploy gratis con GitHub. URL pública por alumno. Mañana lo usamos.</p>
+          <p><strong>Sin API key.</strong> Gratis, pública, fiable. Conectamos en P2.</p>
         </div>
       </div>
 
       <div class="tip"><strong>Decisión clave tomada:</strong> Open-Meteo en vez de OpenWeatherMap. Razón — Open-Meteo no requiere API key. Si fuésemos con OpenWeatherMap, perderíamos 15 minutos cada uno registrándose y copiando claves.</div>
 
-      <h4>Estructura final del repo</h4>
+      <h4>Dónde vive la app de cada alumno</h4>
+      <p>Cada alumno construye <strong>su propia app</strong> dentro de su carpeta. No hay una app compartida en <code>demos/</code>. Esto evita que se pisen, deja a cada uno con su versión versionable y permite que personalicen sin miedo.</p>
+
       <div class="block-body" style="padding:0;">
 <pre style="background:var(--code-bg);color:#E8DDC8;padding:1rem;border-radius:var(--r);font-family:'JetBrains Mono',monospace;font-size:0.82rem;overflow-x:auto;line-height:1.6;">powerfox-formacion-claude/
-└── demos/
-    └── weather-report/        ← lo que construimos hoy
-        ├── public/
-        ├── src/
-        │   ├── App.jsx
-        │   ├── App.css
-        │   ├── components/
-        │   │   ├── SearchBar.jsx
-        │   │   ├── WeatherCard.jsx
-        │   │   └── ForecastList.jsx
-        │   └── api/
-        │       └── weather.js
-        ├── index.html
-        ├── package.json
-        ├── vite.config.js
-        └── README.md</pre>
+└── alumnos/
+    └── [nombre-alumno]/
+        └── weather-report/        ← lo que construye cada uno
+            ├── public/
+            ├── src/
+            │   ├── App.jsx
+            │   ├── App.css
+            │   ├── main.jsx
+            │   ├── components/
+            │   │   ├── SearchBar.jsx
+            │   │   ├── WeatherCard.jsx
+            │   │   └── ForecastList.jsx
+            │   └── api/
+            │       └── weather.js
+            ├── index.html
+            ├── package.json
+            ├── vite.config.js
+            └── README.md</pre>
       </div>
     </div>
   </div>
@@ -729,65 +729,40 @@
       <div class="mermaid-wrap">
         <pre class="mermaid">
 flowchart TB
-    subgraph Local["💻 Local (martes)"]
-      A1[Alumno crea carpeta<br/>demos/weather-report]
-      A2[P1 a Claude:<br/>'crea app React<br/>de clima']
-      A3[Claude scaffoldea<br/>Vite + React + componentes]
-      A4[npm install<br/>npm run dev]
-      A5[localhost:5173<br/>app funcionando<br/>con datos mock]
+    subgraph Setup["🛠️ Setup (15 min)"]
+      A1[Alumno crea su rama<br/>feature/weather-NOMBRE]
+      A2[Crea carpeta<br/>alumnos/NOMBRE/weather-report]
+      A3[Abre Claude Code<br/>dentro de esa carpeta]
     end
 
-    subgraph Iterar["🔁 Iteración (martes 2ª mitad)"]
-      B1[Mejorar UX<br/>P2: 'busca ciudad,<br/>muestra error si falla']
-      B2[Conectar a Open-Meteo<br/>P3: 'usa esta API<br/>en vez de mocks']
-      B3[Forecast 7 días<br/>P4: 'añade pronóstico<br/>semanal']
+    subgraph Construir["⚡ Tres prompts encadenados"]
+      P1[P1 — Scaffold<br/>Vite + React<br/>+ datos mock]
+      P2[P2 — Conectar<br/>a Open-Meteo<br/>API real]
+      P3[P3 — Pulido<br/>estados, errores,<br/>forecast 7 días]
     end
 
-    subgraph Github["🌍 GitHub + Vercel (miércoles)"]
-      C1[Commit + PR<br/>cada alumno<br/>en su rama]
-      C2[Merge a main]
-      C3[Vercel detecta push<br/>y despliega]
-      C4[URL pública<br/>weather-NOMBRE.vercel.app]
+    subgraph Resultado["🏆 Resultado en localhost"]
+      R1[npm install<br/>npm run dev]
+      R2[localhost:5173<br/>app funcionando<br/>con datos reales]
+      R3[Commit + PR<br/>de la rama del alumno]
     end
 
-    A1 --> A2 --> A3 --> A4 --> A5
-    A5 --> B1 --> B2 --> B3
-    B3 --> C1 --> C2 --> C3 --> C4
+    A1 --> A2 --> A3
+    A3 --> P1 --> P2 --> P3
+    P3 --> R1 --> R2 --> R3
 
-    style A2 fill:#FBEEE5,stroke:#B8451F,stroke-width:2px
-    style B2 fill:#E5EEF6,stroke:#2E5C8A,stroke-width:2px
-    style C4 fill:#FFF3E0,stroke:#C8932B,stroke-width:3px
+    style P1 fill:#FBEEE5,stroke:#B8451F,stroke-width:2px
+    style P2 fill:#E5EEF6,stroke:#2E5C8A,stroke-width:2px
+    style P3 fill:#EEF3E8,stroke:#4A7C2F,stroke-width:2px
+    style R2 fill:#FFF3E0,stroke:#C8932B,stroke-width:3px
         </pre>
       </div>
 
       <div class="how-to">
         <div class="label">Cómo enseñarlo</div>
-        <p>Antes de tocar código, dibuja este diagrama en pantalla. <strong>Empieza por el final</strong> (URL pública con tu nombre) y ve hacia atrás. La gente entiende mejor de salida a entrada.</p>
+        <p>Antes de tocar código, dibuja este diagrama en pantalla. <strong>Empieza por el final</strong> (la app corriendo en localhost con la ciudad del barrio del alumno) y ve hacia atrás. La gente entiende mejor de salida a entrada.</p>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ============================================================ -->
-<!-- TIMELINE MARTES -->
-<!-- ============================================================ -->
-<section id="timeline-martes">
-  <div class="section-head">
-    <span class="num">04</span>
-    <h2>Timeline · Martes (3h)</h2>
-    <span class="duration">0:00 → 3:00</span>
-  </div>
-
-  <div class="timeline">
-    <div class="timeline-row"><span class="timeline-time">0:00<small>15 min</small></span><span>Recap del lunes + presentación del proyecto Weather</span><span class="timeline-tag tag-recap">Hablan ellos</span></div>
-    <div class="timeline-row"><span class="timeline-time">0:15<small>15 min</small></span><span>Setup del proyecto: carpeta, rama, Claude listo</span><span class="timeline-tag tag-cc">Manos a teclado</span></div>
-    <div class="timeline-row star"><span class="timeline-time">0:30<small>30 min</small></span><span><strong>P1</strong> — pedir a Claude que cree la app entera</span><span class="timeline-tag tag-star">Estrella</span></div>
-    <div class="timeline-row break"><span class="timeline-time">1:00<small>10 min</small></span><span>☕ BREAK</span><span class="timeline-tag tag-break">Pausa</span></div>
-    <div class="timeline-row"><span class="timeline-time">1:10<small>30 min</small></span><span><code>npm install</code> + <code>npm run dev</code> + ver app en <code>localhost:5173</code></span><span class="timeline-tag tag-cc">Tu pantalla</span></div>
-    <div class="timeline-row star"><span class="timeline-time">1:40<small>40 min</small></span><span><strong>P2</strong> — iterar UX: barra de búsqueda + manejo de error</span><span class="timeline-tag tag-star">Iteración</span></div>
-    <div class="timeline-row break"><span class="timeline-time">2:20<small>10 min</small></span><span>☕ BREAK</span><span class="timeline-tag tag-break">Pausa</span></div>
-    <div class="timeline-row"><span class="timeline-time">2:30<small>20 min</small></span><span>Cada alumno repite el flujo en su carpeta</span><span class="timeline-tag tag-cc">Práctica</span></div>
-    <div class="timeline-row"><span class="timeline-time">2:50<small>10 min</small></span><span>Cierre: qué se llevan, preview del miércoles</span><span class="timeline-tag tag-recap">Hablan ellos</span></div>
   </div>
 </section>
 
@@ -796,20 +771,23 @@ flowchart TB
 <!-- ============================================================ -->
 <section id="timeline-miercoles">
   <div class="section-head">
-    <span class="num">05</span>
+    <span class="num">04</span>
     <h2>Timeline · Miércoles (3h)</h2>
     <span class="duration">0:00 → 3:00</span>
   </div>
+  <p class="lead-p">Los tres prompts se ejecutan en serie, con verificación entre cada uno. Si algún alumno se cuelga, el resto sigue — no esperar al rezagado.</p>
 
   <div class="timeline">
-    <div class="timeline-row"><span class="timeline-time">0:00<small>15 min</small></span><span>Recap del martes + plan del día</span><span class="timeline-tag tag-recap">Hablan ellos</span></div>
-    <div class="timeline-row star"><span class="timeline-time">0:15<small>40 min</small></span><span><strong>P3</strong> — conectar a Open-Meteo (API real)</span><span class="timeline-tag tag-star">API real</span></div>
-    <div class="timeline-row break"><span class="timeline-time">0:55<small>10 min</small></span><span>☕ BREAK</span><span class="timeline-tag tag-break">Pausa</span></div>
-    <div class="timeline-row star"><span class="timeline-time">1:05<small>40 min</small></span><span><strong>P4</strong> — pronóstico semanal + UI mejorada</span><span class="timeline-tag tag-star">Pulir</span></div>
-    <div class="timeline-row"><span class="timeline-time">1:45<small>20 min</small></span><span>Commit + PR en su rama, merge a main</span><span class="timeline-tag tag-cc">Git</span></div>
-    <div class="timeline-row break"><span class="timeline-time">2:05<small>10 min</small></span><span>☕ BREAK</span><span class="timeline-tag tag-break">Pausa</span></div>
-    <div class="timeline-row star"><span class="timeline-time">2:15<small>30 min</small></span><span><strong>P5</strong> — deploy a Vercel, cada alumno con URL pública</span><span class="timeline-tag tag-star">Clímax</span></div>
-    <div class="timeline-row"><span class="timeline-time">2:45<small>15 min</small></span><span>Cierre: trofeo + reto fin de semana</span><span class="timeline-tag tag-recap">Hablan ellos</span></div>
+    <div class="timeline-row"><span class="timeline-time">0:00<small>15 min</small></span><span>Recap de la semana + presentación del proyecto Weather y la guía del alumno</span><span class="timeline-tag tag-recap">Hablan ellos</span></div>
+    <div class="timeline-row"><span class="timeline-time">0:15<small>15 min</small></span><span>Setup: rama <code>feature/weather-NOMBRE</code> + carpeta + Claude apuntando a la ruta correcta</span><span class="timeline-tag tag-cc">Manos a teclado</span></div>
+    <div class="timeline-row star"><span class="timeline-time">0:30<small>30 min</small></span><span><strong>P1</strong> — pedir a Claude que cree la app entera con datos mock</span><span class="timeline-tag tag-star">Scaffold</span></div>
+    <div class="timeline-row"><span class="timeline-time">1:00<small>10 min</small></span><span><code>npm install</code> + <code>npm run dev</code> + verificar <code>localhost:5173</code></span><span class="timeline-tag tag-cc">Tu pantalla</span></div>
+    <div class="timeline-row break"><span class="timeline-time">1:10<small>10 min</small></span><span>☕ BREAK</span><span class="timeline-tag tag-break">Pausa</span></div>
+    <div class="timeline-row star"><span class="timeline-time">1:20<small>35 min</small></span><span><strong>P2</strong> — sustituir mocks por Open-Meteo (API real, sin key)</span><span class="timeline-tag tag-star">API real</span></div>
+    <div class="timeline-row star"><span class="timeline-time">1:55<small>35 min</small></span><span><strong>P3</strong> — pulido: estados, errores, forecast 7 días, responsive</span><span class="timeline-tag tag-star">Pulido</span></div>
+    <div class="timeline-row break"><span class="timeline-time">2:30<small>10 min</small></span><span>☕ BREAK</span><span class="timeline-tag tag-break">Pausa</span></div>
+    <div class="timeline-row"><span class="timeline-time">2:40<small>15 min</small></span><span>Refuerzo: troubleshooting individual + retos opcionales para los que terminaron</span><span class="timeline-tag tag-cc">Práctica</span></div>
+    <div class="timeline-row"><span class="timeline-time">2:55<small>5 min</small></span><span>Cierre: cada uno enseña su app, commit + PR, qué se llevan</span><span class="timeline-tag tag-recap">Hablan ellos</span></div>
   </div>
 </section>
 
@@ -819,26 +797,29 @@ flowchart TB
 <section id="bloque-recap">
   <div class="section-head">
     <span class="num">B1</span>
-    <h2>Recap del lunes + introducción</h2>
+    <h2>Recap + presentación del proyecto</h2>
     <span class="duration">0:00 → 0:15 · 15 min</span>
   </div>
-  <p class="lead-p">No empieces explicando React. Empieza recordándoles lo que YA hicieron.</p>
+  <p class="lead-p">No empieces explicando React. Empieza recordándoles lo que YA hicieron y mostrando la guía del alumno.</p>
 
   <div class="block">
     <div class="block-head"><span class="block-time">0:00</span><span class="block-title">Cómo llevarlo</span></div>
     <div class="block-body">
       <h4>Pasos</h4>
       <ol>
-        <li>Ronda rápida: <em>"¿Alguien ha vuelto a abrir su <code>recap.html</code> desde el viernes?"</em>. 30 segundos.</li>
-        <li>Abre el repo. Click en <code>demos/</code>. Está vacío. <em>"Hoy esto se llena."</em></li>
-        <li>Pitch: <em>"Vamos a construir una app de Weather Report. La diferencia con cualquier tutorial es que NO vamos a escribir código nosotros. Le pedimos a Claude lo que queremos y revisamos qué nos da."</em></li>
-        <li>Enseña el diagrama del bloque 03 en pantalla. <strong>Empezar por el final</strong>.</li>
+        <li>Ronda rápida: <em>"¿Alguien ha vuelto a abrir su <code>recap.html</code> desde la última sesión?"</em>. 30 segundos.</li>
+        <li>Abre <code>sesiones/s3-miercoles/reglas-alumno-weather.html</code> en el navegador y proyectalo. <em>"Esto es lo que vamos a construir hoy. Tres prompts. Vuestra carpeta. Vuestra app."</em></li>
+        <li>Pitch: <em>"Hasta ahora Claude os ha ayudado con documentación. Hoy os va a construir software ejecutable. La carpeta de cada uno tendrá su propia weather app."</em></li>
+        <li>Enseña el diagrama del bloque 03 en pantalla. <strong>Empieza por el final</strong> (la app pintando datos reales en localhost).</li>
+        <li>Apunta a la guía del alumno: <em>"Tenéis los 3 prompts en HTML con botones de copiar. No hace falta que toméis notas, todo está en el repo."</em></li>
       </ol>
 
       <div class="how-to">
         <div class="label">El gancho</div>
-        <p><em>"Al final del miércoles, cada uno tendrá una URL del tipo <code>weather-luis.vercel.app</code> que podéis abrir en el móvil. Funciona de verdad. Vuestro hijo, vuestra pareja, vuestro jefe — cualquiera puede usarla."</em></p>
+        <p><em>"Al final de hoy, cada uno escribe el nombre de su pueblo, de su barrio, del lugar donde vivís ahora — y verá los grados que hace ahí en este momento. No me lo invento yo. Me lo da una API pública que existe desde antes de que naciera ChatGPT."</em></p>
       </div>
+
+      <div class="tip"><strong>Tip didáctico:</strong> abre tres pestañas y manténlas durante toda la sesión — (1) este panel del facilitador, (2) la guía del alumno <code>reglas-alumno-weather.html</code>, (3) tu VS Code. Cmd+Tab entre las tres.</div>
     </div>
   </div>
 </section>
@@ -859,21 +840,22 @@ flowchart TB
     <div class="block-body">
       <ol class="step-list">
         <li><strong>Asegurar que están en <code>main</code> y al día</strong>:
-          <ul><li><code>git switch main</code></li><li><code>git pull</code></li></ul>
+          <ul><li><code>git switch main</code></li><li><code>git pull upstream main</code></li></ul>
         </li>
         <li><strong>Crear rama nueva</strong> con el nombre del alumno:
-          <ul><li><code>git switch -c feature/weather-report-luis</code></li></ul>
+          <ul><li><code>git switch -c feature/weather-luis</code></li></ul>
         </li>
-        <li><strong>Crear la carpeta del proyecto</strong>:
-          <ul><li><code>mkdir -p demos/weather-report</code></li><li><code>cd demos/weather-report</code></li></ul>
+        <li><strong>Crear la carpeta del proyecto dentro de su carpeta de alumno</strong>:
+          <ul><li><code>mkdir -p alumnos/luis-hoyos/weather-report</code></li><li><code>cd alumnos/luis-hoyos/weather-report</code></li></ul>
         </li>
-        <li><strong>Abrir Claude Code en esa carpeta</strong> (VS Code → panel Claude).</li>
+        <li><strong>Verificar la ruta</strong> — todos ejecutan <code>pwd</code> y confirman que termina en <code>alumnos/[nombre]/weather-report</code>.</li>
+        <li><strong>Abrir Claude Code en esa carpeta</strong> (VS Code → File → Open Folder → seleccionar la carpeta del alumno). Confirmar que el panel de Claude muestra esa ruta como contexto.</li>
         <li><strong>Copiar P1</strong> y pegarlo en Claude. Del bloque <a href="#prompts">Prompts</a>.</li>
       </ol>
 
-      <div class="warn"><strong>Trampa:</strong> si alguien intenta hacerlo en la raíz del repo en vez de en <code>demos/weather-report/</code>, Claude generará archivos a nivel raíz y rompe el repo. Repite tres veces: <em>"Estamos DENTRO de demos/weather-report"</em>.</div>
+      <div class="warn"><strong>Trampa crítica:</strong> si alguien intenta pegar P1 sin estar dentro de <code>alumnos/[nombre]/weather-report/</code>, Claude generará archivos a nivel raíz o en otro sitio y rompe el repo. <strong>Repite tres veces antes de dar la orden de pegar:</strong> <em>"Estamos DENTRO de alumnos/[vuestro-nombre]/weather-report. Ejecutad <code>pwd</code> y leedme la ruta antes de pegar."</em></div>
 
-      <div class="tip"><strong>Tip:</strong> abre tu propia rama <code>feature/weather-report-yeriel</code> en pantalla y vas haciendo a la par. Si alguien se pierde, comparas con tu pantalla.</div>
+      <div class="tip"><strong>Tip:</strong> abre tu propia rama <code>feature/weather-yeriel</code> en pantalla y ve haciendo a la par dentro de <code>alumnos/yeriel/weather-report/</code>. Si alguien se pierde, comparas con tu pantalla. Tu app sirve también como referencia visual.</div>
     </div>
   </div>
 </section>
@@ -887,63 +869,83 @@ flowchart TB
     <h2>P1 — Crear la app entera con un prompt</h2>
     <span class="duration">0:30 → 1:00 · 30 min</span>
   </div>
-  <p class="lead-p">Este es el momento clave del martes. Pegan el prompt, ven cómo Claude crea archivos durante varios minutos, y al final tienen una app que funciona.</p>
+  <p class="lead-p">Este es el momento clave de la sesión. Pegan el prompt, ven cómo Claude crea archivos durante varios minutos, y al final tienen una app que funciona en <code>localhost</code>.</p>
 
   <div class="block star-block">
-    <div class="block-head"><span class="block-time">0:30</span><span class="block-title">P1 — Scaffolding completo</span><span class="star-badge">⭐ ESTRELLA</span></div>
+    <div class="block-head"><span class="block-time">0:30</span><span class="block-title">P1 — Scaffold con datos mock</span><span class="star-badge">⭐ SCAFFOLD</span></div>
     <div class="block-body">
       <h4>Qué hace este prompt</h4>
       <ul>
-        <li>Crea un proyecto Vite + React desde cero.</li>
+        <li>Crea un proyecto Vite + React desde cero en la carpeta actual del alumno.</li>
         <li>Genera los componentes <code>SearchBar</code>, <code>WeatherCard</code>, <code>ForecastList</code>.</li>
-        <li>Usa datos <strong>mockeados</strong> al principio (no toca la API real todavía).</li>
-        <li>CSS plano (no Tailwind).</li>
+        <li>Usa datos <strong>hardcodeados</strong> de Madrid, Barcelona y Buenos Aires (no toca API).</li>
+        <li>CSS plano. Sin Tailwind, sin TypeScript.</li>
         <li>Deja el proyecto listo para <code>npm install</code> + <code>npm run dev</code>.</li>
       </ul>
 
       <div class="prompt-card">
         <div class="prompt-head">
           <span class="pnum">P1</span>
-          <span class="ptitle">Crea la app Weather Report</span>
+          <span class="ptitle">Crear la app con datos mock</span>
           <button class="copy-btn" data-target="p1">Copiar</button>
         </div>
-        <div class="prompt-body" id="p1">Crea una aplicación React + Vite llamada "weather-report" en la carpeta actual.
+        <div class="prompt-body" id="p1">Crea una aplicación React + Vite en la carpeta actual. La carpeta ya existe y está vacía. NO crees una subcarpeta — todo va directamente aquí.
 
-Requisitos:
+REQUISITOS DE STACK:
+- Vite con plantilla React (JavaScript plano, NO TypeScript).
+- React 18.
+- CSS plano. NO uses Tailwind, ni styled-components, ni librerías de UI.
+- NO añadas axios, lodash, ni ninguna dependencia que no venga con Vite.
 
-ESTRUCTURA:
-- Usa Vite con plantilla react (NO TypeScript, JavaScript plano).
-- src/App.jsx como componente raíz.
-- src/components/SearchBar.jsx — input para escribir una ciudad y un botón "Buscar".
-- src/components/WeatherCard.jsx — tarjeta que muestra: ciudad, temperatura actual, descripción, humedad, viento.
-- src/components/ForecastList.jsx — lista vertical de 7 días con icono, día de la semana, máxima y mínima.
-- src/api/weather.js — funciones para obtener datos. POR AHORA devuelve datos mockeados (no llames a ninguna API real todavía).
+ESTRUCTURA DE ARCHIVOS (créalos todos):
+- index.html
+- package.json (con scripts dev, build, preview)
+- vite.config.js
+- src/main.jsx (punto de entrada)
+- src/App.jsx (componente raíz)
+- src/App.css (estilos globales)
+- src/components/SearchBar.jsx
+- src/components/WeatherCard.jsx
+- src/components/ForecastList.jsx
+- src/api/weather.js
+- README.md
 
-DATOS MOCK:
-- ciudad: "Madrid"
-- temperatura: 22°C
-- descripción: "Soleado"
-- humedad: 45%, viento: 12 km/h
-- forecast de 7 días con valores de ejemplo
+QUÉ HACE CADA COMPONENTE:
+- SearchBar: input controlado para escribir una ciudad y un botón "Buscar". Cuando el usuario submitea, llama a una prop onSearch(city).
+- WeatherCard: tarjeta con ciudad, país, temperatura actual, descripción, humedad, viento.
+- ForecastList: lista vertical de 7 días. Cada fila: día de la semana en español, emoji del clima, máxima y mínima.
+
+DATOS MOCK (en src/api/weather.js):
+Exporta una función getWeatherByCity(city) que devuelva una promesa.
+Si la ciudad es "Madrid", "Barcelona" o "Buenos Aires" (case-insensitive), devuelve datos hardcodeados distintos para cada una. Si es otra cualquiera, también devuelve datos para que la app se vea bien — pero hardcodeados.
+
+Estructura del objeto devuelto:
+{
+  city: "Madrid",
+  country: "España",
+  temperature: 22,
+  description: "Soleado",
+  humidity: 45,
+  windspeed: 12,
+  forecast: [
+    { day: "Lun", code: 0, max: 24, min: 14 },
+    { day: "Mar", code: 1, max: 23, min: 13 },
+    ... 7 días en total
+  ]
+}
 
 ESTILOS:
-- CSS plano en App.css y un módulo por componente si hace falta.
-- NO uses Tailwind, ni styled-components, ni librerías de UI.
-- Diseño limpio y centrado, fondo claro, bordes suaves, paleta azul/blanco.
-- Responsive: en móvil (<600px) que se vea bien apilado.
-
-INSTALACIÓN:
-- Crea el package.json con scripts dev, build, preview.
-- NO ejecutes npm install todavía — deja el proyecto listo para que yo lo lance.
-
-DOCUMENTACIÓN:
-- Genera un README.md corto explicando cómo arrancar (npm install, npm run dev) y qué hace cada componente.
+- Diseño limpio y centrado. Fondo claro. Bordes suaves redondeados.
+- Paleta azul/blanco. Tipografía sans-serif del sistema.
+- Responsive: en móvil (max-width: 600px) que se vea apilado y legible.
+- Si quieres CSS por componente, usa archivos .css importados desde el .jsx.
 
 REGLAS DURAS:
-- No inventes APIs todavía — datos mock siempre.
-- Comentarios mínimos, solo donde el "por qué" no sea obvio.
-- Sin console.log innecesarios.
-- En español el README, en inglés solo lo que tenga que ser estándar (nombres de funciones).</div>
+- NO ejecutes npm install. Solo deja el proyecto listo.
+- NO llames a ninguna API real todavía. Mock siempre.
+- NO uses console.log para debug. Si necesitas log, déjalo solo en errores.
+- Comentarios mínimos. Solo donde el "por qué" no sea obvio.
+- README en español, corto: cómo arrancar (npm install, npm run dev) y qué hace cada componente en una línea.</div>
       </div>
 
       <h4>Qué pasa después de pegar P1</h4>
@@ -957,7 +959,7 @@ REGLAS DURAS:
           </ul>
         </li>
         <li>Vite arranca en <code>http://localhost:5173</code>. Lo abres en el navegador.</li>
-        <li>Si funciona — aplauso colectivo y siguiente bloque. Si no — saltas a <a href="#troubleshooting">Troubleshooting</a>.</li>
+        <li>Si funciona — siguiente bloque. Si no — saltas a <a href="#troubleshooting">Troubleshooting</a>.</li>
       </ol>
 
       <div class="how-to">
@@ -972,247 +974,230 @@ REGLAS DURAS:
 </section>
 
 <!-- ============================================================ -->
-<!-- BLOQUE ITERAR -->
+<!-- BLOQUE API (P2) -->
 <!-- ============================================================ -->
-<section id="bloque-iterar">
+<section id="bloque-api">
   <div class="section-head">
     <span class="num">B4</span>
-    <h2>P2 — Iterar UX con Claude</h2>
-    <span class="duration">1:40 → 2:20 · 40 min</span>
+    <h2>P2 — Conectar a Open-Meteo</h2>
+    <span class="duration">1:20 → 1:55 · 35 min</span>
   </div>
-  <p class="lead-p">La app ya funciona pero está incompleta. Aquí enseñamos lo más importante: <strong>iterar</strong>. No tirar y rehacer — pedir cambios concretos.</p>
+  <p class="lead-p">El bloque "wow". Pasamos de datos inventados a datos reales del clima del momento. Y lo hacemos sin escribir una línea de código.</p>
 
   <div class="block star-block">
-    <div class="block-head"><span class="block-time">1:40</span><span class="block-title">P2 — Mejorar barra de búsqueda + estados</span><span class="star-badge">⭐ ITERACIÓN</span></div>
+    <div class="block-head"><span class="block-time">1:20</span><span class="block-title">P2 — Sustituir mocks por API real</span><span class="star-badge">⭐ API REAL</span></div>
     <div class="block-body">
       <div class="prompt-card">
         <div class="prompt-head">
           <span class="pnum">P2</span>
-          <span class="ptitle">Iterar UX: búsqueda real + estados de error</span>
+          <span class="ptitle">Conectar a Open-Meteo (sin API key)</span>
           <button class="copy-btn" data-target="p2">Copiar</button>
         </div>
-        <div class="prompt-body" id="p2">La app ya funciona con datos mock. Ahora mejórala:
+        <div class="prompt-body" id="p2">La app ya funciona con datos mock. Ahora conéctala a la API real de Open-Meteo. Open-Meteo es gratis y NO requiere API key.
 
-1. La barra de búsqueda debe permitir escribir una ciudad y al pulsar "Buscar" o presionar Enter, actualizar la WeatherCard. Por ahora sigue usando datos mockeados, pero crea un mock distinto por cada ciudad: "Madrid", "Barcelona", "Lima", "Sevilla". Si el usuario escribe otra ciudad, muestra un estado de "no encontrada".
+NECESITAS DOS LLAMADAS:
 
-2. Añade tres estados visuales:
-   - "Cargando..." mientras se "busca" (simula 500ms con setTimeout).
-   - "Ciudad no encontrada" si no está en el mock.
-   - Estado normal con la tarjeta del clima.
+1. GEOCODING — convertir el nombre de la ciudad a coordenadas:
+   GET https://geocoding-api.open-meteo.com/v1/search?name=Madrid&count=1&language=es&format=json
 
-3. Si el input está vacío y pulsa Buscar, muestra un mensaje "Escribe el nombre de una ciudad".
+   Respuesta de ejemplo:
+   {
+     "results": [
+       {
+         "name": "Madrid",
+         "latitude": 40.4165,
+         "longitude": -3.70256,
+         "country": "España"
+       }
+     ]
+   }
 
-4. Pequeñas mejoras de UX:
-   - Foco automático en el input al cargar la página.
-   - Botón "Buscar" deshabilitado si el input está vacío.
-   - Limpiar el input tras una búsqueda exitosa.
+   Si results está vacío o no existe → ciudad no encontrada.
 
-5. NO toques aún la API real. Esto sigue siendo mock.
+2. CLIMA + FORECAST — con esas coordenadas:
+   GET https://api.open-meteo.com/v1/forecast?latitude=40.4&longitude=-3.7&current_weather=true&hourly=relative_humidity_2m&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=auto
 
-Mantén el estilo CSS plano. No introduzcas librerías nuevas.</div>
+   De la respuesta saca:
+   - current_weather.temperature
+   - current_weather.windspeed
+   - current_weather.weathercode
+   - hourly.relative_humidity_2m[0] (humedad de la hora actual)
+   - daily.time[] (fechas de los próximos 7 días)
+   - daily.temperature_2m_max[] y temperature_2m_min[]
+   - daily.weathercode[]
+
+CAMBIOS A HACER:
+
+1. Modifica src/api/weather.js. Reemplaza getWeatherByCity(city) por una versión que:
+   - Llame primero al endpoint de geocoding.
+   - Si no devuelve resultados, lance: throw new Error("Ciudad no encontrada").
+   - Si lo devuelve, llame al endpoint de forecast con esas coordenadas.
+   - Devuelva un objeto normalizado con la misma forma que ya usaba la app:
+     { city, country, temperature, description, humidity, windspeed, forecast }
+   - El array forecast tiene 7 entradas: { day, code, max, min }. "day" es el día de la semana en español ("Lun", "Mar", "Mié", etc.).
+
+2. Mapea el weathercode a una descripción en español. Crea una función weatherCodeToText(code) en el mismo archivo:
+   - 0: "Despejado"
+   - 1, 2, 3: "Parcialmente nublado"
+   - 45, 48: "Niebla"
+   - 51, 53, 55: "Llovizna"
+   - 61, 63, 65: "Lluvia"
+   - 71, 73, 75: "Nieve"
+   - 80, 81, 82: "Chubascos"
+   - 95, 96, 99: "Tormenta"
+   - cualquier otro: "Variable"
+
+3. La firma pública de getWeatherByCity(city) NO cambia. App.jsx ya la usa, no debería tener que tocarse.
+
+REGLAS DURAS:
+- Usa fetch nativo, NO axios ni librerías HTTP.
+- NO uses variables de entorno ni archivos .env. Esta API no necesita key.
+- NO añadas dependencias nuevas al package.json.
+- Si una llamada falla por red, el error que lance debe propagarse para que el componente lo capture.</div>
       </div>
 
-      <h4>Qué enseñar mientras Claude trabaja</h4>
-      <ul>
-        <li><strong>El concepto de "estados" en UI:</strong> cargando, vacío, con datos, con error. Sin esto, una app parece rota cuando no es rota.</li>
-        <li><strong>Cómo Claude hace cambios incrementales:</strong> no recrea el proyecto, edita los archivos existentes. Lo ven en el panel.</li>
-        <li><strong>Hot reload de Vite:</strong> al guardar Claude los archivos, la app se actualiza sola en el navegador. <em>"Mirad, no he tocado nada y ya cambió."</em></li>
-      </ul>
+      <h4>Cómo verificar P2</h4>
+      <ol>
+        <li>Vite recarga automáticamente — la app sigue abierta en <code>localhost:5173</code>.</li>
+        <li>Escribes "Lima" → datos reales del clima de Lima ahora mismo.</li>
+        <li>Escribes "Sevilla" → datos reales de Sevilla.</li>
+        <li>Escribes "asdfg" → la consola del navegador (F12) muestra "Ciudad no encontrada". La UI puede romperse — eso lo arreglamos en P3.</li>
+        <li>Mensaje a la clase: <em>"Ese número que sale ahora no me lo he inventado. Es lo que está pasando ahora mismo en la calle de Sevilla."</em></li>
+      </ol>
 
-      <div class="tip"><strong>Tip didáctico:</strong> después de aplicarse el cambio, escribes en el input "Cuenca" (que NO está en el mock) y enseñas el estado "no encontrada". Luego "Madrid" y enseñas el cargando + datos. Es teatro útil — ven los 3 estados sin que tengan que tocar nada.</div>
+      <div class="how-to">
+        <div class="label">Cómo enseñarlo</div>
+        <p>Antes de pegar P2, abre la URL del geocoding directamente en una pestaña del navegador (<code>https://geocoding-api.open-meteo.com/v1/search?name=Madrid&count=1&language=es</code>). Enseña el JSON crudo. <em>"Esto es lo que va a recibir Claude. No magia — JSON. Cualquiera puede leerlo."</em></p>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ============================================================ -->
-<!-- BLOQUE API -->
+<!-- BLOQUE PULIR (P3) -->
 <!-- ============================================================ -->
-<section id="bloque-api">
+<section id="bloque-pulir">
   <div class="section-head">
     <span class="num">B5</span>
-    <h2>P3 + P4 — Conectar a API real (miércoles)</h2>
-    <span class="duration">Miércoles 0:15 → 1:45 · ~90 min</span>
+    <h2>P3 — Pulido final</h2>
+    <span class="duration">1:55 → 2:30 · 35 min</span>
   </div>
-  <p class="lead-p">Este es el bloque "wow" del miércoles. Pasamos de datos inventados a datos reales del clima del momento. Y lo hacemos sin escribir una línea de código.</p>
+  <p class="lead-p">Última iteración. La app pasa de "demo cruda" a algo presentable. Estados visibles, errores claros, forecast 7 días pintado, responsive.</p>
 
   <div class="block star-block">
-    <div class="block-head"><span class="block-time">0:15</span><span class="block-title">P3 — Sustituir mock por Open-Meteo</span><span class="star-badge">⭐ API REAL</span></div>
+    <div class="block-head"><span class="block-time">1:55</span><span class="block-title">P3 — Estados, errores, forecast 7 días</span><span class="star-badge">⭐ PULIDO</span></div>
     <div class="block-body">
       <div class="prompt-card">
         <div class="prompt-head">
           <span class="pnum">P3</span>
-          <span class="ptitle">Conectar a Open-Meteo (sin API key)</span>
+          <span class="ptitle">Pulido: estados, errores, forecast, responsive</span>
           <button class="copy-btn" data-target="p3">Copiar</button>
         </div>
-        <div class="prompt-body" id="p3">Sustituye los datos mockeados de src/api/weather.js por llamadas reales a Open-Meteo.
+        <div class="prompt-body" id="p3">La app ya conecta a Open-Meteo. Ahora púlela:
 
-Open-Meteo es una API gratuita y SIN API KEY. Documentación: https://open-meteo.com/en/docs
+1. ESTADO DE CARGA:
+   - En App.jsx, añade un estado loading (boolean).
+   - Pónlo a true antes de cada llamada, false al terminar (éxito o error).
+   - Mientras loading sea true, muestra un texto "Cargando…" o un spinner CSS simple en lugar de la WeatherCard.
 
-Necesitas dos llamadas:
+2. ESTADO DE ERROR:
+   - Añade un estado error (string o null).
+   - En el catch del try/catch que llama a getWeatherByCity, guarda el mensaje del error.
+   - Cuando error tenga valor, muestra una caja con fondo rojo claro, borde rojo, y el mensaje. Debajo, un botón "Reintentar" que vuelve a ejecutar la última búsqueda.
+   - Si error está activo, NO muestres la WeatherCard ni la ForecastList.
 
-1. GEOCODING — para convertir el nombre de la ciudad a coordenadas:
-   GET https://geocoding-api.open-meteo.com/v1/search?name=Madrid&count=1&language=es&format=json
+3. FORECAST 7 DÍAS:
+   - La ForecastList ya recibe el array forecast. Asegúrate de que pinta los 7 días en columnas/filas legibles.
+   - Cada fila: día de la semana, emoji según el weathercode, máxima/mínima.
+   - Mapeo emoji recomendado:
+     0: ☀️
+     1, 2, 3: ⛅
+     45, 48: 🌫️
+     51-55: 🌦️
+     61-65, 80-82: 🌧️
+     71-75: ❄️
+     95-99: ⛈️
+     otros: 🌡️
 
-   Respuesta relevante: results[0].latitude, results[0].longitude, results[0].country, results[0].name.
+4. BÚSQUEDA POR DEFECTO:
+   - Al cargar la página por primera vez, llama automáticamente a getWeatherByCity("Madrid") para que se vea contenido sin tener que escribir nada.
 
-2. CLIMA ACTUAL — con esas coordenadas:
-   GET https://api.open-meteo.com/v1/forecast?latitude=40.4&longitude=-3.7&current_weather=true&hourly=relative_humidity_2m&timezone=auto
+5. CSS Y RESPONSIVE:
+   - La WeatherCard centrada horizontalmente, con max-width 480px.
+   - Tipografía clara, jerarquía visual: temperatura grande, descripción mediana, datos secundarios pequeños.
+   - En móvil (max-width: 600px), la ForecastList que se vea apilada en vertical sin overflow horizontal.
+   - Pequeña transición de opacidad (200ms) cuando cambia la WeatherCard.
 
-   De ahí sacas: current_weather.temperature, current_weather.windspeed, current_weather.weathercode, hourly.relative_humidity_2m[0].
+6. README.md:
+   - Actualízalo con: cómo arrancar, qué API usa y por qué (sin key), estructura de archivos en una línea cada uno.
 
-Implementa una función getWeatherByCity(city) que:
-- Llame a geocoding.
-- Si no devuelve resultados, lance un error con mensaje "Ciudad no encontrada".
-- Si lo devuelve, llame a forecast con las coordenadas.
-- Devuelva un objeto normalizado: { city, country, temperature, description, humidity, windspeed }.
-
-Mapea el weathercode a una descripción en español:
-- 0: "Despejado"
-- 1, 2, 3: "Parcialmente nublado"
-- 45, 48: "Niebla"
-- 51, 53, 55: "Llovizna"
-- 61, 63, 65: "Lluvia"
-- 71, 73, 75: "Nieve"
-- 95: "Tormenta"
-- otros: "Variable"
-
-Actualiza App.jsx para que use esta función en vez del mock.
-
-Mantén el manejo de estados (cargando, error, normal) que ya tenemos.
-
-NO uses axios ni librerías HTTP — usa fetch nativo.
-
-NO añadas claves de API ni variables de entorno — esta API no las necesita.</div>
+REGLAS DURAS:
+- Sigue sin librerías de UI. CSS plano.
+- NO añadas localStorage ni geolocalización (eso queda como reto opcional para los que terminen pronto).
+- NO añadas tests.
+- Comentarios mínimos.</div>
       </div>
 
-      <h4>Probar después de P3</h4>
-      <ol>
-        <li>Vite recarga automáticamente.</li>
-        <li>Escribes "Lima" → datos reales del clima de Lima ahora mismo.</li>
-        <li>Escribes "asdfg" → estado "Ciudad no encontrada".</li>
-        <li>Mensaje a la clase: <em>"Ese 22°C no me lo he inventado. Es lo que está pasando ahora mismo en la calle."</em></li>
-      </ol>
-    </div>
-  </div>
-
-  <div class="block star-block">
-    <div class="block-head"><span class="block-time">1:05</span><span class="block-title">P4 — Pronóstico semanal + pulir UI</span><span class="star-badge">⭐ PULIR</span></div>
-    <div class="block-body">
-      <div class="prompt-card">
-        <div class="prompt-head">
-          <span class="pnum">P4</span>
-          <span class="ptitle">Forecast 7 días + UX final</span>
-          <button class="copy-btn" data-target="p4">Copiar</button>
-        </div>
-        <div class="prompt-body" id="p4">Mejora la app con:
-
-1. PRONÓSTICO 7 DÍAS — añade a la llamada de Open-Meteo el parámetro daily:
-   &daily=temperature_2m_max,temperature_2m_min,weathercode
-
-   Llena la ForecastList con esos 7 días. Cada fila muestra:
-   - Día de la semana en español ("Lun", "Mar", etc.)
-   - Icono o emoji según el weathercode (☀️ ☁️ 🌧️ ❄️ ⛈️)
-   - Temperatura máx / mín
-
-2. UX FINAL:
-   - Al cargar la página, busca automáticamente "Madrid" y muestra esos datos (estado por defecto, no input vacío).
-   - Persiste la última ciudad buscada en localStorage para que al recargar muestre la misma.
-   - Añade un botón pequeño "📍 Mi ubicación" que use navigator.geolocation para coger lat/lon del navegador y consultar Open-Meteo directo (sin geocoding).
-
-3. ESTILO:
-   - Asegúrate de que en móvil (max-width: 600px) la ForecastList se vea apilada y las fuentes sean legibles.
-   - Pequeñas animaciones suaves al cambiar de ciudad (fade in 200ms).
-
-4. README.md — actualízalo con:
-   - Cómo correr la app.
-   - Qué API usa y por qué (sin key).
-   - Decisiones de diseño tomadas.
-
-Mantén CSS plano. No añadas nuevas dependencias.</div>
-      </div>
-
-      <h4>Probar después de P4</h4>
+      <h4>Cómo verificar P3</h4>
       <ul>
-        <li>App al cargar muestra Madrid con su forecast 7 días.</li>
-        <li>Click en "📍 Mi ubicación" → permiso del navegador → muestra clima local.</li>
-        <li>Recargar la pestaña recuerda la última búsqueda.</li>
-        <li>Móvil: app responsive, lista vertical legible.</li>
+        <li>Al cargar la página: aparece "Cargando…" un instante, después datos de Madrid.</li>
+        <li>Buscas "Tokio" → "Cargando…" → datos de Tokio + 7 emojis en el forecast.</li>
+        <li>Buscas "asdfg" → caja roja con "Ciudad no encontrada" + botón "Reintentar".</li>
+        <li>F12 → modo móvil → app apilada y legible.</li>
       </ul>
+
+      <div class="tip"><strong>Si llegan a aquí, han terminado el ejercicio.</strong> A partir de aquí es refuerzo + retos opcionales.</div>
     </div>
   </div>
 </section>
 
 <!-- ============================================================ -->
-<!-- BLOQUE DEPLOY -->
+<!-- BLOQUE REFUERZO -->
 <!-- ============================================================ -->
-<section id="bloque-deploy">
+<section id="bloque-refuerzo">
   <div class="section-head">
     <span class="num">B6</span>
-    <h2>P5 — Deploy a Vercel (cada alumno con URL pública)</h2>
-    <span class="duration">Miércoles 2:15 → 2:45 · 30 min</span>
+    <h2>Refuerzo y cierre</h2>
+    <span class="duration">2:40 → 3:00 · 20 min</span>
   </div>
-  <p class="lead-p">El clímax del miércoles. Cada alumno acaba con un enlace que puede compartir.</p>
+  <p class="lead-p">No todos van a llegar a P3 al mismo tiempo. Aquí gestionamos las velocidades distintas y cerramos.</p>
 
-  <div class="block star-block">
-    <div class="block-head"><span class="block-time">2:15</span><span class="block-title">P5 — Deploy automático con Vercel</span><span class="star-badge">⭐ CLÍMAX</span></div>
+  <div class="block">
     <div class="block-body">
-      <h4>Pasos antes del prompt</h4>
-      <ol>
-        <li>Cada alumno hace <code>git add . && git commit -m "feat(weather): app del clima funcional"</code>.</li>
-        <li><code>git push -u origin feature/weather-report-NOMBRE</code>.</li>
-        <li><code>gh pr create --fill</code>.</li>
-        <li>Mergeas el PR a <code>main</code>.</li>
-        <li>Cada uno hace <code>git switch main && git pull</code>.</li>
-      </ol>
-
-      <h4>Vercel — setup colectivo</h4>
-      <p>Lo más rápido es que <strong>tú</strong> conectes el repo del curso a tu cuenta Vercel personal y configures un deploy por subcarpeta. Vercel detecta cualquier push a main y despliega <code>demos/weather-report</code>.</p>
-
-      <p>Pero como cada alumno tiene su versión en su rama propia, lo elegante es:</p>
+      <h4>Cómo orquestar la diferencia de ritmos</h4>
       <ul>
-        <li>Cada alumno crea su <strong>propio fork</strong> del repo a su cuenta GitHub personal (si no lo tiene ya).</li>
-        <li>Conecta su fork a Vercel (gratis, login con GitHub, "Import Project").</li>
-        <li>Vercel le da una URL tipo <code>powerfox-formacion-claude-LUIS.vercel.app</code>.</li>
+        <li><strong>Quien terminó P3 antes:</strong> dale uno de los retos opcionales (lista abajo). Pueden hacerlo solos con un prompt corto a Claude.</li>
+        <li><strong>Quien sigue en P2:</strong> sentarte 5 min con esa persona. Probablemente la respuesta de la API no encaja con lo que su <code>App.jsx</code> espera. Abre F12 → Network → Response y mira el JSON real.</li>
+        <li><strong>Quien sigue en P1:</strong> revisar si Claude metió Tailwind o TypeScript a pesar de las reglas. Si sí, "tira y empieza de nuevo" es válido — son 2 minutos.</li>
       </ul>
 
-      <div class="prompt-card">
-        <div class="prompt-head">
-          <span class="pnum">P5</span>
-          <span class="ptitle">Configurar Vercel para deploy de la app</span>
-          <button class="copy-btn" data-target="p5">Copiar</button>
-        </div>
-        <div class="prompt-body" id="p5">Voy a desplegar la app weather-report a Vercel. La app vive en demos/weather-report dentro de un repo monorepo.
+      <h4>Retos opcionales (compartir con los rápidos)</h4>
+      <ul>
+        <li><strong>📍 Mi ubicación:</strong> botón que use <code>navigator.geolocation</code> para obtener lat/lon y consultar Open-Meteo directo (sin geocoding).</li>
+        <li><strong>💾 Última búsqueda:</strong> persistir la última ciudad en <code>localStorage</code>.</li>
+        <li><strong>🌙 Modo oscuro:</strong> toggle de tema usando <code>prefers-color-scheme</code>.</li>
+        <li><strong>🕘 Histórico:</strong> chips clickables debajo de la SearchBar con las últimas 5 ciudades buscadas.</li>
+        <li><strong>🌡️ Unidades:</strong> toggle °C / °F (Open-Meteo soporta el parámetro <code>temperature_unit</code>).</li>
+      </ul>
 
-Necesito:
-
-1. Crear un archivo vercel.json en la raíz del repo que indique a Vercel que el "root directory" del proyecto es demos/weather-report. Que use Vite (build command: npm run build, output directory: dist).
-
-2. Asegurarme de que la app se construye correctamente con npm run build:
-   - Verifica que vite.config.js no tenga base path raros.
-   - Verifica que no haya rutas absolutas hardcoded.
-
-3. Añadir una sección "Deploy" al README.md de demos/weather-report con instrucciones cortas:
-   - Login en vercel.com con GitHub.
-   - Click en "Import Project".
-   - Pegar la URL del fork del alumno.
-   - Configurar Root Directory: demos/weather-report.
-   - Deploy.
-
-4. NO subas a Vercel desde aquí — solo prepara la configuración. El alumno hace el deploy desde la web de Vercel.</div>
-      </div>
-
-      <h4>Cierre de la sesión — el momento trofeo</h4>
+      <h4>Cierre — los últimos 5 minutos</h4>
       <ol>
-        <li>Cada alumno comparte su URL en el chat.</li>
-        <li>Tú las abres todas en pantalla compartida.</li>
-        <li>Cada uno escribe la ciudad de su pueblo / barrio / lugar de vacaciones.</li>
-        <li>Aplauso colectivo.</li>
+        <li>Cada alumno enseña su pantalla al resto: escribe el nombre de su pueblo o barrio en su app.</li>
+        <li>Aplauso colectivo cuando salen los datos reales.</li>
+        <li>Comando de commit + PR (que no quede sin commitear lo que han hecho):
+<pre style="background:var(--code-bg);color:#E8DDC8;padding:0.7rem 1rem;border-radius:var(--r);font-family:'JetBrains Mono',monospace;font-size:0.78rem;line-height:1.6;margin:0.5rem 0;">git add alumnos/NOMBRE/weather-report/
+git commit -m "feat(NOMBRE): weather app funcional"
+git push -u origin feature/weather-NOMBRE
+gh pr create --repo Power-Fox-Solutions/powerfox-formacion-claude --base main --head USUARIO:feature/weather-NOMBRE --fill</pre>
+        </li>
       </ol>
 
       <div class="how-to">
         <div class="label">Frase de cierre</div>
-        <p><em>"Esa URL la podéis pasar a vuestro hijo, vuestra pareja, vuestro jefe. Funciona en su móvil, sin instalar nada. Os ha tomado 6 horas en dos sesiones. Antes — un trimestre con un equipo de tres."</em></p>
+        <p><em>"Esa app no la has escrito tú. Pero la has dirigido tú. La diferencia entre escribir código y dirigir a quien lo escribe es la misma que entre tocar un instrumento y dirigir una orquesta. Hoy habéis dirigido."</em></p>
       </div>
+
+      <div class="tip"><strong>Si la POC va bien:</strong> en una sesión futura subimos la app a Vercel. Cada alumno tendría una URL pública. Si la sesión se complica hoy, mejor consolidar localhost.</div>
     </div>
   </div>
 </section>
@@ -1231,18 +1216,16 @@ Necesito:
     <div class="block-body">
       <table>
         <thead>
-          <tr><th>#</th><th>Sesión</th><th>Cuándo</th><th>Para qué</th><th>Ir</th></tr>
+          <tr><th>#</th><th>Cuándo</th><th>Para qué</th><th>Ir</th></tr>
         </thead>
         <tbody>
-          <tr><td><strong>P1</strong></td><td>Martes</td><td>0:30</td><td>Crear app React + Vite con componentes y datos mock</td><td><a href="#bloque-prompt-app">↑</a></td></tr>
-          <tr><td><strong>P2</strong></td><td>Martes</td><td>1:40</td><td>Iterar UX: búsqueda real, estados, manejo de error</td><td><a href="#bloque-iterar">↑</a></td></tr>
-          <tr><td><strong>P3</strong></td><td>Miércoles</td><td>0:15</td><td>Sustituir mocks por API Open-Meteo (sin key)</td><td><a href="#bloque-api">↑</a></td></tr>
-          <tr><td><strong>P4</strong></td><td>Miércoles</td><td>1:05</td><td>Forecast 7 días + UX final + localStorage + geolocalización</td><td><a href="#bloque-api">↑</a></td></tr>
-          <tr><td><strong>P5</strong></td><td>Miércoles</td><td>2:15</td><td>Configurar Vercel para deploy</td><td><a href="#bloque-deploy">↑</a></td></tr>
+          <tr><td><strong>P1</strong></td><td>0:30 → 1:00</td><td>Crear app Vite + React con componentes y datos mock</td><td><a href="#bloque-prompt-app">↑</a></td></tr>
+          <tr><td><strong>P2</strong></td><td>1:20 → 1:55</td><td>Sustituir mocks por API Open-Meteo (sin key)</td><td><a href="#bloque-api">↑</a></td></tr>
+          <tr><td><strong>P3</strong></td><td>1:55 → 2:30</td><td>Pulido: estados, errores, forecast 7 días, responsive</td><td><a href="#bloque-pulir">↑</a></td></tr>
         </tbody>
       </table>
 
-      <div class="tip"><strong>Truco para clase:</strong> mantén este panel abierto en una pestaña, el repo en otra, y VS Code en otra. Cmd+Tab para saltar entre las tres.</div>
+      <div class="tip"><strong>Truco para clase:</strong> abre 3 pestañas — este panel del facilitador, la guía del alumno (<code>reglas-alumno-weather.html</code>) y VS Code. Cmd+Tab entre las tres. La guía del alumno ya tiene los prompts en HTML con botones de copiar; los alumnos copian de ahí, tú copias desde aquí.</div>
     </div>
   </div>
 </section>
@@ -1268,7 +1251,7 @@ Necesito:
       <div class="skill-card">
         <div class="skill-name">session-html-guide-writer</div>
         <p><strong>Qué hace:</strong> genera guías HTML self-contained con paleta y tipografía distintas a otras guías (evita el AI-slop default).</p>
-        <p><strong>Cuándo invocarla hoy:</strong> si te sobra tiempo y quieres que algún alumno cree una guía HTML del proyecto Weather como reto. Ej. "guía: cómo desplegar a Vercel".</p>
+        <p><strong>Cuándo invocarla hoy:</strong> si te sobra tiempo y quieres que algún alumno cree una guía HTML del proyecto Weather como reto. Ej. "guía: cómo añadir geolocalización a la app".</p>
       </div>
 
       <h4>Skills nuevas que pueden inventar (si pregunta algún alumno avanzado)</h4>
@@ -1276,10 +1259,12 @@ Necesito:
 
       <h4>Agents que ya existen y pueden ayudar</h4>
       <ul>
-        <li><code>session-recap-generator</code> — al final del miércoles, lo invocan sobre <code>sesiones/s3-martes/presentacion.html</code> (cuando exista) o sobre el <code>README.md</code> de la app y obtienen un recap.</li>
+        <li><code>session-recap-generator</code> — si quieres generar un README de la sesión a partir del propio <code>panel-facilitador.html</code> al terminar el miércoles, lo invocas sobre este archivo.</li>
         <li><code>personal-html-recap-generator</code> — cada alumno puede regenerar su <code>recap.html</code> al final de la semana para incorporar la sesión Weather.</li>
-        <li><code>claude-md-auditor</code> — si quieren auditar el <code>CLAUDE.md</code> de la app que crean en <code>demos/weather-report/</code>, lo lanzan sobre ese archivo.</li>
+        <li><code>claude-md-auditor</code> — si algún alumno crea su propio <code>CLAUDE.md</code> dentro de <code>alumnos/[nombre]/weather-report/</code> (no es obligatorio en esta sesión), puede pasarle este agent.</li>
       </ul>
+
+      <div class="tip"><strong>Nota:</strong> en esta sesión no creamos skills ni agents nuevos a propósito. La POC se diseñó para que los 3 prompts sean auto-suficientes, sin necesidad de infraestructura adicional. Si en una sesión futura ampliamos la app, ahí podemos plantear una skill <code>weather-app-builder</code>.</div>
     </div>
   </div>
 </section>
@@ -1296,22 +1281,25 @@ Necesito:
 
   <div class="block">
     <div class="block-body">
-      <h4>Git — ciclo del alumno</h4>
+      <h4>Git — ciclo del alumno (sustituye NOMBRE y USUARIO)</h4>
 <pre style="background:var(--code-bg);color:#E8DDC8;padding:1rem;border-radius:var(--r);font-family:'JetBrains Mono',monospace;font-size:0.82rem;overflow-x:auto;line-height:1.7;">git switch main
-git pull
-git switch -c feature/weather-report-NOMBRE
-mkdir -p demos/weather-report
-cd demos/weather-report
-# ... pegar P1 en Claude ...
-git add .
-git commit -m "feat(weather): app del clima funcional"
-git push -u origin feature/weather-report-NOMBRE
-gh pr create --fill</pre>
+git pull upstream main
+git switch -c feature/weather-NOMBRE
+mkdir -p alumnos/NOMBRE/weather-report
+cd alumnos/NOMBRE/weather-report
+# ... pegar P1, luego P2, luego P3 ...
+git add alumnos/NOMBRE/weather-report/
+git commit -m "feat(NOMBRE): weather app funcional"
+git push -u origin feature/weather-NOMBRE
+gh pr create --repo Power-Fox-Solutions/powerfox-formacion-claude \
+  --base main \
+  --head USUARIO:feature/weather-NOMBRE \
+  --fill</pre>
 
       <h4>Node — arrancar la app</h4>
 <pre style="background:var(--code-bg);color:#E8DDC8;padding:1rem;border-radius:var(--r);font-family:'JetBrains Mono',monospace;font-size:0.82rem;overflow-x:auto;line-height:1.7;">npm install        # instala dependencias (1ª vez)
 npm run dev        # arranca en http://localhost:5173
-npm run build      # construye para producción
+npm run build      # construye para producción (no lo usamos hoy)
 npm run preview    # sirve el build localmente</pre>
 
       <h4>API Open-Meteo — URLs útiles</h4>
@@ -1373,14 +1361,14 @@ npm run preview    # sirve el build localmente</pre>
             <td>Ctrl+C en terminal. <code>npm run dev</code> de nuevo.</td>
           </tr>
           <tr>
-            <td><strong>Vercel build falla</strong></td>
-            <td>Root Directory mal configurado</td>
-            <td>En Vercel Settings → Root Directory: <code>demos/weather-report</code>. Redeploy.</td>
+            <td><strong>Alumno trabajó fuera de su carpeta</strong></td>
+            <td>Pegó P1 sin estar en <code>alumnos/NOMBRE/weather-report/</code></td>
+            <td><code>git status</code> → ver qué archivos creó. <code>git restore --staged .</code> → mover archivos a la carpeta correcta o tirar y empezar.</td>
           </tr>
           <tr>
             <td><strong>Alumno totalmente perdido</strong></td>
             <td>Saltó un paso</td>
-            <td>Le pides que haga <code>git status</code>. Le dices qué carpeta abrir. Vuelves al timeline.</td>
+            <td>Le pides que haga <code>pwd</code> y <code>git status</code>. Le dices qué carpeta abrir. Vuelves al timeline.</td>
           </tr>
         </tbody>
       </table>
@@ -1391,8 +1379,8 @@ npm run preview    # sirve el build localmente</pre>
 </section>
 
 <footer>
-  <span>Power Fox BI · curso Claude Code · Sesiones 6 y 7 (S3)</span><br>
-  <span class="accent">28 + 29 abril 2026 · Panel privado del facilitador</span>
+  <span>Power Fox BI · curso Claude Code · S3 Miércoles · Weather App</span><br>
+  <span class="accent">29 abril 2026 · Panel privado del facilitador</span>
 </footer>
 
 </div>

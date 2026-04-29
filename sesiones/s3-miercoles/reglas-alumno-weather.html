@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tu Weather App · Guía del alumno · S3 Miércoles · Power Fox</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  :root {
+    --bg: #FAF7F2;
+    --ink: #1A1A1A;
+    --ink-mid: #4A4A4A;
+    --ink-light: #8A8A8A;
+    --paper: #FFFFFF;
+    --line: #E5E0D5;
+    --accent: #1F5C7A;
+    --accent-soft: #E5EEF3;
+    --gold: #C8932B;
+    --green: #4A7C2F;
+    --green-soft: #EEF3E8;
+    --red: #A33;
+    --red-soft: #F8E5E5;
+    --blue: #2E5C8A;
+    --blue-soft: #E5EEF6;
+    --code-bg: #1F1B16;
+    --r: 4px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0F1518;
+      --ink: #E8F0F4;
+      --ink-mid: #A8B5BC;
+      --ink-light: #6B7880;
+      --paper: #18222A;
+      --line: #2A3540;
+      --accent: #6FB5D5;
+      --accent-soft: #1A2A33;
+      --gold: #E0B14A;
+      --green: #8DB36A;
+      --green-soft: #1E2818;
+      --red: #D67373;
+      --red-soft: #2A1818;
+      --blue: #7AABD8;
+      --blue-soft: #1A2530;
+      --code-bg: #0A0F12;
+    }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.65;
+    font-size: 15px;
+  }
+  .top {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+  .top .right { color: var(--gold); }
+  .container { max-width: 980px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+  header.hero {
+    text-align: center;
+    padding: 3rem 0 2rem;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 2.5rem;
+  }
+  header.hero .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+  header.hero h1 {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 0.6rem;
+  }
+  header.hero h1 em {
+    color: var(--accent);
+    font-style: normal;
+  }
+  header.hero p {
+    font-size: 1.05rem;
+    color: var(--ink-mid);
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .toc {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  .toc h3 {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--ink-light);
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+  }
+  .toc ol {
+    list-style: none;
+    counter-reset: toc;
+    columns: 2;
+    column-gap: 2rem;
+  }
+  .toc li {
+    counter-increment: toc;
+    margin-bottom: 0.4rem;
+    break-inside: avoid;
+    font-size: 0.92rem;
+  }
+  .toc li::before {
+    content: counter(toc, decimal-leading-zero) ".";
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    margin-right: 0.6rem;
+  }
+  .toc a { color: var(--ink); text-decoration: none; }
+  .toc a:hover { color: var(--accent); }
+
+  section { margin-bottom: 3rem; scroll-margin-top: 1rem; }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 0.75rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .section-head .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 0.2rem 0.6rem;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+  .section-head h2 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    flex: 1;
+  }
+  .lead-p {
+    font-size: 1.02rem;
+    color: var(--ink-mid);
+    margin-bottom: 1.25rem;
+    max-width: 800px;
+  }
+
+  .block {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+  .block-body { padding: 1.5rem; }
+  .block-body h4 {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    margin: 1.25rem 0 0.6rem;
+    font-weight: 600;
+  }
+  .block-body h4:first-child { margin-top: 0; }
+  .block-body p { margin-bottom: 0.75rem; color: var(--ink-mid); }
+  .block-body p strong { color: var(--ink); }
+  .block-body ul, .block-body ol {
+    margin: 0.5rem 0 1rem 1.5rem;
+    color: var(--ink-mid);
+  }
+  .block-body li { margin-bottom: 0.4rem; }
+  .block-body code {
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85em;
+  }
+
+  .star-block {
+    border: 2px solid var(--gold);
+    background: linear-gradient(to bottom, rgba(200, 147, 43, 0.04), var(--paper));
+  }
+  .star-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--paper);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-left: 0.5rem;
+  }
+
+  .tip {
+    background: var(--green-soft);
+    border-left: 3px solid var(--green);
+    padding: 0.85rem 1.1rem;
+    margin: 1rem 0;
+    border-radius: 0 var(--r) var(--r) 0;
+    font-size: 0.92rem;
+  }
+  .tip strong { color: var(--green); }
+  .warn {
+    background: var(--red-soft);
+    border-left: 3px solid var(--red);
+    padding: 0.85rem 1.1rem;
+    margin: 1rem 0;
+    border-radius: 0 var(--r) var(--r) 0;
+    font-size: 0.92rem;
+  }
+  .warn strong { color: var(--red); }
+  .check {
+    background: var(--blue-soft);
+    border-left: 3px solid var(--blue);
+    padding: 0.85rem 1.1rem;
+    margin: 1rem 0;
+    border-radius: 0 var(--r) var(--r) 0;
+  }
+  .check .label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--blue);
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+  }
+  .check ul { margin: 0.3rem 0 0 1.5rem; color: var(--ink); }
+  .check li { margin-bottom: 0.35rem; }
+
+  .prompt-card {
+    background: var(--code-bg);
+    color: #E8DDC8;
+    border-radius: var(--r);
+    margin: 1rem 0;
+    overflow: hidden;
+    border: 1px solid var(--ink-light);
+  }
+  .prompt-head {
+    background: linear-gradient(135deg, var(--accent), var(--gold));
+    color: var(--paper);
+    padding: 0.6rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .prompt-head .pnum {
+    background: rgba(0,0,0,0.25);
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+  .prompt-head .ptitle {
+    font-weight: 600;
+    font-size: 0.92rem;
+    flex: 1;
+  }
+  .copy-btn {
+    background: rgba(255,255,255,0.2);
+    color: var(--paper);
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 0.25rem 0.7rem;
+    border-radius: 3px;
+    font-size: 0.72rem;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background 0.15s;
+  }
+  .copy-btn:hover { background: rgba(255,255,255,0.3); }
+  .copy-btn.copied { background: var(--green); }
+  .prompt-body {
+    padding: 1.1rem 1.25rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    max-height: 380px;
+    overflow-y: auto;
+  }
+  .prompt-body::-webkit-scrollbar { width: 8px; }
+  .prompt-body::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+  .prompt-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
+
+  pre.cmd {
+    background: var(--code-bg);
+    color: #E8DDC8;
+    padding: 1rem 1.25rem;
+    border-radius: var(--r);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    overflow-x: auto;
+    line-height: 1.7;
+    margin: 0.75rem 0;
+  }
+  pre.cmd .comment { color: #8AA0A8; }
+
+  .step-list {
+    counter-reset: step;
+    list-style: none;
+    margin: 1rem 0;
+  }
+  .step-list > li {
+    counter-increment: step;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    padding: 0.85rem 1rem 0.85rem 3rem;
+    margin-bottom: 0.6rem;
+    border-radius: 0 var(--r) var(--r) 0;
+    position: relative;
+    color: var(--ink-mid);
+  }
+  .step-list > li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0.85rem;
+    top: 0.85rem;
+    background: var(--accent);
+    color: var(--paper);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+  }
+  .step-list > li strong { color: var(--ink); }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+  thead th {
+    text-align: left;
+    border-bottom: 2px solid var(--ink);
+    padding: 0.6rem 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    color: var(--ink);
+  }
+  tbody td {
+    padding: 0.55rem 0.75rem;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-mid);
+    vertical-align: top;
+  }
+  tbody td strong { color: var(--ink); }
+
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.85rem;
+    margin: 1rem 0;
+  }
+  .stack-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    padding: 0.95rem 1.1rem;
+  }
+  .stack-card .sc-cat {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 0.35rem;
+  }
+  .stack-card h5 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.15rem;
+    margin-bottom: 0.25rem;
+    font-weight: 400;
+  }
+  .stack-card p {
+    font-size: 0.82rem;
+    color: var(--ink-mid);
+    line-height: 1.4;
+  }
+
+  footer {
+    margin-top: 3rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--line);
+    text-align: center;
+    color: var(--ink-light);
+    font-size: 0.82rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  footer .accent { color: var(--accent); }
+
+  @media (max-width: 768px) {
+    .container { padding: 1.5rem 1rem; }
+    .toc ol { columns: 1; }
+    .section-head h2 { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <span>Guía del alumno · S3 Miércoles</span>
+  <span class="right">Tu Weather App</span>
+</div>
+
+<div class="container">
+
+<header class="hero">
+  <div class="eyebrow">Sesión 7 · 29 abril 2026</div>
+  <h1>Tu <em>Weather App</em> en localhost<br>con 3 prompts</h1>
+  <p>Hoy construyes tu propia app del clima. La carpeta vive en <code>alumnos/[tu-nombre]/weather-report/</code>, la pides a Claude con 3 prompts y al final la ves corriendo en <code>http://localhost:5173</code> con datos reales de cualquier ciudad del mundo. No hace falta saber React. Solo seguir el orden.</p>
+</header>
+
+<nav class="toc">
+  <h3>Contenido de la guía</h3>
+  <ol>
+    <li><a href="#objetivo">Lo que vas a tener al final</a></li>
+    <li><a href="#requisitos">Antes de empezar</a></li>
+    <li><a href="#setup">Setup paso a paso</a></li>
+    <li><a href="#stack">Stack que va a usar Claude</a></li>
+    <li><a href="#p1">P1 — Crear la app con datos mock</a></li>
+    <li><a href="#p2">P2 — Conectar a Open-Meteo</a></li>
+    <li><a href="#p3">P3 — Pulido final</a></li>
+    <li><a href="#estructura">Cómo queda tu carpeta</a></li>
+    <li><a href="#cheatsheet">Cheatsheet de comandos</a></li>
+    <li><a href="#troubleshooting">Si algo se rompe</a></li>
+    <li><a href="#retos">Retos opcionales</a></li>
+  </ol>
+</nav>
+
+<!-- ============================================================ -->
+<!-- OBJETIVO -->
+<!-- ============================================================ -->
+<section id="objetivo">
+  <div class="section-head">
+    <span class="num">00</span>
+    <h2>Lo que vas a tener al final</h2>
+  </div>
+  <p class="lead-p">Si terminas la sesión, abres <code>http://localhost:5173</code> en tu navegador y deberías ver:</p>
+
+  <div class="block">
+    <div class="block-body">
+      <ul>
+        <li>Una tarjeta con la temperatura actual de Madrid (ciudad por defecto).</li>
+        <li>Una barra de búsqueda donde puedes escribir cualquier ciudad del mundo y ver datos reales.</li>
+        <li>Una lista con el pronóstico de los 7 próximos días.</li>
+        <li>Un mensaje claro si escribes una ciudad que no existe.</li>
+        <li>Una vista que se ve bien en móvil cuando reduces la ventana.</li>
+      </ul>
+
+      <div class="tip"><strong>Importante:</strong> hoy NO subimos la app a internet. Queda en tu portátil, abierta en <code>localhost</code>. Eso es suficiente para entender el flujo. Subir a Vercel queda para otra sesión si hay tiempo.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- REQUISITOS -->
+<!-- ============================================================ -->
+<section id="requisitos">
+  <div class="section-head">
+    <span class="num">01</span>
+    <h2>Antes de empezar</h2>
+  </div>
+  <p class="lead-p">Comprueba esto antes de pegar el primer prompt. Si algo falla, avisa al facilitador.</p>
+
+  <div class="block">
+    <div class="block-body">
+      <h4>Lo que debes tener instalado</h4>
+      <ul>
+        <li><strong>Node.js v20 o superior</strong> — abre la terminal y ejecuta <code>node --version</code>. Si te sale algo como <code>v20.x.x</code> o más alto, perfecto. Si es menor o no responde, descarga la última desde <a href="https://nodejs.org" target="_blank">nodejs.org</a>.</li>
+        <li><strong>VS Code con la extensión de Claude Code</strong> — la usaste en la sesión del lunes.</li>
+        <li><strong>Git y la terminal de VS Code</strong> — ya las tienes funcionando desde la primera sesión.</li>
+        <li><strong>Tu fork del repo del curso</strong> — si ya hiciste el onboarding, lo tienes. Si no, mira <code>prompts/onboarding-alumno.md</code>.</li>
+      </ul>
+
+      <div class="warn"><strong>Si Node.js es menor de v20:</strong> no sigas. Vite no arrancará. Avisa al facilitador para que te ayude a actualizar.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SETUP -->
+<!-- ============================================================ -->
+<section id="setup">
+  <div class="section-head">
+    <span class="num">02</span>
+    <h2>Setup paso a paso</h2>
+  </div>
+  <p class="lead-p">Estos comandos los ejecutas tú en la terminal antes de pegar el primer prompt. Sustituye <code>TU-NOMBRE</code> por tu nombre en kebab-case (ejemplo: <code>luis-hoyos</code>, <code>milagros-bravo</code>).</p>
+
+  <div class="block">
+    <div class="block-body">
+      <ol class="step-list">
+        <li><strong>Asegúrate de estar al día con main:</strong>
+<pre class="cmd">git switch main
+git pull upstream main</pre>
+        </li>
+        <li><strong>Crea tu rama de trabajo:</strong>
+<pre class="cmd">git switch -c feature/weather-TU-NOMBRE</pre>
+        </li>
+        <li><strong>Crea la carpeta de tu app:</strong>
+<pre class="cmd">mkdir -p alumnos/TU-NOMBRE/weather-report
+cd alumnos/TU-NOMBRE/weather-report</pre>
+        </li>
+        <li><strong>Confirma dónde estás:</strong>
+<pre class="cmd">pwd</pre>
+          Debe mostrar una ruta que termine en <code>alumnos/TU-NOMBRE/weather-report</code>. Si no, ajústalo antes de seguir.
+        </li>
+        <li><strong>Abre Claude Code en VS Code</strong> y verifica que su contexto apunta a esta carpeta. Si no, abre la carpeta desde <em>File → Open Folder</em>.</li>
+      </ol>
+
+      <div class="warn"><strong>Trampa habitual:</strong> si pegas el P1 sin estar dentro de <code>alumnos/TU-NOMBRE/weather-report/</code>, Claude generará archivos en la raíz del repo y romperás cosas que no son tuyas. Confirma la ruta con <code>pwd</code> antes de pegar.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- STACK -->
+<!-- ============================================================ -->
+<section id="stack">
+  <div class="section-head">
+    <span class="num">03</span>
+    <h2>Stack que va a usar Claude</h2>
+  </div>
+  <p class="lead-p">No necesitas conocer ninguna de estas piezas. Claude las instala. Solo te las cuento para que reconozcas los nombres cuando aparezcan en tu pantalla.</p>
+
+  <div class="block">
+    <div class="block-body">
+      <div class="stack-grid">
+        <div class="stack-card">
+          <div class="sc-cat">framework</div>
+          <h5>React 18</h5>
+          <p>Construye la UI por componentes. Cada parte de la pantalla es un componente.</p>
+        </div>
+        <div class="stack-card">
+          <div class="sc-cat">build</div>
+          <h5>Vite</h5>
+          <p>Servidor de desarrollo. Cuando guardas un archivo, refresca el navegador solo.</p>
+        </div>
+        <div class="stack-card">
+          <div class="sc-cat">styling</div>
+          <h5>CSS plano</h5>
+          <p>Sin Tailwind, sin librerías de estilos. Reduce piezas en movimiento.</p>
+        </div>
+        <div class="stack-card">
+          <div class="sc-cat">api</div>
+          <h5>Open-Meteo</h5>
+          <p>API pública del clima. Gratis, sin necesidad de registrarse ni de claves.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- P1 -->
+<!-- ============================================================ -->
+<section id="p1">
+  <div class="section-head">
+    <span class="num">P1</span>
+    <h2>Crear la app con datos mock<span class="star-badge">⭐ scaffold</span></h2>
+  </div>
+  <p class="lead-p">Este prompt crea todo el proyecto desde cero. Datos hardcodeados al principio (no toca APIs todavía) para que veas algo en pantalla rápido.</p>
+
+  <div class="block star-block">
+    <div class="block-body">
+      <h4>Lo que va a hacer Claude</h4>
+      <ul>
+        <li>Crear la estructura completa Vite + React.</li>
+        <li>Generar los componentes <code>SearchBar</code>, <code>WeatherCard</code>, <code>ForecastList</code>.</li>
+        <li>Poner datos hardcodeados de 3 ciudades para que la app pinte algo desde el principio.</li>
+        <li>Dejar el proyecto listo para <code>npm install</code>.</li>
+      </ul>
+
+      <div class="prompt-card">
+        <div class="prompt-head">
+          <span class="pnum">P1</span>
+          <span class="ptitle">Crear la app con datos mock</span>
+          <button class="copy-btn" data-target="p1">Copiar</button>
+        </div>
+        <div class="prompt-body" id="p1">Crea una aplicación React + Vite en la carpeta actual. La carpeta ya existe y está vacía. NO crees una subcarpeta — todo va directamente aquí.
+
+REQUISITOS DE STACK:
+- Vite con plantilla React (JavaScript plano, NO TypeScript).
+- React 18.
+- CSS plano. NO uses Tailwind, ni styled-components, ni librerías de UI.
+- NO añadas axios, lodash, ni ninguna dependencia que no venga con Vite.
+
+ESTRUCTURA DE ARCHIVOS (créalos todos):
+- index.html
+- package.json (con scripts dev, build, preview)
+- vite.config.js
+- src/main.jsx (punto de entrada)
+- src/App.jsx (componente raíz)
+- src/App.css (estilos globales)
+- src/components/SearchBar.jsx
+- src/components/WeatherCard.jsx
+- src/components/ForecastList.jsx
+- src/api/weather.js
+- README.md
+
+QUÉ HACE CADA COMPONENTE:
+- SearchBar: input controlado para escribir una ciudad y un botón "Buscar". Cuando el usuario submitea, llama a una prop onSearch(city).
+- WeatherCard: tarjeta con ciudad, país, temperatura actual, descripción, humedad, viento.
+- ForecastList: lista vertical de 7 días. Cada fila: día de la semana en español, emoji del clima, máxima y mínima.
+
+DATOS MOCK (en src/api/weather.js):
+Exporta una función getWeatherByCity(city) que devuelva una promesa.
+Si la ciudad es "Madrid", "Barcelona" o "Buenos Aires" (case-insensitive), devuelve datos hardcodeados distintos para cada una. Si es otra cualquiera, también devuelve datos para que la app se vea bien — pero hardcodeados.
+
+Estructura del objeto devuelto:
+{
+  city: "Madrid",
+  country: "España",
+  temperature: 22,
+  description: "Soleado",
+  humidity: 45,
+  windspeed: 12,
+  forecast: [
+    { day: "Lun", code: 0, max: 24, min: 14 },
+    { day: "Mar", code: 1, max: 23, min: 13 },
+    ... 7 días en total
+  ]
+}
+
+ESTILOS:
+- Diseño limpio y centrado. Fondo claro. Bordes suaves redondeados.
+- Paleta azul/blanco. Tipografía sans-serif del sistema.
+- Responsive: en móvil (max-width: 600px) que se vea apilado y legible.
+- Si quieres CSS por componente, usa archivos .css importados desde el .jsx.
+
+REGLAS DURAS:
+- NO ejecutes npm install. Solo deja el proyecto listo.
+- NO llames a ninguna API real todavía. Mock siempre.
+- NO uses console.log para debug. Si necesitas log, déjalo solo en errores.
+- Comentarios mínimos. Solo donde el "por qué" no sea obvio.
+- README en español, corto: cómo arrancar (npm install, npm run dev) y qué hace cada componente en una línea.</div>
+      </div>
+
+      <h4>Después de pegar P1</h4>
+      <ol>
+        <li>Claude empieza a crear archivos. Verás varias acciones <em>Write</em> en su panel. Tarda 1–2 minutos.</li>
+        <li>Cuando termine, ejecuta en la terminal:
+<pre class="cmd">npm install
+npm run dev</pre>
+        </li>
+        <li>Abre <code>http://localhost:5173</code> en tu navegador.</li>
+      </ol>
+
+      <div class="check">
+        <div class="label">Cómo saber que P1 funcionó</div>
+        <ul>
+          <li>Ves una tarjeta con datos de Madrid (o la ciudad por defecto).</li>
+          <li>Escribes "Barcelona" en la barra y pulsas Buscar → cambian los datos.</li>
+          <li>Escribes cualquier otra cosa → datos hardcodeados distintos pero la app no se rompe.</li>
+          <li>El forecast inferior tiene 7 filas con emojis y temperaturas.</li>
+        </ul>
+      </div>
+
+      <div class="warn"><strong>Si Claude propone Tailwind o TypeScript:</strong> respóndele "no, JavaScript plano y CSS plano" y deja que reintente.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- P2 -->
+<!-- ============================================================ -->
+<section id="p2">
+  <div class="section-head">
+    <span class="num">P2</span>
+    <h2>Conectar a Open-Meteo<span class="star-badge">⭐ api real</span></h2>
+  </div>
+  <p class="lead-p">Sustituye los datos mock por llamadas reales a Open-Meteo. Cualquier ciudad que escribas devuelve clima del momento.</p>
+
+  <div class="block star-block">
+    <div class="block-body">
+      <p><strong>Open-Meteo es gratis y no requiere API key.</strong> Doc: <a href="https://open-meteo.com/en/docs" target="_blank">open-meteo.com/en/docs</a>.</p>
+
+      <div class="prompt-card">
+        <div class="prompt-head">
+          <span class="pnum">P2</span>
+          <span class="ptitle">Conectar a Open-Meteo</span>
+          <button class="copy-btn" data-target="p2">Copiar</button>
+        </div>
+        <div class="prompt-body" id="p2">La app ya funciona con datos mock. Ahora conéctala a la API real de Open-Meteo. Open-Meteo es gratis y NO requiere API key.
+
+NECESITAS DOS LLAMADAS:
+
+1. GEOCODING — convertir el nombre de la ciudad a coordenadas:
+   GET https://geocoding-api.open-meteo.com/v1/search?name=Madrid&count=1&language=es&format=json
+
+   Respuesta de ejemplo:
+   {
+     "results": [
+       {
+         "name": "Madrid",
+         "latitude": 40.4165,
+         "longitude": -3.70256,
+         "country": "España"
+       }
+     ]
+   }
+
+   Si results está vacío o no existe → ciudad no encontrada.
+
+2. CLIMA + FORECAST — con esas coordenadas:
+   GET https://api.open-meteo.com/v1/forecast?latitude=40.4&longitude=-3.7&current_weather=true&hourly=relative_humidity_2m&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=auto
+
+   De la respuesta saca:
+   - current_weather.temperature
+   - current_weather.windspeed
+   - current_weather.weathercode
+   - hourly.relative_humidity_2m[0] (humedad de la hora actual)
+   - daily.time[] (fechas de los próximos 7 días)
+   - daily.temperature_2m_max[] y temperature_2m_min[]
+   - daily.weathercode[]
+
+CAMBIOS A HACER:
+
+1. Modifica src/api/weather.js. Reemplaza getWeatherByCity(city) por una versión que:
+   - Llame primero al endpoint de geocoding.
+   - Si no devuelve resultados, lance: throw new Error("Ciudad no encontrada").
+   - Si lo devuelve, llame al endpoint de forecast con esas coordenadas.
+   - Devuelva un objeto normalizado con la misma forma que ya usaba la app:
+     { city, country, temperature, description, humidity, windspeed, forecast }
+   - El array forecast tiene 7 entradas: { day, code, max, min }. "day" es el día de la semana en español ("Lun", "Mar", "Mié", etc.).
+
+2. Mapea el weathercode a una descripción en español. Crea una función weatherCodeToText(code) en el mismo archivo:
+   - 0: "Despejado"
+   - 1, 2, 3: "Parcialmente nublado"
+   - 45, 48: "Niebla"
+   - 51, 53, 55: "Llovizna"
+   - 61, 63, 65: "Lluvia"
+   - 71, 73, 75: "Nieve"
+   - 80, 81, 82: "Chubascos"
+   - 95, 96, 99: "Tormenta"
+   - cualquier otro: "Variable"
+
+3. La firma pública de getWeatherByCity(city) NO cambia. App.jsx ya la usa, no debería tener que tocarse.
+
+REGLAS DURAS:
+- Usa fetch nativo, NO axios ni librerías HTTP.
+- NO uses variables de entorno ni archivos .env. Esta API no necesita key.
+- NO añadas dependencias nuevas al package.json.
+- Si una llamada falla por red, el error que lance debe propagarse para que el componente lo capture.</div>
+      </div>
+
+      <div class="check">
+        <div class="label">Cómo saber que P2 funcionó</div>
+        <ul>
+          <li>Vite recargó solo. La app sigue abierta en <code>localhost:5173</code>.</li>
+          <li>Escribes "Lima" → datos reales del clima de Lima ahora mismo.</li>
+          <li>Escribes "Sevilla" → datos reales de Sevilla.</li>
+          <li>Escribes "asdfg" → en F12 → Console aparece "Ciudad no encontrada". La UI puede romperse temporalmente — la arreglamos en P3.</li>
+          <li>La temperatura ya no es 22°C de mock — coincide con el tiempo real del día.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- P3 -->
+<!-- ============================================================ -->
+<section id="p3">
+  <div class="section-head">
+    <span class="num">P3</span>
+    <h2>Pulido final<span class="star-badge">⭐ presentable</span></h2>
+  </div>
+  <p class="lead-p">La app pasa de "demo cruda" a algo que puedes enseñar. Estados de carga visibles, errores claros, forecast pintado, CSS legible.</p>
+
+  <div class="block star-block">
+    <div class="block-body">
+      <div class="prompt-card">
+        <div class="prompt-head">
+          <span class="pnum">P3</span>
+          <span class="ptitle">Pulido: estados, errores, forecast 7 días</span>
+          <button class="copy-btn" data-target="p3">Copiar</button>
+        </div>
+        <div class="prompt-body" id="p3">La app ya conecta a Open-Meteo. Ahora púlela:
+
+1. ESTADO DE CARGA:
+   - En App.jsx, añade un estado loading (boolean).
+   - Pónlo a true antes de cada llamada, false al terminar (éxito o error).
+   - Mientras loading sea true, muestra un texto "Cargando…" o un spinner CSS simple en lugar de la WeatherCard.
+
+2. ESTADO DE ERROR:
+   - Añade un estado error (string o null).
+   - En el catch del try/catch que llama a getWeatherByCity, guarda el mensaje del error.
+   - Cuando error tenga valor, muestra una caja con fondo rojo claro, borde rojo, y el mensaje. Debajo, un botón "Reintentar" que vuelve a ejecutar la última búsqueda.
+   - Si error está activo, NO muestres la WeatherCard ni la ForecastList.
+
+3. FORECAST 7 DÍAS:
+   - La ForecastList ya recibe el array forecast. Asegúrate de que pinta los 7 días en columnas/filas legibles.
+   - Cada fila: día de la semana, emoji según el weathercode, máxima/mínima.
+   - Mapeo emoji recomendado:
+     0: ☀️
+     1, 2, 3: ⛅
+     45, 48: 🌫️
+     51-55: 🌦️
+     61-65, 80-82: 🌧️
+     71-75: ❄️
+     95-99: ⛈️
+     otros: 🌡️
+
+4. BÚSQUEDA POR DEFECTO:
+   - Al cargar la página por primera vez, llama automáticamente a getWeatherByCity("Madrid") para que se vea contenido sin tener que escribir nada.
+
+5. CSS Y RESPONSIVE:
+   - La WeatherCard centrada horizontalmente, con max-width 480px.
+   - Tipografía clara, jerarquía visual: temperatura grande, descripción mediana, datos secundarios pequeños.
+   - En móvil (max-width: 600px), la ForecastList que se vea apilada en vertical sin overflow horizontal.
+   - Pequeña transición de opacidad (200ms) cuando cambia la WeatherCard.
+
+6. README.md:
+   - Actualízalo con: cómo arrancar, qué API usa y por qué (sin key), estructura de archivos en una línea cada uno.
+
+REGLAS DURAS:
+- Sigue sin librerías de UI. CSS plano.
+- NO añadas localStorage ni geolocalización (eso queda como reto opcional para los que terminen pronto).
+- NO añadas tests.
+- Comentarios mínimos.</div>
+      </div>
+
+      <div class="check">
+        <div class="label">Cómo saber que P3 funcionó</div>
+        <ul>
+          <li>Al cargar la página: aparece "Cargando…" un instante y después datos de Madrid.</li>
+          <li>Buscas "Tokio" → "Cargando…" → datos de Tokio + forecast con 7 emojis.</li>
+          <li>Buscas "asdfg" → caja roja con "Ciudad no encontrada" y botón "Reintentar".</li>
+          <li>Abres DevTools en modo móvil (F12 → icono de móvil) → la app se ve apilada y legible.</li>
+        </ul>
+      </div>
+
+      <div class="tip"><strong>Si llegas hasta aquí, ¡terminaste!</strong> Avisa al facilitador. Si te sobra tiempo, mira los <a href="#retos">retos opcionales</a>.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ESTRUCTURA -->
+<!-- ============================================================ -->
+<section id="estructura">
+  <div class="section-head">
+    <span class="num">04</span>
+    <h2>Cómo queda tu carpeta</h2>
+  </div>
+  <p class="lead-p">Si tras P3 abres tu carpeta en VS Code, deberías ver esta estructura.</p>
+
+  <div class="block">
+    <div class="block-body">
+<pre class="cmd">alumnos/TU-NOMBRE/weather-report/
+├── public/
+├── src/
+│   ├── App.jsx
+│   ├── App.css
+│   ├── main.jsx
+│   ├── components/
+│   │   ├── SearchBar.jsx
+│   │   ├── WeatherCard.jsx
+│   │   └── ForecastList.jsx
+│   └── api/
+│       └── weather.js
+├── index.html
+├── package.json
+├── vite.config.js
+└── README.md</pre>
+
+      <div class="tip"><strong>No hay backend ni base de datos.</strong> Todo el "estado" vive en memoria del navegador (con <code>useState</code> de React). Cuando recargas la pestaña, vuelve a empezar.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- CHEATSHEET -->
+<!-- ============================================================ -->
+<section id="cheatsheet">
+  <div class="section-head">
+    <span class="num">05</span>
+    <h2>Cheatsheet de comandos</h2>
+  </div>
+
+  <div class="block">
+    <div class="block-body">
+      <h4>Arrancar y parar la app</h4>
+<pre class="cmd"><span class="comment"># arrancar (la primera vez instalas dependencias)</span>
+npm install
+npm run dev               <span class="comment"># http://localhost:5173</span>
+
+<span class="comment"># parar el servidor</span>
+Ctrl + C                  <span class="comment"># en la terminal donde corre Vite</span>
+
+<span class="comment"># reinstalar dependencias si algo se rompe</span>
+rm -rf node_modules package-lock.json
+npm install</pre>
+
+      <h4>Subir tus cambios al final del día</h4>
+<pre class="cmd">git add alumnos/TU-NOMBRE/weather-report/
+git commit -m "feat(TU-NOMBRE): weather app funcional"
+git push -u origin feature/weather-TU-NOMBRE
+gh pr create --repo Power-Fox-Solutions/powerfox-formacion-claude \
+  --base main \
+  --head TU-USUARIO-GITHUB:feature/weather-TU-NOMBRE \
+  --fill</pre>
+
+      <h4>URLs útiles de Open-Meteo</h4>
+      <ul>
+        <li><strong>Geocoding:</strong> <code>https://geocoding-api.open-meteo.com/v1/search?name=Madrid&count=1&language=es</code></li>
+        <li><strong>Forecast:</strong> <code>https://api.open-meteo.com/v1/forecast?latitude=40.4&longitude=-3.7&current_weather=true&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=auto</code></li>
+        <li><strong>Doc oficial:</strong> <a href="https://open-meteo.com/en/docs" target="_blank">open-meteo.com/en/docs</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- TROUBLESHOOTING -->
+<!-- ============================================================ -->
+<section id="troubleshooting">
+  <div class="section-head">
+    <span class="num">06</span>
+    <h2>Si algo se rompe</h2>
+  </div>
+  <p class="lead-p">Lo más probable que pase y cómo salir. Si no encuentras tu caso, llama al facilitador.</p>
+
+  <div class="block">
+    <div class="block-body">
+      <table>
+        <thead>
+          <tr><th>Síntoma</th><th>Causa probable</th><th>Solución rápida</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong><code>npm install</code> falla</strong></td>
+            <td>Node desactualizado</td>
+            <td><code>node --version</code> debe ser 20+. Si no, descarga de <a href="https://nodejs.org" target="_blank">nodejs.org</a>.</td>
+          </tr>
+          <tr>
+            <td><strong>Vite no arranca, dice puerto ocupado</strong></td>
+            <td>Otro Vite ya corriendo</td>
+            <td>Vite saltará a 5174 solo. Si no, <code>npx kill-port 5173</code>.</td>
+          </tr>
+          <tr>
+            <td><strong>Página en blanco</strong></td>
+            <td>Error JS en consola</td>
+            <td>F12 → Console. Copia el error y pásaselo a Claude: <em>"tengo este error: [pegar]"</em>.</td>
+          </tr>
+          <tr>
+            <td><strong>API responde pero la UI no actualiza</strong></td>
+            <td>Procesamiento incorrecto de la respuesta</td>
+            <td>F12 → Network → ver la respuesta JSON. Pídele a Claude que revise <code>src/api/weather.js</code>.</td>
+          </tr>
+          <tr>
+            <td><strong>Claude crea Tailwind aunque dije que no</strong></td>
+            <td>Ignoró parte del prompt</td>
+            <td>Dile <em>"quita Tailwind. Usa CSS plano"</em>. Repítelo si hace falta.</td>
+          </tr>
+          <tr>
+            <td><strong>Hot reload no funciona</strong></td>
+            <td>Vite cacheado</td>
+            <td>Ctrl+C en la terminal, <code>npm run dev</code> de nuevo.</td>
+          </tr>
+          <tr>
+            <td><strong>Cambios no se reflejan en pantalla tras pegar P2/P3</strong></td>
+            <td>Claude no guardó el archivo</td>
+            <td>Confirma que el panel de Claude muestra "Wrote to weather.js" o equivalente. Si no, repite el prompt.</td>
+          </tr>
+          <tr>
+            <td><strong>Estoy completamente perdido</strong></td>
+            <td>Saltaste un paso</td>
+            <td>Ejecuta <code>git status</code> y <code>pwd</code>. Compárteselo al facilitador y vuelve a la sección <a href="#setup">Setup</a>.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="warn"><strong>Regla de oro:</strong> si Claude propone una solución que no entiendes, no la apliques. Dile <em>"espera, hazlo más simple"</em>. Mejor algo que funciona aunque sea feo.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- RETOS -->
+<!-- ============================================================ -->
+<section id="retos">
+  <div class="section-head">
+    <span class="num">07</span>
+    <h2>Retos opcionales</h2>
+  </div>
+  <p class="lead-p">Para los que terminen pronto. Cada uno se resuelve con un prompt corto a Claude. No son obligatorios.</p>
+
+  <div class="block">
+    <div class="block-body">
+      <ul>
+        <li><strong>📍 Mi ubicación:</strong> botón que use <code>navigator.geolocation.getCurrentPosition</code> para obtener lat/lon del navegador y consultar Open-Meteo directo (sin geocoding).</li>
+        <li><strong>💾 Recordar última búsqueda:</strong> persistir la última ciudad en <code>localStorage</code> para que al recargar la pestaña la app la recuerde.</li>
+        <li><strong>🌙 Modo oscuro:</strong> toggle de tema usando <code>prefers-color-scheme</code> y un botón en la UI.</li>
+        <li><strong>🕘 Histórico:</strong> mostrar las últimas 5 ciudades buscadas como chips clickables debajo de la SearchBar.</li>
+        <li><strong>🌡️ Unidades:</strong> botón para alternar entre °C y °F (Open-Meteo soporta el parámetro <code>temperature_unit</code>).</li>
+      </ul>
+
+      <div class="tip"><strong>Cómo plantearlo:</strong> escribe a Claude algo como <em>"añade un botón 'Mi ubicación' que use la geolocalización del navegador y consulte Open-Meteo directo"</em>. Una frase. Verás que es suficiente.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>Power Fox BI · curso Claude Code · S3 Miércoles</span><br>
+  <span class="accent">29 abril 2026 · Guía del alumno</span>
+</footer>
+
+</div>
+
+<script>
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.getAttribute('data-target');
+      const target = document.getElementById(targetId);
+      if (!target) return;
+      navigator.clipboard.writeText(target.textContent.trim()).then(() => {
+        const original = btn.textContent;
+        btn.textContent = 'Copiado';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = original;
+          btn.classList.remove('copied');
+        }, 1400);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
