@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recap Personal — Agustín Buonomo | Power Fox</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  :root{--navy:#0B1D3A;--blue:#1565C0;--blue-light:#42A5F5;--accent:#FF6D00;--accent-soft:#FFF3E0;--bg:#F5F7FA;--card:#FFF;--text:#1A2332;--text-mid:#546E7A;--text-light:#90A4AE;--border:#E8EDF2;--code-bg:#1E1E2E;--green:#2E7D32;--green-soft:#E8F5E9;--red:#C62828;--red-soft:#FFEBEE;--purple:#6A1B9A;--purple-soft:#F3E5F5;--claude:#7C3AED;--agent:#DB2777;--r:12px}
+  *{margin:0;padding:0;box-sizing:border-box}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+
+  .nav{display:flex;justify-content:space-between;align-items:center;padding:.75rem 1.5rem;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+  .nav-logo{font-weight:700;font-size:.9rem;color:var(--navy);letter-spacing:1px}
+  .nav-links{display:flex;gap:1rem}
+  .nav-links a{font-size:.8rem;color:var(--text-mid);text-decoration:none;font-weight:500}
+
+  .hero{background:var(--navy);color:#fff;padding:3rem 2rem 2.5rem;position:relative;overflow:hidden}
+  .hero::after{content:'';position:absolute;top:0;right:0;width:40%;height:100%;background:linear-gradient(135deg,transparent,rgba(124,58,237,.15),rgba(219,39,119,.1))}
+  .hero-meta{display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem;position:relative;z-index:1}
+  .hero-badge{background:var(--claude);color:#fff;padding:.25rem .75rem;border-radius:4px;font-size:.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
+  .hero-badge-gold{background:var(--accent)}
+  .hero-week{font-size:.85rem;opacity:.7}
+  .hero h1{font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:.5rem;position:relative;z-index:1}
+  .hero-sub{font-size:1rem;opacity:.75;position:relative;z-index:1;max-width:700px}
+  .hero-stats{display:flex;gap:1.5rem;margin-top:1.25rem;position:relative;z-index:1;flex-wrap:wrap}
+  .hero-stat{background:rgba(255,255,255,.1);padding:.5rem 1rem;border-radius:8px;text-align:center}
+  .hero-stat-num{font-size:1.5rem;font-weight:700;display:block}
+  .hero-stat-label{font-size:.75rem;opacity:.7}
+
+  .container{max-width:1100px;margin:0 auto;padding:2rem 1.5rem}
+
+  .section{margin-bottom:3rem}
+  .section-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:2px solid var(--border);flex-wrap:wrap}
+  .section-num{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;color:#fff;flex-shrink:0}
+  .section-header h2{font-size:1.3rem;font-weight:700}
+  .section-header .tag{margin-left:auto;font-size:.75rem;color:var(--text-light);font-weight:500}
+
+  .content-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+  @media(max-width:768px){.content-grid{grid-template-columns:1fr}}
+  .card{background:var(--card);border-radius:var(--r);padding:1.5rem;box-shadow:0 1px 4px rgba(0,0,0,.05);border:1px solid var(--border)}
+  .card h3{font-size:1.05rem;font-weight:700;margin-bottom:.75rem}
+  .card p,.card li{font-size:.88rem;color:var(--text-mid)}
+  .card ul{padding-left:1.25rem}
+  .card li{margin-bottom:.35rem}
+  .card-full{grid-column:1/-1}
+
+  /* Timeline de sesiones */
+  .timeline{position:relative;padding-left:2rem}
+  .timeline::before{content:'';position:absolute;left:.65rem;top:.5rem;bottom:.5rem;width:2px;background:var(--border)}
+  .tl-item{position:relative;margin-bottom:1.5rem}
+  .tl-dot{position:absolute;left:-2rem;top:.35rem;width:14px;height:14px;border-radius:50%;border:2px solid var(--card);box-shadow:0 0 0 2px var(--blue);background:var(--blue)}
+  .tl-dot.green{box-shadow:0 0 0 2px var(--green);background:var(--green)}
+  .tl-dot.purple{box-shadow:0 0 0 2px var(--claude);background:var(--claude)}
+  .tl-dot.orange{box-shadow:0 0 0 2px var(--accent);background:var(--accent)}
+  .tl-dot.agent{box-shadow:0 0 0 2px var(--agent);background:var(--agent)}
+  .tl-header{display:flex;align-items:baseline;gap:.75rem;margin-bottom:.35rem;flex-wrap:wrap}
+  .tl-session{font-weight:700;font-size:1rem;color:var(--navy)}
+  .tl-date{font-size:.78rem;color:var(--text-light)}
+  .tl-tag{font-size:.65rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:.15rem .5rem;border-radius:3px;background:var(--blue);color:#fff}
+  .tl-body{background:var(--card);border-radius:var(--r);padding:1.25rem;border:1px solid var(--border)}
+  .tl-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:.75rem}
+  @media(max-width:600px){.tl-row{grid-template-columns:1fr}}
+  .tl-block h4{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-light);margin-bottom:.3rem}
+  .tl-block p{font-size:.85rem;color:var(--text-mid)}
+  .tl-prompt{margin-top:.75rem;padding:.75rem 1rem;background:#EDE9FE;border-radius:8px;border-left:3px solid var(--claude)}
+  .tl-prompt-label{font-size:.7rem;font-weight:700;color:var(--claude);letter-spacing:1px;text-transform:uppercase;margin-bottom:.3rem}
+  .tl-prompt p{font-size:.83rem;color:var(--purple);font-style:italic}
+
+  /* Tabla de evolución */
+  .table-wrap{overflow-x:auto;margin:1rem 0}
+  table{width:100%;border-collapse:collapse;font-size:.85rem}
+  th{background:var(--navy);color:#fff;padding:.6rem 1rem;text-align:left;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px}
+  td{padding:.6rem 1rem;border-bottom:1px solid var(--border);vertical-align:top}
+  tr:hover td{background:#F8FAFC}
+  .td-session{font-weight:700;white-space:nowrap}
+  .td-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:.4rem;vertical-align:middle}
+
+  /* Prompts */
+  .prompt-card{background:var(--card);border-radius:var(--r);border:2px solid var(--claude);padding:1.5rem;margin-bottom:1rem;position:relative}
+  .prompt-card::before{position:absolute;top:-10px;left:1rem;padding:.2rem .75rem;border-radius:4px;font-size:.65rem;font-weight:700;letter-spacing:1px;color:#fff;background:var(--claude);content:attr(data-label)}
+  .prompt-card h4{font-size:.95rem;font-weight:700;margin-bottom:.5rem;margin-top:.25rem;color:var(--navy)}
+  .prompt-card p{font-size:.82rem;color:var(--text-mid);margin-bottom:.75rem}
+  .code-block{background:var(--code-bg);color:#CDD6F4;border-radius:8px;padding:1.25rem;font-family:'JetBrains Mono',monospace;font-size:.78rem;overflow-x:auto;line-height:1.6;white-space:pre-wrap}
+  .var{color:#FAB387}
+  .keyword{color:#CBA6F7}
+  .comment{color:#6C7086}
+
+  /* Criterio de herramientas */
+  .tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1rem 0}
+  @media(max-width:700px){.tool-grid{grid-template-columns:1fr}}
+  .tool-card{border-radius:var(--r);padding:1.25rem;border:1px solid var(--border)}
+  .tool-card-blue{background:#E3F2FD;border-color:#90CAF9}
+  .tool-card-purple{background:#EDE9FE;border-color:#C4B5FD}
+  .tool-card-green{background:var(--green-soft);border-color:#A5D6A7}
+  .tool-card h4{font-size:.9rem;font-weight:700;margin-bottom:.5rem}
+  .tool-card-blue h4{color:var(--blue)}
+  .tool-card-purple h4{color:var(--claude)}
+  .tool-card-green h4{color:var(--green)}
+  .tool-card ul{padding-left:1.1rem}
+  .tool-card li{font-size:.82rem;color:var(--text-mid);margin-bottom:.25rem}
+
+  /* Próximo paso */
+  .next-card{background:linear-gradient(135deg,#1A1A2E,#2D2D4E);color:#fff;border-radius:var(--r);padding:2rem;margin:1.5rem 0;position:relative;overflow:hidden}
+  .next-label{font-size:.7rem;font-weight:700;letter-spacing:2px;color:#A78BFA;margin-bottom:.75rem}
+  .next-card h3{font-size:1.2rem;font-weight:700;margin-bottom:.75rem}
+  .next-card p{font-size:.9rem;color:#CDD6F4;margin-bottom:.5rem}
+  .step-list{counter-reset:step;padding:0;list-style:none;margin:1rem 0}
+  .step-list li{counter-increment:step;position:relative;padding:.5rem 0 .5rem 2.5rem;border-bottom:1px dashed rgba(255,255,255,.1);font-size:.88rem;color:#CDD6F4}
+  .step-list li::before{content:counter(step);position:absolute;left:0;top:.45rem;width:1.75rem;height:1.75rem;background:var(--claude);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem}
+  .step-list li:last-child{border-bottom:none}
+  .step-list li strong{color:#fff}
+
+  /* Highlight boxes */
+  .highlight-box{border-left:4px solid var(--accent);background:var(--accent-soft);padding:1rem 1.25rem;border-radius:0 var(--r) var(--r) 0;margin:1rem 0}
+  .highlight-box p{font-size:.88rem}
+  .tip-box{border-left:4px solid var(--green);background:var(--green-soft);padding:1rem 1.25rem;border-radius:0 var(--r) var(--r) 0;margin:1rem 0}
+  .tip-box p{font-size:.88rem}
+
+  /* Reflexión */
+  .reflection{background:var(--card);border-radius:var(--r);padding:2rem;border:1px solid var(--border);text-align:center;margin-bottom:2rem}
+  .reflection blockquote{font-size:1.15rem;font-weight:500;color:var(--navy);font-style:italic;max-width:700px;margin:0 auto 1rem;line-height:1.6}
+  .reflection cite{font-size:.82rem;color:var(--text-light)}
+
+  .footer{text-align:center;padding:2rem;font-size:.8rem;color:var(--text-light);border-top:1px solid var(--border);margin-top:2rem}
+  .footer strong{color:var(--navy)}
+
+  .badge-row{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.75rem}
+  .badge{padding:.25rem .65rem;border-radius:4px;font-size:.75rem;font-weight:700}
+  .badge-blue{background:#E3F2FD;color:var(--blue)}
+  .badge-purple{background:#EDE9FE;color:var(--claude)}
+  .badge-orange{background:var(--accent-soft);color:var(--accent)}
+  .badge-green{background:var(--green-soft);color:var(--green)}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">POWER FOX — Formación</div>
+  <div class="nav-links">
+    <a href="#">Agustín Buonomo</a>
+    <a href="#">5 sesiones</a>
+    <a href="#">Abr 2026</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-meta">
+    <span class="hero-badge hero-badge-gold">Recap personal</span>
+    <span class="hero-week">Controller financiero · LitoClean</span>
+  </div>
+  <h1>Agustín Buonomo</h1>
+  <p class="hero-sub">De usuario de Claude Chat a Claude Code en producción. Cinco sesiones, cinco desbloques, un caso práctico real resuelto.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="hero-stat-num">5</span><span class="hero-stat-label">Sesiones</span></div>
+    <div class="hero-stat"><span class="hero-stat-num">4</span><span class="hero-stat-label">Prompts propios</span></div>
+    <div class="hero-stat"><span class="hero-stat-num">2 min</span><span class="hero-stat-label">vs. 30 min en Google</span></div>
+    <div class="hero-stat"><span class="hero-stat-num">14–22 Abr</span><span class="hero-stat-label">Período</span></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ========== EVOLUCIÓN ========== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="background:var(--blue)">01</div>
+      <h2>Evolución por sesión</h2>
+      <span class="tag">14 → 22 Abr 2026</span>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Sesión</th>
+            <th>Fecha</th>
+            <th>Concepto central</th>
+            <th>Lo que te desbloqueó</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-session"><span class="td-dot" style="background:var(--blue)"></span>S1</td>
+            <td>14 Abr</td>
+            <td>Ecosistema integrado</td>
+            <td>Traducir "entornos" y "entidades" a analogías de Excel</td>
+          </tr>
+          <tr>
+            <td class="td-session"><span class="td-dot" style="background:var(--green)"></span>S2</td>
+            <td>15 Abr</td>
+            <td>Diseño de datos + setup</td>
+            <td>El modelo de datos de Power Platform = Excel que escala a toda la empresa</td>
+          </tr>
+          <tr>
+            <td class="td-session"><span class="td-dot" style="background:var(--claude)"></span>S3</td>
+            <td>16 Abr</td>
+            <td>Skills y agents</td>
+            <td>Instrucciones permanentes sin repetir contexto en cada conversación</td>
+          </tr>
+          <tr>
+            <td class="td-session"><span class="td-dot" style="background:var(--accent)"></span>S4</td>
+            <td>21 Abr</td>
+            <td>Claude Code instalado</td>
+            <td>Claude.ai = asesor externo sin contexto · Claude Code = colaborador que conoce tus archivos</td>
+          </tr>
+          <tr>
+            <td class="td-session"><span class="td-dot" style="background:var(--agent)"></span>S5</td>
+            <td>22 Abr</td>
+            <td>Primer caso práctico real</td>
+            <td>Formatos condicionales en Excel: 2 min vs. 30 min buscando en Google</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ========== BITÁCORA DETALLADA ========== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="background:var(--claude)">02</div>
+      <h2>Bitácora detallada</h2>
+    </div>
+
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-header">
+          <span class="tl-session">Sesión 1</span>
+          <span class="tl-date">14 Abr 2026</span>
+          <span class="tl-tag" style="background:var(--blue)">Ecosistema</span>
+        </div>
+        <div class="tl-body">
+          <div class="tl-row">
+            <div class="tl-block">
+              <h4>Lo mejor</h4>
+              <p>Entender que Claude no es solo un chatbot: puede vivir dentro del entorno de trabajo y leer el contexto del proyecto. Ver cómo Power Platform, GitHub y Claude Code encajan como piezas de un proceso abrió la puerta a imaginar aplicaciones concretas para el área financiera.</p>
+            </div>
+            <div class="tl-block">
+              <h4>Lo que costó</h4>
+              <p>La terminología técnica: "arquitectura", "entornos", "entidades". La solución fue traducir: una entidad es una tabla de Excel; un entorno es tener un archivo de prueba y uno de producción.</p>
+            </div>
+          </div>
+          <div class="tl-prompt">
+            <div class="tl-prompt-label">Prompt guardado</div>
+            <p>Pedirle a Claude que explique conceptos técnicos usando analogías del mundo financiero o contable.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot green"></div>
+        <div class="tl-header">
+          <span class="tl-session">Sesión 2</span>
+          <span class="tl-date">15 Abr 2026</span>
+          <span class="tl-tag" style="background:var(--green)">Diseño de datos</span>
+        </div>
+        <div class="tl-body">
+          <div class="tl-row">
+            <div class="tl-block">
+              <h4>Lo mejor</h4>
+              <p>El módulo de diseño de tablas fue el más cercano al trabajo diario. Una buena estructura de datos en Power Platform es básicamente diseñar bien un modelo en Excel — con la diferencia de que aquí escala a toda la empresa.</p>
+            </div>
+            <div class="tl-block">
+              <h4>Lo que costó</h4>
+              <p>Configurar VS Code y entender para qué sirve cada herramienta. La diferencia entre VS Code, Git y GitHub requirió repasar después de la sesión.</p>
+            </div>
+          </div>
+          <div class="tl-prompt">
+            <div class="tl-prompt-label">Prompt guardado</div>
+            <p>"Soy controller financiero sin conocimientos de código. Explícame [concepto técnico] usando un ejemplo de Excel, contabilidad o reporting financiero."</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot purple"></div>
+        <div class="tl-header">
+          <span class="tl-session">Sesión 3</span>
+          <span class="tl-date">16 Abr 2026</span>
+          <span class="tl-tag" style="background:var(--claude)">Skills & Agents</span>
+        </div>
+        <div class="tl-body">
+          <div class="tl-row">
+            <div class="tl-block">
+              <h4>Lo mejor</h4>
+              <p>Ver skills y agents en funcionamiento en vivo. Entender que se pueden dar instrucciones permanentes (skills) para que Claude actúe con contexto fijo sin repetirle cada vez quién eres y qué necesitas.</p>
+            </div>
+            <div class="tl-block">
+              <h4>Lo que costó</h4>
+              <p>La parte de JavaScript quedó lejos del día a día. Pero lo valioso fue ver que Claude puede generarlo si se le explica en lenguaje natural qué tiene que ocurrir.</p>
+            </div>
+          </div>
+          <div class="tl-prompt">
+            <div class="tl-prompt-label">Prompt guardado</div>
+            <p>Describir una acción de negocio en lenguaje natural (si pasa X, entonces Y) y pedir que Claude lo convierta en lógica técnica.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot orange"></div>
+        <div class="tl-header">
+          <span class="tl-session">Sesión 4</span>
+          <span class="tl-date">21 Abr 2026</span>
+          <span class="tl-tag" style="background:var(--accent)">Claude Code</span>
+        </div>
+        <div class="tl-body">
+          <div class="tl-row">
+            <div class="tl-block">
+              <h4>Lo mejor</h4>
+              <p>Instalación de Claude Code y comprensión de la diferencia práctica con Claude.ai: Claude Code toca archivos reales, ejecuta acciones y mantiene memoria del proyecto. Analogía clara: asesor externo sin contexto vs. colaborador que conoce tus archivos.</p>
+            </div>
+            <div class="tl-block">
+              <h4>Lo que costó</h4>
+              <p>El concepto de repositorio y ramas (branches). El flujo de Git —rama, commit, merge, pull request— es una lógica diferente a las "versiones" de archivos en finanzas. Requiere práctica.</p>
+            </div>
+          </div>
+          <div class="tl-prompt">
+            <div class="tl-prompt-label">Prompt guardado</div>
+            <p>Usar Claude para que revise el estado actual de un proyecto leyendo archivos directamente, sin tener que explicarle el contexto desde cero cada vez.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot agent"></div>
+        <div class="tl-header">
+          <span class="tl-session">Sesión 5</span>
+          <span class="tl-date">22 Abr 2026</span>
+          <span class="tl-tag" style="background:var(--agent)">Primer caso real</span>
+        </div>
+        <div class="tl-body">
+          <div class="tl-row">
+            <div class="tl-block">
+              <h4>Lo mejor</h4>
+              <p>Primera experiencia práctica real: resolver formatos condicionales en Excel describiendo el problema en lenguaje natural. Resultado: 2 minutos vs. media hora buscando en Google. Ver a Claude evaluar una aplicación técnica en vivo —arquitectura, rendimiento, permisos— en 2 minutos confirmó el salto de productividad.</p>
+            </div>
+            <div class="tl-block">
+              <h4>Lo que costó</h4>
+              <p>Calibrar cuándo tiene sentido automatizar algo con Claude Code vs. resolverlo directamente en Claude.ai o en Excel. Es un criterio que se afina con el uso.</p>
+            </div>
+          </div>
+          <div class="tl-prompt">
+            <div class="tl-prompt-label">Prompt guardado</div>
+            <p>"Tengo esta hoja de Excel con [describir estructura]. Quiero que [resultado esperado]. Explícame los pasos como si no supiera nada de fórmulas avanzadas."</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========== PROMPTS ========== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="background:var(--claude)">03</div>
+      <h2>Tus 4 prompts personalizados</h2>
+    </div>
+
+    <div class="prompt-card" data-label="PROMPT 1">
+      <h4>Resolver problemas de Excel sin saber fórmulas</h4>
+      <p>Para el día a día: fórmulas complejas, formatos condicionales, tablas dinámicas. Describe el problema y Claude resuelve.</p>
+      <div class="code-block"><span class="keyword">Tengo</span> una hoja de Excel con <span class="var">[describir columnas y datos]</span>.
+<span class="keyword">Quiero</span> <span class="var">[resultado: fórmula, formato condicional, tabla dinámica, etc.]</span>.
+Explícame los pasos de forma clara, como si no supiera nada de fórmulas avanzadas.</div>
+    </div>
+
+    <div class="prompt-card" data-label="PROMPT 2">
+      <h4>Traducir conceptos técnicos al mundo financiero</h4>
+      <p>Para decodificar jerga del curso o del equipo técnico sin perder el hilo.</p>
+      <div class="code-block">Soy controller financiero sin conocimientos de código.
+Explícame <span class="var">[concepto técnico]</span> usando una analogía de Excel,
+contabilidad o reporting financiero.
+Sé concreto y evita jerga de programación.</div>
+    </div>
+
+    <div class="prompt-card" data-label="PROMPT 3">
+      <h4>Analizar un dataset o informe financiero</h4>
+      <p>Para extraer hallazgos en formato ejecutivo: qué pasa, por qué importa, qué investigar.</p>
+      <div class="code-block">Analiza este conjunto de datos <span class="var">[pegar o adjuntar datos]</span>.
+Identifica patrones, anomalías o tendencias relevantes
+desde una perspectiva financiera.
+Presenta los hallazgos en formato ejecutivo:
+<span class="comment">- qué está pasando</span>
+<span class="comment">- por qué importa</span>
+<span class="comment">- qué haría falta investigar</span></div>
+    </div>
+
+    <div class="prompt-card" data-label="PROMPT 4">
+      <h4>Automatizar un proceso repetitivo</h4>
+      <p>Para identificar qué automatizar y cómo, ordenado de menor a mayor complejidad técnica.</p>
+      <div class="code-block">Este es un proceso que hago manualmente cada <span class="var">[semana/mes]</span>:
+<span class="var">[describir pasos]</span>.
+
+¿Cómo podría automatizarlo o simplificarlo usando las herramientas
+disponibles (Excel, Power Platform, Claude)?
+Dame opciones ordenadas de <span class="keyword">menor a mayor complejidad técnica</span>.</div>
+    </div>
+
+  </div>
+
+  <!-- ========== CRITERIO DE HERRAMIENTAS ========== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="background:var(--green)">04</div>
+      <h2>¿Qué herramienta uso en cada caso?</h2>
+    </div>
+
+    <div class="tool-grid">
+      <div class="tool-card tool-card-blue">
+        <h4>Claude.ai</h4>
+        <ul>
+          <li>Explorar o prototipar ideas</li>
+          <li>Resolver algo puntual sin instalar nada</li>
+          <li>Preguntas sin contexto de proyecto</li>
+          <li>Rápido, sin memoria persistente</li>
+        </ul>
+      </div>
+      <div class="tool-card tool-card-purple">
+        <h4>Claude Code</h4>
+        <ul>
+          <li>Hay archivos reales involucrados</li>
+          <li>El proceso es repetitivo</li>
+          <li>Necesitas que recuerde el contexto del proyecto</li>
+          <li>Modificar o generar documentos del proyecto</li>
+        </ul>
+      </div>
+      <div class="tool-card tool-card-green">
+        <h4>Excel directo</h4>
+        <ul>
+          <li>El problema es pequeño y ya sabes resolverlo</li>
+          <li>No necesitas explicación ni automatización</li>
+          <li>Operaciones manuales de una vez</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <p><strong>Flujo recomendado para ti:</strong> Prototipar en Claude.ai (rápido, sin fricción) → implementar con Claude Code cuando la tarea implique archivos reales o pasos repetitivos del proyecto.</p>
+    </div>
+  </div>
+
+  <!-- ========== PRÓXIMO PASO ========== -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="background:var(--agent)">05</div>
+      <h2>Próximo paso comprometido</h2>
+    </div>
+
+    <div class="next-card">
+      <div class="next-label">CASO PRÁCTICO</div>
+      <h3>Informe mensual de cierre con Claude Code</h3>
+      <p>Dar a Claude Code acceso a los archivos de datos y pedirle que genere el borrador del informe de cierre mensual.</p>
+      <ol class="step-list">
+        <li>Crear carpeta <strong>/alumnos/agustin-buonomo/demos/cierre-mensual/</strong></li>
+        <li>Colocar un dataset <strong>anonimizado</strong> (sin datos reales de clientes)</li>
+        <li>Escribir <strong>instrucciones.md</strong> describiendo la estructura del informe esperado</li>
+        <li>Pedir a Claude Code que genere el borrador a partir de los archivos</li>
+        <li>Iterar: ajustar estructura, añadir variaciones de meses anteriores</li>
+      </ol>
+    </div>
+
+    <div class="highlight-box">
+      <p><strong>Nota sobre privacidad:</strong> este repo es público. Nunca subir datos reales de LitoClean o de clientes. Usar datos ficticios o anonimizados para el demo.</p>
+    </div>
+  </div>
+
+  <!-- ========== REFLEXIÓN ========== -->
+  <div class="reflection">
+    <blockquote>"Llegaste a este curso con la pregunta correcta: ¿cómo me ayuda esto en mi trabajo real? Cinco sesiones después, ya tienes la respuesta en tu propia bitácora."</blockquote>
+    <cite>El siguiente nivel no requiere aprender más código — requiere aplicar lo que ya sabes a un problema concreto.</cite>
+  </div>
+
+  <div class="badge-row" style="justify-content:center;margin-bottom:2rem">
+    <span class="badge badge-blue">Excel + Claude</span>
+    <span class="badge badge-purple">Skills con contexto fijo</span>
+    <span class="badge badge-orange">Analogías financieras</span>
+    <span class="badge badge-green">Git = versiones de trabajo</span>
+    <span class="badge badge-purple">Claude Code instalado</span>
+  </div>
+
+</div>
+
+<div class="footer">
+  <strong>Power Fox BI</strong> · Formación Claude Code · Agustín Buonomo · Abr 2026
+</div>
+
+</body>
+</html>
