@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recap Sesión 1 — Luis Monroy | Power Fox</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  :root{--navy:#0B1D3A;--blue:#1565C0;--blue-light:#42A5F5;--accent:#FF6D00;--accent-soft:#FFF3E0;--bg:#F5F7FA;--card:#FFF;--text:#1A2332;--text-mid:#546E7A;--text-light:#90A4AE;--border:#E8EDF2;--code-bg:#1E1E2E;--green:#2E7D32;--green-soft:#E8F5E9;--red:#C62828;--red-soft:#FFEBEE;--purple:#6A1B9A;--purple-soft:#F3E5F5;--claude:#7C3AED;--r:12px}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+  .nav{display:flex;justify-content:space-between;align-items:center;padding:.75rem 1.5rem;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+  .nav-logo{font-weight:700;font-size:.9rem;color:var(--navy);letter-spacing:1px}
+  .nav-links{display:flex;gap:1rem}
+  .nav-links a{font-size:.8rem;color:var(--text-mid);text-decoration:none;font-weight:500}
+  .hero{background:var(--navy);color:#fff;padding:3rem 2rem 2.5rem;position:relative;overflow:hidden}
+  .hero::after{content:'';position:absolute;top:0;right:0;width:40%;height:100%;background:linear-gradient(135deg,transparent,rgba(124,58,237,.15),rgba(255,109,0,.1))}
+  .hero-meta{display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem;position:relative;z-index:1}
+  .hero-badge{background:var(--claude);color:#fff;padding:.25rem .75rem;border-radius:4px;font-size:.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
+  .hero-week{font-size:.85rem;opacity:.7}
+  .hero h1{font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:.5rem;position:relative;z-index:1}
+  .hero-sub{font-size:1rem;opacity:.75;position:relative;z-index:1;max-width:700px}
+  .hero-time{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.1);padding:.3rem .75rem;border-radius:6px;font-size:.85rem;margin-top:.75rem;position:relative;z-index:1}
+  .hero-alumno{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);padding:.3rem .75rem;border-radius:6px;font-size:.85rem;margin-top:.5rem;margin-left:.5rem;position:relative;z-index:1}
+  .container{max-width:1100px;margin:0 auto;padding:2rem 1.5rem}
+  .section{margin-bottom:3rem}
+  .section-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:2px solid var(--border)}
+  .section-num{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;color:#fff;flex-shrink:0}
+  .section-header h2{font-size:1.3rem;font-weight:700}
+  .section-header .duration{margin-left:auto;font-size:.8rem;color:var(--text-light);font-weight:500}
+  .content-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+  @media(max-width:768px){.content-grid{grid-template-columns:1fr}}
+  .card{background:var(--card);border-radius:var(--r);padding:1.5rem;box-shadow:0 1px 4px rgba(0,0,0,.05);border:1px solid var(--border)}
+  .card h3{font-size:1.05rem;font-weight:700;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+  .card p,.card li{font-size:.88rem;color:var(--text-mid)}
+  .card ul{padding-left:1.25rem}
+  .card li{margin-bottom:.35rem}
+  .card-full{grid-column:1/-1}
+  .highlight-box{border-left:4px solid var(--accent);background:var(--accent-soft);padding:1rem 1.25rem;border-radius:0 var(--r) var(--r) 0;margin:1rem 0}
+  .highlight-box p{font-size:.88rem;color:var(--text)}
+  .highlight-box strong{color:var(--accent)}
+  .tip-box{border-left:4px solid var(--green);background:var(--green-soft);padding:1rem 1.25rem;border-radius:0 var(--r) var(--r) 0;margin:1rem 0}
+  .tip-box p{font-size:.88rem}
+  .warn-box{border-left:4px solid var(--red);background:var(--red-soft);padding:1rem 1.25rem;border-radius:0 var(--r) var(--r) 0;margin:1rem 0}
+  .warn-box p{font-size:.88rem}
+  .code-block{background:var(--code-bg);color:#CDD6F4;border-radius:8px;padding:1.25rem;font-family:'JetBrains Mono',monospace;font-size:.78rem;overflow-x:auto;margin:1rem 0;line-height:1.6;white-space:pre}
+  .comment{color:#6C7086}.keyword{color:#CBA6F7}.string{color:#A6E3A1}.func{color:#89B4FA}.num{color:#FAB387}.prop{color:#F9E2AF}
+  .table-wrap{overflow-x:auto;margin:1rem 0}
+  table{width:100%;border-collapse:collapse;font-size:.85rem}
+  th{background:var(--navy);color:#fff;padding:.6rem 1rem;text-align:left;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px}
+  td{padding:.6rem 1rem;border-bottom:1px solid var(--border);vertical-align:top}
+  tr:hover td{background:#F8FAFC}
+  .diagram{background:var(--card);border-radius:var(--r);padding:1.5rem;border:1px solid var(--border);margin:1rem 0;text-align:center}
+  .diagram-title{font-size:.8rem;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:1px;margin-bottom:1rem}
+  .diagram-row{display:flex;justify-content:center;gap:.75rem;flex-wrap:wrap;margin-bottom:.75rem}
+  .diagram-box{padding:.6rem 1rem;border-radius:8px;font-size:.8rem;font-weight:600;min-width:120px;text-align:center}
+  .db-navy{background:var(--navy);color:#fff}.db-blue{background:var(--blue);color:#fff}.db-orange{background:var(--accent);color:#fff}.db-green{background:var(--green);color:#fff}.db-purple{background:var(--claude);color:#fff}.db-light{background:#E3F2FD;color:var(--blue);border:1px solid var(--blue)}
+  .diagram-arrow{font-size:1.2rem;color:var(--text-light)}
+  .score-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin:1rem 0}
+  .score-card{background:var(--card);border-radius:var(--r);padding:1.25rem;border:1px solid var(--border);text-align:center}
+  .score-card .score-val{font-size:2rem;font-weight:700;line-height:1;margin-bottom:.25rem}
+  .score-card .score-label{font-size:.78rem;color:var(--text-light);font-weight:500;text-transform:uppercase;letter-spacing:.5px}
+  .score-green .score-val{color:var(--green)}
+  .score-orange .score-val{color:var(--accent)}
+  .score-purple .score-val{color:var(--claude)}
+  .score-blue .score-val{color:var(--blue)}
+  .timeline{position:relative;padding-left:2rem;margin:1rem 0}
+  .timeline::before{content:'';position:absolute;left:.75rem;top:0;bottom:0;width:2px;background:var(--border)}
+  .tl-item{position:relative;margin-bottom:1.5rem}
+  .tl-dot{position:absolute;left:-1.625rem;top:.35rem;width:14px;height:14px;border-radius:50%;border:2px solid var(--card);flex-shrink:0}
+  .tl-dot-green{background:var(--green)}
+  .tl-dot-blue{background:var(--blue)}
+  .tl-dot-orange{background:var(--accent)}
+  .tl-dot-purple{background:var(--claude)}
+  .tl-dot-red{background:var(--red)}
+  .tl-date{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-light);margin-bottom:.2rem}
+  .tl-title{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:.2rem}
+  .tl-body{font-size:.85rem;color:var(--text-mid)}
+  .tag{display:inline-block;font-size:.65rem;padding:.15rem .45rem;border-radius:3px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+  .tag-done{background:var(--green-soft);color:var(--green)}
+  .tag-pending{background:var(--accent-soft);color:var(--accent)}
+  .tag-key{background:var(--blue);color:#fff}
+  .tag-ia{background:var(--claude);color:#fff}
+  .badge-list{display:flex;flex-wrap:wrap;gap:.35rem;margin:.75rem 0}
+  .badge{background:#EDE9FE;color:var(--claude);padding:.2rem .55rem;border-radius:4px;font-size:.72rem;font-weight:600}
+  .badge-green{background:var(--green-soft);color:var(--green)}
+  .badge-orange{background:var(--accent-soft);color:var(--accent)}
+  .badge-blue{background:#E3F2FD;color:var(--blue)}
+  .ai-spotlight{background:linear-gradient(135deg,#1A1A2E,#2D2D4E);color:#fff;border-radius:var(--r);padding:2rem;margin:1.5rem 0;position:relative;overflow:hidden}
+  .ai-spotlight::before{display:block;font-size:.7rem;font-weight:700;letter-spacing:2px;color:#A78BFA;margin-bottom:.75rem;content:'CLAUDE CODE — APRENDIZAJE'}
+  .ai-spotlight h3{font-size:1.3rem;font-weight:700;margin-bottom:.75rem;color:#fff}
+  .ai-spotlight p{font-size:.9rem;color:#CDD6F4;margin-bottom:.5rem}
+  .ai-spotlight .insight-list{padding-left:1.25rem;margin:.5rem 0}
+  .ai-spotlight .insight-list li{font-size:.88rem;color:#CDD6F4;margin-bottom:.4rem}
+  .next-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin:1rem 0}
+  @media(max-width:768px){.next-grid{grid-template-columns:1fr}}
+  .next-card{background:var(--card);border-radius:var(--r);padding:1.25rem;border:1px solid var(--border);border-top:3px solid var(--accent)}
+  .next-card h4{font-size:.9rem;font-weight:700;margin-bottom:.4rem;color:var(--navy)}
+  .next-card p{font-size:.82rem;color:var(--text-mid)}
+  .resource-card{background:var(--card);border-radius:var(--r);padding:1.25rem;border:1px solid var(--border);display:flex;gap:.75rem;align-items:flex-start}
+  .resource-icon{font-size:1.4rem;flex-shrink:0;margin-top:.1rem}
+  .resource-body h4{font-size:.9rem;font-weight:700;margin-bottom:.25rem}
+  .resource-body p{font-size:.82rem;color:var(--text-mid);margin-bottom:.35rem}
+  .resource-body a{font-size:.8rem;color:var(--blue);text-decoration:none;font-weight:600;word-break:break-all}
+  .resource-body a:hover{text-decoration:underline}
+  .footer{text-align:center;padding:2rem;font-size:.8rem;color:var(--text-light);border-top:1px solid var(--border);margin-top:2rem}
+  .footer strong{color:var(--navy)}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">POWER FOX — Formación</div>
+  <div class="nav-links">
+    <a href="#">Luis Monroy</a>
+    <a href="#">Sesión 1</a>
+    <a href="#">28 Abr 2026</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-meta">
+    <span class="hero-badge">Recap · Sesión 1</span>
+    <span class="hero-week">Lunes · 28 Abr 2026</span>
+  </div>
+  <h1>Mi primera sesión con Claude Code</h1>
+  <p class="hero-sub">Resumen personal de lo aprendido, los conceptos que quedaron claros, los que todavía cuestan, y el mapa de lo que viene en la formación.</p>
+  <div class="hero-time">Sesión 1 de 12 · Arquitectura Power Platform + Claude Code en VS Code</div>
+  <div class="hero-alumno">Alumno: Luis Monroy · Desarrollador · 1 año en Power Platform</div>
+</div>
+
+<div class="container">
+
+  <!-- MÉTRICAS DE SESIÓN -->
+  <div class="score-grid" style="margin-bottom:2.5rem">
+    <div class="score-card score-green">
+      <div class="score-val">3h</div>
+      <div class="score-label">Duración</div>
+    </div>
+    <div class="score-card score-blue">
+      <div class="score-val">5</div>
+      <div class="score-label">Bloques cubiertos</div>
+    </div>
+    <div class="score-card score-purple">
+      <div class="score-val">4</div>
+      <div class="score-label">Demos Claude Code</div>
+    </div>
+    <div class="score-card score-orange">
+      <div class="score-val">1/12</div>
+      <div class="score-label">Progreso del curso</div>
+    </div>
+  </div>
+
+  <!-- BLOQUE 1: LO QUE APRENDÍ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="background:var(--green)">01</div>
+      <h2>Lo que aprendí en esta sesión</h2>
+      <span class="duration">Sesión 1 — Arquitectura y Ecosistema</span>
+    </div>
+
+    <div class="diagram">
+      <div class="diagram-title">Ecosistema Power Platform — visión general</div>
+      <div class="diagram-row">
+        <div class="diagram-box db-blue">Power Apps</div>
+        <div class="diagram-box db-green">Power Automate</div>
+        <div class="diagram-box db-purple">Power BI</div>
+        <div class="diagram-box db-orange">Copilot Studio</div>
+      </div>
+      <div class="diagram-arrow">&#8595;</div>
+      <div class="diagram-row">
+        <div class="diagram-box db-navy">Microsoft Dataverse</div>
+      </div>
+      <div class="diagram-arrow">&#8595;</div>
+      <div class="diagram-row">
+        <div class="diagram-box db-light">Azure AD</div>
+        <div class="diagram-box db-light">Conectores</div>
+        <div class="diagram-box db-light">Microsoft 365</div>
+        <div class="diagram-box db-light">Azure Services</div>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>Arquitectura y modelo de datos</h3>
+        <ul>
+          <li><strong>Power Apps Model-Driven</strong> sigue la estructura de Dataverse; Canvas da control total de diseño.</li>
+          <li><strong>Dataverse</strong> es la capa de datos compartida por todo el ecosistema.</li>
+          <li>Las tablas tienen relaciones padre-hija con herencia de Business Unit.</li>
+          <li><strong>FLS (Field Level Security)</strong> controla visibilidad a nivel de campo, no solo de registro.</li>
+          <li>Los roles de seguridad funcionan en capas: BU, Teams y privilegios de tabla.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Modelo de seguridad</h3>
+        <ul>
+          <li><strong>Business Units</strong> definen el scope de datos visible para cada usuario.</li>
+          <li><strong>Teams</strong> permiten compartir registros cruzando jerarquías de BU.</li>
+          <li>Cada tabla tiene 4 niveles de acceso: User, BU, Parent BU, Organization.</li>
+          <li>Los <strong>10 roles base</strong> del sistema tienen matrices de permisos documentables con Claude Code.</li>
+        </ul>
+        <div class="highlight-box">
+          <p><strong>Clave:</strong> Separar la lógica de negocio de la seguridad. Mezclarlas complica el mantenimiento a medio plazo.</p>
+        </div>
+      </div>
+      <div class="card card-full">
+        <h3>Claude Code como asistente de desarrollo</h3>
+        <div class="content-grid" style="margin:0">
+          <div>
+            <p style="margin-bottom:.5rem;font-size:.88rem;color:var(--text-mid)">En esta sesión vimos Claude Code generar en directo:</p>
+            <ul>
+              <li>Diccionario de datos de las tablas del sistema</li>
+              <li>Matriz de permisos comparando roles</li>
+              <li>Comparativa Coordinador vs Gestor</li>
+              <li>Documentación de JavaScript para formularios</li>
+            </ul>
+          </div>
+          <div>
+            <div class="tip-box">
+              <p><strong>Dato de impacto:</strong> Usar IA como asistente puede reducir entre 60-70% el tiempo de desarrollo en Canvas Apps en proyectos reales.</p>
+            </div>
+            <div class="badge-list">
+              <span class="badge">Diccionario de datos</span>
+              <span class="badge">Matriz de permisos</span>
+              <span class="badge">Documentación automática</span>
+              <span class="badge">Consultas FetchXML</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOQUE 2: LO MEJOR Y LO QUE COSTÓ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="background:var(--accent)">02</div>
+      <h2>Balance personal de la sesión</h2>
+    </div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>Lo mejor de la sesión</h3>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-dot tl-dot-purple"></div>
+            <div class="tl-date">Descubrimiento principal</div>
+            <div class="tl-title">Claude Code en VS Code</div>
+            <div class="tl-body">Ver Claude Code integrado directamente en el editor y generando código útil en tiempo real fue el punto alto de la sesión. El flujo de trabajo cambia completamente.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot tl-dot-green"></div>
+            <div class="tl-date">Concepto clave asimilado</div>
+            <div class="tl-title">Arquitectura funcional de Power Platform</div>
+            <div class="tl-body">Entender cómo encajan los 5 pilares sobre Dataverse y los servicios Azure da contexto a decisiones de diseño que antes parecían arbitrarias.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot tl-dot-blue"></div>
+            <div class="tl-date">Práctica valorada</div>
+            <div class="tl-title">Demos en vivo con datos reales</div>
+            <div class="tl-body">Ver Claude Code trabajar sobre el sistema real —no ejemplos inventados— hace mucho más concreto el aprendizaje.</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Lo que todavía cuesta</h3>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-dot tl-dot-red"></div>
+            <div class="tl-date">Dificultad principal</div>
+            <div class="tl-title">Flujo completo con Git y GitHub</div>
+            <div class="tl-body">El workflow de ramas, PRs y merge tiene muchos pasos. Saber cuándo hacer commit, cuándo abrir PR y cómo resolver conflictos requiere práctica repetida.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot tl-dot-orange"></div>
+            <div class="tl-date">Por consolidar</div>
+            <div class="tl-title">Conventional Commits</div>
+            <div class="tl-body">El formato <code style="background:var(--bg);padding:.1rem .3rem;border-radius:3px;font-size:.8rem">feat(area): descripción</code> es claro en teoría, pero elegir el prefijo correcto en cada caso tarda.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot tl-dot-orange"></div>
+            <div class="tl-date">Pendiente de profundizar</div>
+            <div class="tl-title">Modelo de seguridad completo</div>
+            <div class="tl-body">Los conceptos de BU, Teams y FLS están claros por separado. Combinarlos en un diseño real de permisos requiere más ejemplos.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn-box">
+      <p><strong>Recordatorio:</strong> El flujo Git es la base de todo el curso. Cada sesión se entrega via PR desde la rama del alumno. Si el workflow no es fluido, invertir tiempo en practicarlo antes de la próxima sesión.</p>
+    </div>
+  </div>
+
+  <!-- BLOQUE 3: CLAUDE CODE EN PROFUNDIDAD -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="background:var(--claude)">03</div>
+      <h2>Claude Code — Lo que vi en acción</h2>
+    </div>
+
+    <div class="ai-spotlight">
+      <h3>4 demos de Claude Code en esta sesión</h3>
+      <p>En la sesión 1 se usó Claude Code como demostración de su potencial antes de instalarlo. Esto es lo que generó en vivo sobre el sistema real.</p>
+      <ul class="insight-list">
+        <li><strong>Demo 1:</strong> Diccionario de datos — describió todas las tablas del sistema con sus campos y relaciones a partir de una consulta en lenguaje natural.</li>
+        <li><strong>Demo 2:</strong> Matriz de permisos — generó una tabla comparando los 10 roles del sistema con sus niveles de acceso por entidad.</li>
+        <li><strong>Demo 3:</strong> Comparativa Coordinador vs Gestor — analizó diferencias de permisos y responsabilidades entre dos roles clave.</li>
+        <li><strong>Demo 4:</strong> Onboarding asistido — mostró cómo Claude Code puede guiar a un desarrollador nuevo en el contexto del sistema.</li>
+      </ul>
+    </div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>Comandos y conceptos vistos</h3>
+        <div class="code-block"><span class="comment"># Primer contacto con Claude Code</span>
+<span class="comment"># Aún no instalado en local — demos del facilitador</span>
+
+<span class="comment"># Próxima sesión: instalación en VS Code</span>
+<span class="keyword">claude</span> <span class="string">"describe las tablas del sistema"</span>
+<span class="keyword">claude</span> <span class="string">"genera matriz de permisos de los 10 roles"</span>
+<span class="keyword">claude</span> <span class="string">"compara Coordinador vs Gestor"</span></div>
+        <div class="tip-box">
+          <p>En la Semana 2 se instala Claude Code en local y se empieza a usar directamente. Esta sesión fue de observar el potencial, no de operar.</p>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Mi setup actual</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Item</th><th>Estado</th></tr></thead>
+            <tbody>
+              <tr><td>Windows 11 Pro</td><td><span class="tag tag-done">Listo</span></td></tr>
+              <tr><td>VS Code instalado</td><td><span class="tag tag-done">Listo</span></td></tr>
+              <tr><td>Plan Claude Pro</td><td><span class="tag tag-done">Activo</span></td></tr>
+              <tr><td>Cuenta GitHub</td><td><span class="tag tag-done">Creada</span></td></tr>
+              <tr><td>Rama feature/alumno-luis-monroy</td><td><span class="tag tag-done">Activa</span></td></tr>
+              <tr><td>Claude Code en VS Code</td><td><span class="tag tag-pending">S2-Lunes</span></td></tr>
+              <tr><td>Primer proyecto propio</td><td><span class="tag tag-pending">S2-Lunes</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOQUE 4: CONCEPTOS CLAVE PARA REPASAR -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="background:var(--blue)">04</div>
+      <h2>Conceptos clave para consolidar</h2>
+    </div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>Modelo de datos Dataverse</h3>
+        <ul>
+          <li>Tablas estándar vs tablas personalizadas (<code style="background:var(--bg);font-size:.8rem;padding:.1rem .3rem;border-radius:3px">pfx_</code> prefix)</li>
+          <li>Tipos de relaciones: 1:N, N:N, Lookup</li>
+          <li>Herencia de BU en registros hijo</li>
+          <li>Calculated fields vs Rollup fields</li>
+          <li>Alternate keys para integraciones externas</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Seguridad en capas</h3>
+        <ul>
+          <li><strong>Roles:</strong> conjuntos de privilegios sobre entidades</li>
+          <li><strong>Business Units:</strong> jerarquía organizativa que define scope</li>
+          <li><strong>Teams:</strong> grupos para compartir registros cruzando BUs</li>
+          <li><strong>FLS:</strong> Field Level Security para campos sensibles</li>
+          <li><strong>Column Security Profiles:</strong> configuración de FLS por rol</li>
+        </ul>
+      </div>
+      <div class="card card-full">
+        <h3>El workflow Git que debo dominar</h3>
+        <div class="content-grid" style="margin:0">
+          <div>
+            <div class="code-block"><span class="comment"># Flujo completo de trabajo</span>
+<span class="keyword">git</span> switch main
+<span class="keyword">git</span> pull
+
+<span class="keyword">git</span> switch -c <span class="string">feature/mi-tarea</span>
+
+<span class="comment"># ... hago cambios ...</span>
+
+<span class="keyword">git</span> add <span class="string">archivo-especifico.ext</span>
+<span class="keyword">git</span> commit -m <span class="string">"feat(area): descripción corta"</span>
+
+<span class="keyword">git</span> push -u origin HEAD
+<span class="keyword">gh</span> pr create --fill</div>
+          </div>
+          <div>
+            <p style="font-size:.88rem;color:var(--text-mid);margin-bottom:.75rem">Los prefijos de Conventional Commits:</p>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Prefijo</th><th>Cuándo usarlo</th></tr></thead>
+                <tbody>
+                  <tr><td><code>feat:</code></td><td>Nueva funcionalidad</td></tr>
+                  <tr><td><code>fix:</code></td><td>Corrección de bug</td></tr>
+                  <tr><td><code>docs:</code></td><td>Solo documentación</td></tr>
+                  <tr><td><code>refactor:</code></td><td>Reorganizar sin cambiar comportamiento</td></tr>
+                  <tr><td><code>chore:</code></td><td>Mantenimiento, dependencias</td></tr>
+                  <tr><td><code>style:</code></td><td>Formato, espacios, naming</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOQUE 5: RECURSO ANOTADO -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="background:var(--purple)">05</div>
+      <h2>Recurso que me llamó la atención</h2>
+    </div>
+
+    <div class="resource-card">
+      <div class="resource-icon">&#128279;</div>
+      <div class="resource-body">
+        <h4>karpathy/autoresearch</h4>
+        <p>Agente de IA que hace investigación autónoma de ML durante la noche: modifica código de entrenamiento, ejecuta experimentos de 5 minutos y evalúa mejoras automáticamente para optimizar un modelo de lenguaje pequeño.</p>
+        <p style="font-size:.82rem;color:var(--text-mid);margin-bottom:.35rem">Por qué lo guardo: es un ejemplo concreto de lo que puede hacer un agente autónomo con acceso a código y ejecución. Aplica directamente a lo que estamos aprendiendo sobre Claude Code como agente.</p>
+        <a href="https://github.com/karpathy/autoresearch" target="_blank" rel="noopener noreferrer">github.com/karpathy/autoresearch</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOQUE 6: PRÓXIMAS SESIONES -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="background:var(--accent)">06</div>
+      <h2>Lo que viene — Próximas sesiones</h2>
+    </div>
+
+    <div class="next-grid">
+      <div class="next-card">
+        <h4>S1-Miércoles</h4>
+        <p>Entornos DEV/TEST/PROD, ALM, herramientas del equipo (VS Code, XRMToolBox, PAC CLI), diseño avanzado de tablas y formularios Model-Driven.</p>
+        <div class="badge-list"><span class="badge badge-blue">ALM</span><span class="badge badge-blue">Herramientas</span></div>
+      </div>
+      <div class="next-card">
+        <h4>S1-Viernes</h4>
+        <p>JavaScript en formularios Model-Driven: los 3 eventos, formContext, Xrm.WebApi. Cierre: creación de Skills y Agents de Claude Code en vivo.</p>
+        <div class="badge-list"><span class="badge badge-blue">JavaScript</span><span class="badge">Skills/Agents</span></div>
+      </div>
+      <div class="next-card">
+        <h4>S2-Lunes</h4>
+        <p>Instalación de Claude Code en VS Code, GitHub desde cero y primer proyecto propio. El momento en que empieza el trabajo real con IA.</p>
+        <div class="badge-list"><span class="badge">Claude Code local</span><span class="badge badge-green">Primer proyecto</span></div>
+      </div>
+    </div>
+
+    <div class="highlight-box" style="margin-top:1.5rem">
+      <p><strong>Mi objetivo para S2-Lunes:</strong> Llegar con el flujo Git dominado (rama, commit, PR) para poder centrarme en la instalación y los primeros prompts de Claude Code sin bloqueos de workflow.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <strong>Power Fox BI</strong> — Formación Claude Code &nbsp;·&nbsp; Luis Monroy &nbsp;·&nbsp; Sesión 1 de 12 &nbsp;·&nbsp; 28 Abr 2026
+</div>
+
+</body>
+</html>
