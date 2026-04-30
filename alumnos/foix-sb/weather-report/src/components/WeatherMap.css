@@ -1,15 +1,15 @@
 .weather-map {
-  max-width: 480px;
-  height: 280px;
-  margin: 0 auto 1.5rem;
-  border-radius: 16px;
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+  border-radius: 1rem;
   overflow: hidden;
-  border: 1px solid #d0e4f0;
-  box-shadow: 0 2px 12px rgba(42, 122, 181, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 1024px) {
   .weather-map {
-    height: 220px;
+    min-height: 320px;
   }
 }

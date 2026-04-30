@@ -31,7 +31,9 @@ export default function WeatherMap({ lat, lon, city }) {
     mapRef.current.eachLayer((layer) => {
       if (layer instanceof L.Marker) layer.remove()
     })
-    L.marker([lat, lon]).addTo(mapRef.current).bindPopup(city).openPopup()
+    const popupEl = document.createElement('span')
+    popupEl.textContent = city
+    L.marker([lat, lon]).addTo(mapRef.current).bindPopup(popupEl).openPopup()
   }, [lat, lon, city])
 
   // Clean up on unmount

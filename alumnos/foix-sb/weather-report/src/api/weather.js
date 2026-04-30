@@ -16,6 +16,7 @@ export async function getWeatherByCity(city) {
   const geoRes = await fetch(
     `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=es&format=json`
   )
+  if (!geoRes.ok) throw new Error(`Error de geocodificación (${geoRes.status})`)
   const geoData = await geoRes.json()
 
   if (!geoData.results || geoData.results.length === 0) {
@@ -25,8 +26,9 @@ export async function getWeatherByCity(city) {
   const { name, country, latitude, longitude } = geoData.results[0]
 
   const forecastRes = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=relative_humidity_2m&daily=temperature_2m_max,temperature_2m_min,weathercode&timezone=auto`
+    `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&hourly=relative_humidity_2m&daily=temperature_2m_max,temperature_2m_min,weathercode,sunrise,sunset&timezone=auto`
   )
+  if (!forecastRes.ok) throw new Error(`Error al obtener el pronóstico (${forecastRes.status})`)
   const forecastData = await forecastRes.json()
 
   const cw = forecastData.current_weather
@@ -45,10 +47,13 @@ export async function getWeatherByCity(city) {
     country,
     lat: latitude,
     lon: longitude,
+    code: cw.weathercode,
     temperature: Math.round(cw.temperature),
     description: weatherCodeToText(cw.weathercode),
     humidity,
     windspeed: Math.round(cw.windspeed),
+    sunrise: daily.sunrise[0],
+    sunset: daily.sunset[0],
     forecast,
   }
 }
