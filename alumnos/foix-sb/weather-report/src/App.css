@@ -1,0 +1,106 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #eef5fb;
+  color: #1a3a52;
+  min-height: 100vh;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  background: #2a7ab5;
+  color: #fff;
+  padding: 1rem 1.5rem;
+  text-align: center;
+}
+
+.app-header h1 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.app-main {
+  flex: 1;
+  padding: 2rem 1rem;
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.app-hint,
+.app-loading {
+  text-align: center;
+  color: #6a8fa8;
+  margin-top: 2rem;
+  font-size: 0.95rem;
+}
+
+.app-loading {
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.app-error {
+  max-width: 480px;
+  margin: 1.5rem auto;
+  background: #fde8e8;
+  border: 1px solid #e08080;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  text-align: center;
+  color: #8b2020;
+}
+
+.app-error p {
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.retry-btn {
+  background: #c0392b;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.retry-btn:hover {
+  background: #922b21;
+}
+
+.app-results {
+  animation: fadeIn 0.2s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 600px) {
+  .app-main {
+    padding: 1.25rem 0.75rem;
+  }
+
+  .app-header h1 {
+    font-size: 1.2rem;
+  }
+}
