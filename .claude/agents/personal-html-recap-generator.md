@@ -134,9 +134,10 @@ Si en el futuro generas recaps para varios alumnos, puedes alternar paletas entr
 
 ## Manejo de transcripts faltantes
 
-Estado actual del repo: los transcripts en bruto están como `.docx` en `/RAW/` y aún no se han convertido a `.md`. Por tanto:
+Los transcripts oficiales viven como `.md` en `/RAW/`. El procesado desde `.docx` ocurre fuera del repo (carpeta `RAW/docx-intake/`, gitignored, ver `scripts/convert-all-transcripts.ps1`). Por tanto:
 
 - Si `Glob "RAW/*.md"` solo devuelve `RAW/README.md` (índice), trata todas las sesiones como "pendiente de transcript".
+- Ignora `RAW/docx-intake/README.md` — es documentación del flujo, no un transcript.
 - En cada card afectada, badge visible "Pendiente de transcript" en color ámbar.
 - Omite las secciones "Tu intervención" y citas literales para esas sesiones.
 - En el footer del recap, una nota corta: "Las citas literales se añadirán cuando los transcripts estén disponibles en `/RAW/*.md`."
