@@ -39,6 +39,7 @@ Todo lo que se commitea aquí es visible para cualquier persona en internet.
 - Cada alumno trabaja exclusivamente dentro de su carpeta `/alumnos/[su-nombre]/`
 - No modifican carpetas de otros alumnos
 - No modifican `/sesiones/`, `/demos/`, `/prompts/` o `/.claude/` salvo por PR revisado por el facilitador
+- `/RAW/` tiene política propia (ver `RAW/README.md`): los alumnos **pueden** contribuir transcripts en `.md` vía PR. Los `.docx` se procesan localmente desde `RAW/docx-intake/` con `scripts/convert-all-transcripts.ps1`, y el script los borra tras la conversión — los `.docx` jamás se commitean
 
 ### Estructura de archivos
 

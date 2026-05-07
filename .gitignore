@@ -132,7 +132,9 @@ dist
 .facilitador/
 
 # Transcripts crudos en formato Word — solo se commitean los .md procesados
+# El script convert-all-transcripts.ps1 los borra tras la conversión.
 RAW/*.docx
+RAW/docx-intake/*.docx
 
 # Estado runtime local de Claude Code (lock files de tareas programadas)
 .claude/scheduled_tasks.lock

@@ -23,6 +23,11 @@ powerfox-formacion-claude/
 ├── alumnos/           Una carpeta por cada alumno del curso
 │   └── PLANTILLA.md   (copia esto a tu carpeta)
 │
+├── RAW/               Transcripts en .md de cada sesión
+│   └── docx-intake/   Buzón local de .docx (gitignored)
+│
+├── scripts/           Scripts de utilidades (conversión de transcripts, etc.)
+│
 └── .claude/           Skills y agents del repo
     ├── skills/
     └── agents/
