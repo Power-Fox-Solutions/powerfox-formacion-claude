@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Office Scripts — Automatizar Excel con TypeScript y Claude Code | Power Fox</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  :root{--navy:#0B1D3A;--blue:#1565C0;--blue-light:#42A5F5;--accent:#FF6D00;--accent-soft:#FFF3E0;--bg:#F5F7FA;--card:#FFF;--text:#1A2332;--text-mid:#546E7A;--text-light:#90A4AE;--border:#E8EDF2;--code-bg:#1E1E2E;--green:#2E7D32;--green-soft:#E8F5E9;--red:#C62828;--red-soft:#FFEBEE;--purple:#6A1B9A;--purple-soft:#F3E5F5;--claude:#7C3AED;--gold:#B8860B;--gold-soft:#FFF8E1;--excel:#107C41;--excel-soft:#E8F5EE;--ts:#3178C6;--ts-soft:#E3F0FB;--r:12px}
+  *{margin:0;padding:0;box-sizing:border-box}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.7}
+  .nav{display:flex;justify-content:space-between;align-items:center;padding:.75rem 1.5rem;background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}.nav-logo{font-weight:700;font-size:.9rem;color:var(--navy);letter-spacing:1px}.nav-links{display:flex;gap:1rem;flex-wrap:wrap}.nav-links a{font-size:.8rem;color:var(--text-mid);text-decoration:none;font-weight:500}.nav-links a:hover{color:var(--excel)}
+  .hero{background:var(--navy);color:#fff;padding:3rem 2rem 2.5rem;position:relative;overflow:hidden}.hero::after{content:'';position:absolute;top:0;right:0;width:40%;height:100%;background:linear-gradient(135deg,transparent,rgba(16,124,65,.3),rgba(124,58,237,.18))}.hero-meta{display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem;position:relative;z-index:1}.hero-badge{background:var(--excel);color:#fff;padding:.25rem .75rem;border-radius:4px;font-size:.75rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}.hero-week{font-size:.85rem;opacity:.7}.hero h1{font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:.5rem;position:relative;z-index:1}.hero-sub{font-size:1rem;opacity:.8;position:relative;z-index:1;max-width:780px}.hero-time{display:inline-flex;align-items:center;gap:.4rem;background:rgba(255,255,255,.1);padding:.3rem .75rem;border-radius:6px;font-size:.85rem;margin-top:.75rem;position:relative;z-index:1}
+  .container{max-width:1100px;margin:0 auto;padding:2rem 1.5rem}
+  .section{margin-bottom:3rem}.section-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:2px solid var(--border);flex-wrap:wrap}.section-num{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;color:#fff;flex-shrink:0}.section-header h2{font-size:1.3rem;font-weight:700}.section-header .duration{margin-left:auto;font-size:.8rem;color:var(--text-light);font-weight:500}
+  .content-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}@media(max-width:768px){.content-grid{grid-template-columns:1fr}}
+  .triple-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}@media(max-width:900px){.triple-grid{grid-template-columns:1fr}}
+  .card{background:var(--card);border-radius:var(--r);padding:1.5rem;box-shadow:0 1px 4px rgba(0,0,0,.05);border:1px solid var(--border)}.card h3{font-size:1.05rem;font-weight:700;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}.card p,.card li{font-size:.88rem;color:var(--text-mid)}.card ul{padding-left:1.25rem}.card li{margin-bottom:.35rem}.card-full{grid-column:1/-1}
+  .highlight-box{border-left:4px solid var(--accent);background:var(--accent-soft);padding:1rem 1.25rem;border-radius:0 var(--r) var(--r) 0;margin:1rem 0}.highlight-box p{font-size:.88rem;color:var(--text)}.tip-box{border-left:4px solid var(--green);background:var(--green-soft);padding:1rem 1.25rem;border-radius:0 var(--r) var(--r) 0;margin:1rem 0}.tip-box p{font-size:.88rem}.warn-box{border-left:4px solid var(--red);background:var(--red-soft);padding:1rem 1.25rem;border-radius:0 var(--r) var(--r) 0;margin:1rem 0}.warn-box p{font-size:.88rem}.info-box{border-left:4px solid var(--excel);background:var(--excel-soft);padding:1rem 1.25rem;border-radius:0 var(--r) var(--r) 0;margin:1rem 0}.info-box p{font-size:.88rem}
+  .code-block{background:var(--code-bg);color:#CDD6F4;border-radius:8px;padding:1.25rem;font-family:'JetBrains Mono',monospace;font-size:.78rem;overflow-x:auto;margin:1rem 0;line-height:1.6;white-space:pre}.comment{color:#6C7086}.keyword{color:#CBA6F7}.string{color:#A6E3A1}.func{color:#89B4FA}.num{color:#FAB387}.prop{color:#F9E2AF}.method{color:#F38BA8;font-weight:700}.type{color:#94E2D5}
+  .table-wrap{overflow-x:auto;margin:1rem 0}table{width:100%;border-collapse:collapse;font-size:.85rem}th{background:var(--navy);color:#fff;padding:.6rem 1rem;text-align:left;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px}td{padding:.6rem 1rem;border-bottom:1px solid var(--border);vertical-align:top}tr:hover td{background:#F8FAFC}td code{background:var(--excel-soft);color:var(--excel);padding:.1rem .35rem;border-radius:3px;font-size:.78rem;font-family:'JetBrains Mono',monospace}
+  .footer{text-align:center;padding:2rem;font-size:.8rem;color:var(--text-light);border-top:1px solid var(--border);margin-top:2rem}.footer strong{color:var(--navy)}
+  .api-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.6rem;margin:1rem 0}.api-pill{padding:.55rem .85rem;border-radius:6px;font-size:.78rem;font-weight:600;text-align:left;border:1px solid var(--excel);background:var(--excel-soft);color:var(--excel);font-family:'JetBrains Mono',monospace}
+  .versus-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin:1rem 0}@media(max-width:768px){.versus-grid{grid-template-columns:1fr}}.compare-card{border-radius:var(--r);padding:1.5rem;border:2px solid;position:relative;background:var(--card)}.cmp-os{border-color:var(--excel)}.cmp-vba{border-color:var(--text-light);opacity:.95}.compare-card .cmp-tag{position:absolute;top:-12px;left:1rem;padding:.25rem .8rem;border-radius:4px;font-size:.7rem;font-weight:700;letter-spacing:1.5px;color:#fff}.cmp-os .cmp-tag{background:var(--excel)}.cmp-vba .cmp-tag{background:var(--text-light)}.compare-card h3{font-size:1.1rem;font-weight:700;margin:.5rem 0 .25rem}.compare-card p{font-size:.85rem;color:var(--text-mid);margin-bottom:.5rem}.compare-card ul{padding-left:1.2rem;font-size:.85rem;color:var(--text-mid)}.compare-card li{margin-bottom:.3rem}.compare-card li strong{color:var(--text)}
+  .example-card{background:var(--card);border-radius:var(--r);padding:1.5rem;border:1px solid var(--border);margin-bottom:1.25rem;border-left:4px solid var(--excel)}.example-card .ex-title{display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem;flex-wrap:wrap}.example-card .ex-num{width:30px;height:30px;border-radius:6px;background:var(--excel);color:#fff;font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}.example-card h3{font-size:1.05rem;font-weight:700;color:var(--text);margin:0}.example-card .ex-tag{font-size:.65rem;padding:.15rem .5rem;border-radius:4px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:var(--excel-soft);color:var(--excel);margin-left:auto}.example-card .ex-meta{font-size:.78rem;color:var(--text-light);margin-bottom:.75rem;font-weight:500}
+  .flow-steps{counter-reset:step;list-style:none;padding:0;margin:.75rem 0}.flow-steps li{counter-increment:step;position:relative;padding:.5rem 0 .5rem 2.25rem;font-size:.86rem;color:var(--text-mid);border-bottom:1px dashed var(--border)}.flow-steps li::before{content:counter(step);position:absolute;left:0;top:.45rem;width:1.6rem;height:1.6rem;background:var(--excel);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.75rem}.flow-steps li:last-child{border-bottom:none}.flow-steps li strong{color:var(--text)}.flow-steps .action-pill{display:inline-block;background:var(--accent-soft);color:var(--accent);padding:.05rem .4rem;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:600}
+  .ai-spotlight{background:linear-gradient(135deg,#1A1A2E,#2D2D4E);color:#fff;border-radius:var(--r);padding:2rem;margin:1.5rem 0;position:relative;overflow:hidden}.ai-spotlight::before{display:block;font-size:.7rem;font-weight:700;letter-spacing:2px;color:#A78BFA;margin-bottom:.75rem;content:'BLOQUE CLAVE — CLAUDE CODE + OFFICE SCRIPTS'}.ai-spotlight h3{font-size:1.3rem;font-weight:700;margin-bottom:.75rem;color:#fff}.ai-spotlight p{font-size:.95rem;color:#CDD6F4;margin-bottom:.5rem}.ai-spotlight ul{padding-left:1.5rem;color:#CDD6F4;font-size:.9rem}.ai-spotlight li{margin-bottom:.4rem}.ai-spotlight code{background:rgba(124,58,237,.25);padding:.1rem .4rem;border-radius:3px;color:#E0CFFF;font-family:'JetBrains Mono',monospace;font-size:.82rem}
+  .pipeline{display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap;background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;margin:1rem 0}.pipeline-step{padding:.6rem 1rem;border-radius:8px;font-size:.8rem;font-weight:600;text-align:center;min-width:130px;color:#fff}.ps-blue{background:var(--blue)}.ps-purple{background:var(--claude)}.ps-orange{background:var(--accent)}.ps-green{background:var(--green)}.ps-excel{background:var(--excel)}.pipeline-arrow{color:var(--text-light);font-size:1.2rem;font-weight:700}
+  .toc{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem 1.5rem;margin:1.5rem 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.5rem 1.5rem}.toc a{font-size:.85rem;color:var(--text-mid);text-decoration:none;display:block;padding:.25rem 0}.toc a:hover{color:var(--excel)}.toc strong{color:var(--navy);font-size:.7rem;letter-spacing:1px;text-transform:uppercase;display:block;grid-column:1/-1;margin-bottom:.25rem}
+  .ts-badge{display:inline-block;background:var(--ts);color:#fff;font-size:.7rem;font-weight:700;padding:.1rem .45rem;border-radius:3px;letter-spacing:.5px;font-family:'JetBrains Mono',monospace;vertical-align:middle}
+  .prompt-anchor{display:inline-flex;align-items:center;gap:.4rem;background:var(--claude);color:#fff;padding:.35rem .85rem;border-radius:6px;font-size:.78rem;font-weight:700;letter-spacing:.5px;margin:1rem 0 .5rem;font-family:'JetBrains Mono',monospace}.prompt-anchor::before{content:'»'}
+  .qa-card{background:var(--purple-soft);border-radius:var(--r);padding:1.25rem;border:1px solid #CE93D8;margin:1rem 0}.qa-card p{font-size:.88rem;color:var(--claude);font-weight:500}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="nav-logo">POWER FOX — Formación</div><div class="nav-links"><a href="#que-es">Qué es</a><a href="#anatomia">Anatomía</a><a href="#vs-vba">vs VBA</a><a href="#api">API</a><a href="#ejemplos">Ejemplos</a><a href="#pa">+ Power Automate</a><a href="#claude">+ Claude Code</a></div></nav>
+
+<div class="hero">
+  <div class="hero-meta"><span class="hero-badge">Office Scripts</span><span class="hero-week">S4 · Miércoles · Material complementario</span></div>
+  <h1>Office Scripts — Automatizar Excel con TypeScript y Claude Code</h1>
+  <p class="hero-sub">El sucesor de VBA para Excel en la nube. Un editor TypeScript dentro del navegador, una API tipada (<code>ExcelScript</code>), grabación de macros moderna y una acción nativa en Power Automate. Aquí ves qué es, cómo se monta, los patrones más útiles y cómo escribir y refactorizar scripts con Claude Code.</p>
+  <div class="hero-time">Material de referencia · 8 secciones · 6 ejemplos prácticos · Pensado para S4-miércoles</div>
+</div>
+
+<div class="container">
+
+  <div class="toc">
+    <strong>Contenido</strong>
+    <a href="#que-es">01 · Qué es Office Scripts y dónde encaja</a>
+    <a href="#anatomia">02 · Anatomía: editor, grabador, .osts</a>
+    <a href="#vs-vba">03 · Office Scripts vs VBA vs Office.js</a>
+    <a href="#api">04 · La API ExcelScript en 5 minutos</a>
+    <a href="#ejemplos">05 · 6 ejemplos prácticos listos para copiar</a>
+    <a href="#pa">06 · Integración con Power Automate</a>
+    <a href="#claude">07 · Claude Code como copiloto</a>
+    <a href="#trampas">08 · Trampas, límites y cierre</a>
+  </div>
+
+  <!-- ========== 01 — QUÉ ES ========== -->
+  <div class="section" id="que-es">
+    <div class="section-header"><div class="section-num" style="background:var(--excel)">01</div><h2>Qué es Office Scripts y dónde encaja</h2></div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>La idea base <span class="ts-badge">TS</span></h3>
+        <p><strong>Office Scripts</strong> es el sistema oficial de Microsoft para automatizar Excel <strong>en la nube</strong> usando <strong>TypeScript</strong>. Vive dentro de Excel para la web (también se ejecuta desde Excel Desktop si tu tenant lo permite) y se guarda en tu OneDrive como un archivo <code>.osts</code>.</p>
+        <p style="margin-top:.5rem">Sustituye en la práctica a las macros VBA cuando trabajas con libros de Excel Online, y se invoca desde la UI o desde un flujo de Power Automate con la acción <em>Excel Online (Business) → Run script</em>.</p>
+      </div>
+      <div class="card">
+        <h3>Para qué lo usarás de verdad</h3>
+        <ul>
+          <li><strong>Limpiar y normalizar datasets</strong> que llegan sucios (espacios, fechas en texto, duplicados).</li>
+          <li><strong>Generar informes</strong> repetitivos: agrupar, totalizar, formatear, exportar.</li>
+          <li><strong>Pegamento para Power Automate</strong>: la lógica que el flujo no sabe hacer (bucles complejos, transformaciones, fórmulas masivas).</li>
+          <li><strong>Acciones de un clic</strong> publicadas en la cinta para usuarios no técnicos.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <p><strong>Una frase para recordar:</strong> Office Scripts es el "VBA moderno" — pero solo para Excel, solo en tu cuenta corporativa, y con un superpoder añadido: <strong>se puede llamar desde Power Automate</strong>.</p>
+    </div>
+
+    <div class="warn-box">
+      <p><strong>Requisitos previos:</strong> licencia <em>Microsoft 365 Business Standard / Premium / E3 / E5</em>. La pestaña <em>Automate</em> debe estar habilitada por el admin del tenant. Si no la ves, no es tu Excel — es la política.</p>
+    </div>
+  </div>
+
+  <!-- ========== 02 — ANATOMÍA ========== -->
+  <div class="section" id="anatomia">
+    <div class="section-header"><div class="section-num" style="background:var(--blue)">02</div><h2>Anatomía — editor, grabador y archivo .osts</h2></div>
+
+    <div class="triple-grid">
+      <div class="card">
+        <h3>Code Editor</h3>
+        <p>Editor TypeScript dentro de Excel. Autocompletado completo de la API <code>ExcelScript</code>, validación en vivo, ejecución con un clic. No instalas nada — es Monaco (el motor de VS Code) embebido.</p>
+      </div>
+      <div class="card">
+        <h3>Action Recorder</h3>
+        <p>El grabador. Activa, haz clics y ediciones en la hoja, para. Excel te entrega un script TypeScript funcional. <strong>Punto de partida ideal</strong> antes de personalizarlo a mano.</p>
+      </div>
+      <div class="card">
+        <h3>Archivo <code>.osts</code></h3>
+        <p>Cada script es un fichero <code>.osts</code> que vive en <code>OneDrive/Documents/Office Scripts</code>. Se puede compartir como cualquier otro archivo, lo que habilita scripts de equipo.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:1.5rem;font-size:1rem;color:var(--text-mid);font-weight:500">Cómo abrir el editor en 10 segundos</h3>
+    <ol class="flow-steps">
+      <li>Abre el libro en <strong>Excel para la web</strong> (excel.cloud.microsoft).</li>
+      <li>Pestaña <span class="action-pill">Automate</span> en la cinta.</li>
+      <li>Botón <span class="action-pill">New Script</span> (o <span class="action-pill">Record Actions</span> para grabar).</li>
+      <li>Aparece el panel del editor a la derecha con un script vacío de plantilla.</li>
+      <li>Pulsa <span class="action-pill">Run</span> para ejecutar; <span class="action-pill">Save</span> para guardarlo en tu OneDrive.</li>
+    </ol>
+
+    <h3 style="margin-top:1.5rem;font-size:1rem;color:var(--text-mid);font-weight:500">Estructura mínima de un script</h3>
+    <div class="code-block"><span class="keyword">function</span> <span class="func">main</span>(workbook: ExcelScript.<span class="type">Workbook</span>) {
+  <span class="comment">// 1. Tomar la hoja activa (o una específica por nombre)</span>
+  <span class="keyword">const</span> sheet = workbook.<span class="method">getActiveWorksheet</span>();
+
+  <span class="comment">// 2. Leer / modificar / escribir</span>
+  <span class="keyword">const</span> rango = sheet.<span class="method">getRange</span>(<span class="string">"A1"</span>);
+  rango.<span class="method">setValue</span>(<span class="string">"Hola Office Scripts"</span>);
+
+  <span class="comment">// 3. (Opcional) Devolver datos al flujo de Power Automate</span>
+  <span class="keyword">return</span> rango.<span class="method">getValue</span>();
+}</div>
+
+    <div class="info-box">
+      <p>El primer parámetro <code>workbook</code> <strong>es siempre el libro donde se ejecuta el script</strong>. Si añades más parámetros (tipados), Power Automate los detecta automáticamente y te pide rellenarlos al usar la acción.</p>
+    </div>
+  </div>
+
+  <!-- ========== 03 — VS VBA / OFFICE.JS ========== -->
+  <div class="section" id="vs-vba">
+    <div class="section-header"><div class="section-num" style="background:var(--gold)">03</div><h2>Office Scripts vs VBA vs Office.js — cuál uso, cuándo</h2></div>
+
+    <div class="versus-grid">
+      <div class="compare-card cmp-os">
+        <span class="cmp-tag">OFFICE SCRIPTS</span>
+        <h3>El sucesor para la nube</h3>
+        <p>TypeScript, async, tipado, multiplataforma (web/desktop/mobile en Excel), invocable desde Power Automate.</p>
+        <ul>
+          <li><strong>Pros:</strong> moderno, seguro, integrable, sin instalación.</li>
+          <li><strong>Contras:</strong> solo Excel, solo tenant M365, sin acceso al sistema.</li>
+          <li><strong>Úsalo cuando:</strong> el libro vive en SharePoint/OneDrive y necesitas automatizar o integrar con flows.</li>
+        </ul>
+      </div>
+      <div class="compare-card cmp-vba">
+        <span class="cmp-tag">VBA</span>
+        <h3>El veterano local</h3>
+        <p>Visual Basic embebido en el archivo (<code>.xlsm</code>). Acceso a Win32, COM y filesystem. No hay TypeScript, no hay Git real.</p>
+        <ul>
+          <li><strong>Pros:</strong> acceso al sistema, scripts auto-contenidos en el archivo.</li>
+          <li><strong>Contras:</strong> solo Excel Desktop Windows, considerado legacy, riesgo de seguridad.</li>
+          <li><strong>Úsalo cuando:</strong> el libro vive en local, no se comparte, y necesitas tocar el sistema operativo.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:1rem">
+      <h3>¿Y Office.js / Add-ins?</h3>
+      <p>Es otra cosa: Office.js es para construir <strong>add-ins</strong> distribuibles (con UI HTML propia) que se instalan en Office. Office Scripts está enfocado a <strong>scripts cortos personales o de equipo</strong>, no a productos. Si lo que quieres es publicar una herramienta a terceros, mira add-ins; si quieres automatizar tu trabajo o el del equipo, Office Scripts.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Aspecto</th><th>Office Scripts</th><th>VBA</th><th>Office.js Add-in</th></tr></thead>
+        <tbody>
+          <tr><td>Lenguaje</td><td>TypeScript</td><td>Visual Basic</td><td>JavaScript / TypeScript</td></tr>
+          <tr><td>Dónde vive</td><td>OneDrive (.osts)</td><td>Dentro del .xlsm</td><td>Manifest + servidor web</td></tr>
+          <tr><td>Plataformas</td><td>Web, Desktop, Mac</td><td>Solo Desktop Windows</td><td>Web, Desktop, Mac</td></tr>
+          <tr><td>Power Automate</td><td><strong>Sí, nativo</strong></td><td>No</td><td>No</td></tr>
+          <tr><td>Acceso al SO</td><td>No</td><td>Sí</td><td>No</td></tr>
+          <tr><td>Recomendación 2026</td><td><strong>Por defecto</strong></td><td>Mantenimiento</td><td>Productos</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ========== 04 — API ========== -->
+  <div class="section" id="api">
+    <div class="section-header"><div class="section-num" style="background:var(--ts)">04</div><h2>La API <code>ExcelScript</code> en 5 minutos</h2></div>
+
+    <p style="font-size:.92rem;color:var(--text-mid);margin-bottom:1rem">Toda la API cuelga del namespace <code>ExcelScript</code>. La jerarquía importa: <code>Workbook</code> contiene <code>Worksheet</code>, que contiene <code>Range</code> y <code>Table</code>. Lo demás (formato, filtros, gráficos, tablas dinámicas) son métodos sobre esos objetos.</p>
+
+    <h3 style="font-size:1rem;color:var(--text-mid);font-weight:500;margin-bottom:.5rem">Tipos y entidades top que vas a usar el 90% del tiempo</h3>
+    <div class="api-grid">
+      <div class="api-pill">Workbook</div>
+      <div class="api-pill">Worksheet</div>
+      <div class="api-pill">Range</div>
+      <div class="api-pill">Table</div>
+      <div class="api-pill">PivotTable</div>
+      <div class="api-pill">Chart</div>
+      <div class="api-pill">DataValidation</div>
+      <div class="api-pill">ConditionalFormat</div>
+      <div class="api-pill">NamedItem</div>
+      <div class="api-pill">RangeFormat</div>
+      <div class="api-pill">AutoFilter</div>
+      <div class="api-pill">Comment</div>
+    </div>
+
+    <h3 style="margin-top:1.5rem;font-size:1rem;color:var(--text-mid);font-weight:500">Patrones de lectura/escritura</h3>
+    <div class="code-block"><span class="comment">// Leer un valor escalar</span>
+<span class="keyword">const</span> v = sheet.<span class="method">getRange</span>(<span class="string">"B2"</span>).<span class="method">getValue</span>();
+
+<span class="comment">// Leer un rango como matriz 2D (filas × columnas)</span>
+<span class="keyword">const</span> matriz: (<span class="type">string</span> | <span class="type">number</span> | <span class="type">boolean</span>)[][] =
+  sheet.<span class="method">getUsedRange</span>().<span class="method">getValues</span>();
+
+<span class="comment">// Escribir un rango entero de un golpe (siempre prefiere esto)</span>
+sheet.<span class="method">getRange</span>(<span class="string">"A1:C3"</span>).<span class="method">setValues</span>([
+  [<span class="string">"Producto"</span>, <span class="string">"Cantidad"</span>, <span class="string">"Total"</span>],
+  [<span class="string">"Café"</span>, <span class="num">10</span>, <span class="num">35.5</span>],
+  [<span class="string">"Té"</span>,   <span class="num">7</span>,  <span class="num">21.0</span>]
+]);
+
+<span class="comment">// Iterar por filas: rápido si lees primero, escribes después</span>
+<span class="keyword">const</span> filas = sheet.<span class="method">getUsedRange</span>().<span class="method">getValues</span>();
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="num">1</span>; i &lt; filas.length; i++) {
+  filas[i][<span class="num">2</span>] = (filas[i][<span class="num">1</span>] <span class="keyword">as</span> <span class="type">number</span>) * <span class="num">1.21</span>;
+}
+sheet.<span class="method">getUsedRange</span>().<span class="method">setValues</span>(filas);</div>
+
+    <div class="warn-box">
+      <p><strong>Regla de oro de rendimiento:</strong> cada llamada a la API tiene latencia de red. Lee todo lo que necesites a una matriz, opera <em>en memoria</em> en TypeScript, y escribe el resultado en una sola operación. Un bucle que lea/escriba celda a celda puede tardar minutos donde un <code>setValues</code> tarda milisegundos.</p>
+    </div>
+  </div>
+
+  <!-- ========== 05 — EJEMPLOS ========== -->
+  <div class="section" id="ejemplos">
+    <div class="section-header"><div class="section-num" style="background:var(--accent)">05</div><h2>6 ejemplos prácticos listos para copiar</h2></div>
+
+    <p style="font-size:.92rem;color:var(--text-mid);margin-bottom:1rem">Todos los ejemplos siguen el mismo patrón: empiezas grabando con el Action Recorder, generas una primera versión, y la limpias o generalizas con Claude Code. Cada bloque indica qué demuestra y cómo usarlo en S4-miércoles.</p>
+
+    <!-- EJEMPLO 1 -->
+    <div class="example-card">
+      <div class="ex-title"><div class="ex-num">1</div><h3>Limpiar un dataset (trim, fechas, duplicados)</h3><span class="ex-tag">Datos</span></div>
+      <div class="ex-meta">Demuestra · lectura/escritura masiva · uso de Set y normalización en memoria</div>
+      <p style="font-size:.88rem;color:var(--text-mid);margin-bottom:.5rem">Toma una hoja con datos sucios típicos: espacios extras, mayúsculas inconsistentes, fechas como texto, duplicados por email. Devuelve la misma hoja normalizada y un contador de cambios.</p>
+      <div class="info-box">
+        <p><strong>Datos demo:</strong> abre <a href="limpiar-dataset-demo.csv" style="color:var(--excel);font-weight:600">limpiar-dataset-demo.csv</a> en Excel. 22 filas con todos los problemas: emails con espacios y mayúsculas, nombres con dobles espacios, fechas DD/MM/YYYY, 5 duplicados y 2 emails vacíos. Tras ejecutar el script deben quedar <strong>15 filas limpias</strong>.</p>
+      </div>
+      <div class="warn-box">
+        <p><strong>Trampa real (la vimos en clase):</strong> al abrir el CSV, Excel auto-convierte <code>15/01/2025</code> a fecha real. Entonces <code>getValues()</code> devuelve un <strong>número serial</strong>, no un string, y <code>.split("/")</code> revienta con <em>"split is not a function"</em>. El helper <code>aIso()</code> de arriba detecta el tipo (<code>typeof v === "number"</code>) y convierte el serial a ISO; si llega como texto DD/MM/YYYY también lo cubre. Por eso el código real necesita esa función — el grabador no te la genera.</p>
+      </div>
+      <div class="code-block"><span class="keyword">function</span> <span class="func">main</span>(workbook: ExcelScript.<span class="type">Workbook</span>) {
+  <span class="keyword">const</span> sheet = workbook.<span class="method">getActiveWorksheet</span>();
+  <span class="keyword">const</span> usado = sheet.<span class="method">getUsedRange</span>();
+  <span class="keyword">const</span> filas = usado.<span class="method">getValues</span>();
+  <span class="keyword">const</span> [cab, ...datos] = filas;
+
+  <span class="keyword">const</span> idxEmail   = cab.<span class="method">indexOf</span>(<span class="string">"Email"</span>);
+  <span class="keyword">const</span> idxNombre  = cab.<span class="method">indexOf</span>(<span class="string">"Nombre"</span>);
+  <span class="keyword">const</span> idxFecha   = cab.<span class="method">indexOf</span>(<span class="string">"FechaAlta"</span>);
+
+  <span class="keyword">const</span> vistos = <span class="keyword">new</span> <span class="type">Set</span>&lt;<span class="type">string</span>&gt;();
+  <span class="keyword">const</span> limpias = datos.<span class="method">filter</span>(f =&gt; {
+    <span class="keyword">const</span> mail = <span class="func">String</span>(f[idxEmail] ?? <span class="string">""</span>).<span class="method">trim</span>().<span class="method">toLowerCase</span>();
+    <span class="keyword">if</span> (!mail || vistos.<span class="method">has</span>(mail)) <span class="keyword">return</span> <span class="keyword">false</span>;
+    vistos.<span class="method">add</span>(mail);
+    f[idxEmail]  = mail;
+    f[idxNombre] = <span class="func">String</span>(f[idxNombre] ?? <span class="string">""</span>).<span class="method">trim</span>().<span class="method">replace</span>(<span class="regex">/\s+/g</span>, <span class="string">" "</span>);
+    f[idxFecha]  = <span class="func">aIso</span>(f[idxFecha]);
+    <span class="keyword">return</span> <span class="keyword">true</span>;
+  });
+
+  usado.<span class="method">clear</span>(ExcelScript.<span class="type">ClearApplyTo</span>.contents);
+  sheet.<span class="method">getRangeByIndexes</span>(<span class="num">0</span>, <span class="num">0</span>, <span class="num">1</span>, cab.length).<span class="method">setValues</span>([cab]);
+  sheet.<span class="method">getRangeByIndexes</span>(<span class="num">1</span>, <span class="num">0</span>, limpias.length, cab.length).<span class="method">setValues</span>(limpias);
+  <span class="comment">// La columna FechaAlta queda como texto ISO; forzamos formato texto</span>
+  sheet.<span class="method">getRangeByIndexes</span>(<span class="num">1</span>, idxFecha, limpias.length, <span class="num">1</span>).<span class="method">setNumberFormat</span>(<span class="string">"@"</span>);
+
+  console.<span class="method">log</span>(<span class="string">`Filas finales: ${limpias.length} (de ${datos.length})`</span>);
+}
+
+<span class="comment">// Convierte cualquier representación de fecha a "YYYY-MM-DD"</span>
+<span class="keyword">function</span> <span class="func">aIso</span>(v: <span class="type">string</span> | <span class="type">number</span> | <span class="type">boolean</span>): <span class="type">string</span> {
+  <span class="keyword">if</span> (<span class="keyword">typeof</span> v === <span class="string">"number"</span>) {
+    <span class="comment">// Excel guarda fechas como serial; 25569 = días entre 1900-01-01 y 1970-01-01</span>
+    <span class="keyword">const</span> ms = <span class="type">Math</span>.<span class="method">round</span>((v - <span class="num">25569</span>) * <span class="num">86400</span> * <span class="num">1000</span>);
+    <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">Date</span>(ms).<span class="method">toISOString</span>().<span class="method">slice</span>(<span class="num">0</span>, <span class="num">10</span>);
+  }
+  <span class="keyword">const</span> s = <span class="func">String</span>(v).<span class="method">trim</span>();
+  <span class="keyword">const</span> m = s.<span class="method">match</span>(<span class="regex">/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/</span>);
+  <span class="keyword">if</span> (m) <span class="keyword">return</span> <span class="string">`${m[3]}-${m[2].padStart(2,</span><span class="string">"0"</span><span class="string">)}-${m[1].padStart(2,</span><span class="string">"0"</span><span class="string">)}`</span>;
+  <span class="keyword">return</span> s; <span class="comment">// ya viene en ISO o formato desconocido — lo dejamos tal cual</span>
+}</div>
+    </div>
+
+    <!-- EJEMPLO 2 -->
+    <div class="example-card">
+      <div class="ex-title"><div class="ex-num">2</div><h3>Convertir un rango plano en tabla con formato</h3><span class="ex-tag">Formato</span></div>
+      <div class="ex-meta">Demuestra · creación de Table, estilos, autoFit</div>
+      <div class="code-block"><span class="keyword">function</span> <span class="func">main</span>(workbook: ExcelScript.<span class="type">Workbook</span>) {
+  <span class="keyword">const</span> sheet = workbook.<span class="method">getActiveWorksheet</span>();
+  <span class="keyword">const</span> rango = sheet.<span class="method">getUsedRange</span>();
+
+  <span class="keyword">const</span> tabla = workbook.<span class="method">addTable</span>(rango, <span class="keyword">true</span>);
+  tabla.<span class="method">setName</span>(<span class="string">"tblVentas"</span>);
+  tabla.<span class="method">setPredefinedTableStyle</span>(<span class="string">"TableStyleMedium9"</span>);
+
+  <span class="comment">// Auto-ajuste de columnas para que se lea bien</span>
+  rango.<span class="method">getFormat</span>().<span class="method">autofitColumns</span>();
+  rango.<span class="method">getFormat</span>().<span class="method">autofitRows</span>();
+
+  <span class="comment">// Cabecera en negrita y centrada</span>
+  <span class="keyword">const</span> head = tabla.<span class="method">getHeaderRowRange</span>().<span class="method">getFormat</span>();
+  head.<span class="method">getFont</span>().<span class="method">setBold</span>(<span class="keyword">true</span>);
+  head.<span class="method">setHorizontalAlignment</span>(ExcelScript.<span class="type">HorizontalAlignment</span>.center);
+}</div>
+    </div>
+
+    <!-- EJEMPLO 3 -->
+    <div class="example-card">
+      <div class="ex-title"><div class="ex-num">3</div><h3>Resumen mensual con totales por categoría</h3><span class="ex-tag">Reporting</span></div>
+      <div class="ex-meta">Demuestra · agregaciones en TypeScript · escritura de hoja nueva</div>
+      <div class="code-block"><span class="keyword">function</span> <span class="func">main</span>(workbook: ExcelScript.<span class="type">Workbook</span>) {
+  <span class="keyword">const</span> origen = workbook.<span class="method">getWorksheet</span>(<span class="string">"Movimientos"</span>);
+  <span class="keyword">const</span> rows = origen.<span class="method">getUsedRange</span>().<span class="method">getValues</span>();
+  <span class="keyword">const</span> [cab, ...datos] = rows;
+
+  <span class="keyword">const</span> iCat    = cab.<span class="method">indexOf</span>(<span class="string">"Categoria"</span>);
+  <span class="keyword">const</span> iImp    = cab.<span class="method">indexOf</span>(<span class="string">"Importe"</span>);
+
+  <span class="keyword">const</span> totales = <span class="keyword">new</span> <span class="type">Map</span>&lt;<span class="type">string</span>, <span class="type">number</span>&gt;();
+  <span class="keyword">for</span> (<span class="keyword">const</span> f <span class="keyword">of</span> datos) {
+    <span class="keyword">const</span> cat = f[iCat] <span class="keyword">as</span> <span class="type">string</span>;
+    <span class="keyword">const</span> imp = f[iImp] <span class="keyword">as</span> <span class="type">number</span>;
+    totales.<span class="method">set</span>(cat, (totales.<span class="method">get</span>(cat) ?? <span class="num">0</span>) + imp);
+  }
+
+  <span class="comment">// Crea (o reemplaza) la hoja de salida</span>
+  workbook.<span class="method">getWorksheet</span>(<span class="string">"Resumen"</span>)?.<span class="method">delete</span>();
+  <span class="keyword">const</span> out = workbook.<span class="method">addWorksheet</span>(<span class="string">"Resumen"</span>);
+
+  <span class="keyword">const</span> filas: (<span class="type">string</span>|<span class="type">number</span>)[][] = [[<span class="string">"Categoría"</span>, <span class="string">"Total €"</span>]];
+  <span class="keyword">for</span> (<span class="keyword">const</span> [cat, t] <span class="keyword">of</span> totales) filas.<span class="method">push</span>([cat, t]);
+
+  out.<span class="method">getRangeByIndexes</span>(<span class="num">0</span>, <span class="num">0</span>, filas.length, <span class="num">2</span>).<span class="method">setValues</span>(filas);
+  workbook.<span class="method">addTable</span>(out.<span class="method">getRange</span>(<span class="string">"A1"</span>).<span class="method">getResizedRange</span>(filas.length-<span class="num">1</span>, <span class="num">1</span>), <span class="keyword">true</span>)
+    .<span class="method">setPredefinedTableStyle</span>(<span class="string">"TableStyleMedium2"</span>);
+}</div>
+    </div>
+
+    <!-- EJEMPLO 4 -->
+    <div class="example-card">
+      <div class="ex-title"><div class="ex-num">4</div><h3>Formato condicional para alertas</h3><span class="ex-tag">UX</span></div>
+      <div class="ex-meta">Demuestra · ConditionalFormat aplicado por código (regla cellValue)</div>
+      <div class="code-block"><span class="keyword">function</span> <span class="func">main</span>(workbook: ExcelScript.<span class="type">Workbook</span>) {
+  <span class="keyword">const</span> sheet = workbook.<span class="method">getActiveWorksheet</span>();
+  <span class="keyword">const</span> col   = sheet.<span class="method">getRange</span>(<span class="string">"D2:D1000"</span>);
+
+  col.<span class="method">getConditionalFormats</span>().<span class="method">forEach</span>(c =&gt; c.<span class="method">delete</span>());
+
+  <span class="keyword">const</span> rojo = col.<span class="method">addConditionalFormat</span>(ExcelScript.<span class="type">ConditionalFormatType</span>.cellValue);
+  rojo.<span class="method">getCellValue</span>().<span class="method">setRule</span>({
+    formula1: <span class="string">"=0"</span>,
+    operator: ExcelScript.<span class="type">ConditionalCellValueOperator</span>.lessThan
+  });
+  rojo.<span class="method">getCellValue</span>().<span class="method">getFormat</span>().<span class="method">getFill</span>().<span class="method">setColor</span>(<span class="string">"#FFC7CE"</span>);
+  rojo.<span class="method">getCellValue</span>().<span class="method">getFormat</span>().<span class="method">getFont</span>().<span class="method">setColor</span>(<span class="string">"#9C0006"</span>);
+
+  <span class="keyword">const</span> verde = col.<span class="method">addConditionalFormat</span>(ExcelScript.<span class="type">ConditionalFormatType</span>.cellValue);
+  verde.<span class="method">getCellValue</span>().<span class="method">setRule</span>({
+    formula1: <span class="string">"=10000"</span>,
+    operator: ExcelScript.<span class="type">ConditionalCellValueOperator</span>.greaterThan
+  });
+  verde.<span class="method">getCellValue</span>().<span class="method">getFormat</span>().<span class="method">getFill</span>().<span class="method">setColor</span>(<span class="string">"#C6EFCE"</span>);
+}</div>
+    </div>
+
+    <!-- EJEMPLO 5 -->
+    <div class="example-card">
+      <div class="ex-title"><div class="ex-num">5</div><h3>Script con parámetros + retorno (callable desde Power Automate)</h3><span class="ex-tag">Integración</span></div>
+      <div class="ex-meta">Demuestra · firma de <code>main</code> con args tipados · retorno usable como salida</div>
+      <p style="font-size:.88rem;color:var(--text-mid);margin-bottom:.5rem">Cualquier parámetro que añadas a <code>main</code> aparece automáticamente como input de la acción <em>Run script</em> en Power Automate. El <code>return</code> queda como output del paso, encadenable a otras acciones.</p>
+      <div class="code-block"><span class="keyword">function</span> <span class="func">main</span>(
+  workbook: ExcelScript.<span class="type">Workbook</span>,
+  cliente: <span class="type">string</span>,
+  desde:   <span class="type">string</span>,   <span class="comment">// "2026-01-01"</span>
+  hasta:   <span class="type">string</span>
+): { totalFacturado: <span class="type">number</span>; lineas: <span class="type">number</span> } {
+
+  <span class="keyword">const</span> sheet = workbook.<span class="method">getWorksheet</span>(<span class="string">"Facturas"</span>);
+  <span class="keyword">const</span> rows  = sheet.<span class="method">getUsedRange</span>().<span class="method">getValues</span>();
+  <span class="keyword">const</span> [cab, ...datos] = rows;
+
+  <span class="keyword">const</span> iCli = cab.<span class="method">indexOf</span>(<span class="string">"Cliente"</span>);
+  <span class="keyword">const</span> iFec = cab.<span class="method">indexOf</span>(<span class="string">"Fecha"</span>);
+  <span class="keyword">const</span> iImp = cab.<span class="method">indexOf</span>(<span class="string">"Importe"</span>);
+
+  <span class="keyword">const</span> filtradas = datos.<span class="method">filter</span>(f =&gt;
+    f[iCli] === cliente &amp;&amp;
+    f[iFec] &gt;= desde &amp;&amp;
+    f[iFec] &lt;= hasta
+  );
+
+  <span class="keyword">const</span> total = filtradas.<span class="method">reduce</span>((acc, f) =&gt; acc + (f[iImp] <span class="keyword">as</span> <span class="type">number</span>), <span class="num">0</span>);
+  <span class="keyword">return</span> { totalFacturado: total, lineas: filtradas.length };
+}</div>
+      <div class="info-box">
+        <p>En el flujo, esos campos aparecen como inputs en la acción <strong>Excel Online (Business) → Run script</strong>. El output es un objeto JSON que puedes mapear directo a un correo, una tarjeta de Teams o una fila de Dataverse.</p>
+      </div>
+    </div>
+
+    <!-- EJEMPLO 6 -->
+    <div class="example-card">
+      <div class="ex-title"><div class="ex-num">6</div><h3>Combinar varias hojas en una</h3><span class="ex-tag">Consolidación</span></div>
+      <div class="ex-meta">Demuestra · iterar worksheets · concatenar matrices · cabeceras consistentes</div>
+      <div class="code-block"><span class="keyword">function</span> <span class="func">main</span>(workbook: ExcelScript.<span class="type">Workbook</span>) {
+  <span class="keyword">const</span> hojas = workbook.<span class="method">getWorksheets</span>()
+    .<span class="method">filter</span>(h =&gt; h.<span class="method">getName</span>().<span class="method">startsWith</span>(<span class="string">"Mes_"</span>));
+
+  <span class="keyword">if</span> (hojas.length === <span class="num">0</span>) <span class="keyword">throw</span> <span class="string">"No hay hojas Mes_*"</span>;
+
+  <span class="keyword">const</span> [cab, ...primero] = hojas[<span class="num">0</span>].<span class="method">getUsedRange</span>().<span class="method">getValues</span>();
+  <span class="keyword">const</span> consolidado: <span class="type">unknown</span>[][] = [[...cab, <span class="string">"Origen"</span>]];
+
+  <span class="keyword">for</span> (<span class="keyword">const</span> hoja <span class="keyword">of</span> hojas) {
+    <span class="keyword">const</span> [, ...datos] = hoja.<span class="method">getUsedRange</span>().<span class="method">getValues</span>();
+    <span class="keyword">for</span> (<span class="keyword">const</span> f <span class="keyword">of</span> datos) consolidado.<span class="method">push</span>([...f, hoja.<span class="method">getName</span>()]);
+  }
+
+  workbook.<span class="method">getWorksheet</span>(<span class="string">"Consolidado"</span>)?.<span class="method">delete</span>();
+  <span class="keyword">const</span> out = workbook.<span class="method">addWorksheet</span>(<span class="string">"Consolidado"</span>);
+  out.<span class="method">getRangeByIndexes</span>(<span class="num">0</span>, <span class="num">0</span>, consolidado.length, consolidado[<span class="num">0</span>].length)
+     .<span class="method">setValues</span>(consolidado <span class="keyword">as</span> (<span class="type">string</span>|<span class="type">number</span>|<span class="type">boolean</span>)[][]);
+}</div>
+    </div>
+  </div>
+
+  <!-- ========== 06 — POWER AUTOMATE ========== -->
+  <div class="section" id="pa">
+    <div class="section-header"><div class="section-num" style="background:var(--blue)">06</div><h2>Integración con Power Automate — el verdadero superpoder</h2></div>
+
+    <p style="font-size:.92rem;color:var(--text-mid);margin-bottom:1rem">Sola, Office Scripts es una macro moderna. Combinada con Power Automate, se convierte en el motor de cálculo serverless del flow. El flow orquesta (correo, aprobación, SharePoint, Teams) y delega en el script lo que el flow no sabe hacer (transformaciones complejas).</p>
+
+    <div class="pipeline">
+      <div class="pipeline-step ps-purple">Trigger PA</div>
+      <span class="pipeline-arrow">→</span>
+      <div class="pipeline-step ps-blue">Get file (SharePoint)</div>
+      <span class="pipeline-arrow">→</span>
+      <div class="pipeline-step ps-excel">Run script</div>
+      <span class="pipeline-arrow">→</span>
+      <div class="pipeline-step ps-orange">Send email / Teams</div>
+    </div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>Cómo se conectan</h3>
+        <ol class="flow-steps">
+          <li>Crea un flow en Power Automate.</li>
+          <li>Añade la acción <span class="action-pill">Excel Online (Business) → Run script</span>.</li>
+          <li>Selecciona <strong>Location</strong>, <strong>Document Library</strong>, <strong>File</strong> y <strong>Script</strong>.</li>
+          <li>Si tu <code>main</code> tiene parámetros, aparecen como campos del paso.</li>
+          <li>Encadena la salida del script al siguiente paso (correo, Teams, Dataverse).</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Tipos válidos como parámetros</h3>
+        <ul>
+          <li><code>string</code>, <code>number</code>, <code>boolean</code>, <code>Date</code>.</li>
+          <li>Arrays de los anteriores.</li>
+          <li>Objetos con campos tipados (Power Automate los rellena con un cuadro de "Parameters").</li>
+        </ul>
+        <div class="warn-box">
+          <p><strong>Lo que no funciona:</strong> tipos del SDK de Excel (<code>Workbook</code>, <code>Range</code>) más allá del primer parámetro. No puedes pasar una hoja entera como input — pasa el nombre y la lees dentro.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:1.25rem;font-size:1rem;color:var(--text-mid);font-weight:500">Caso típico: informe semanal automatizado</h3>
+    <ol class="flow-steps">
+      <li><strong>Recurrence</strong>: cada lunes a las 7:00.</li>
+      <li><strong>Run script</strong> sobre <code>Ventas.xlsx</code> en SharePoint, parámetros <code>desde</code> / <code>hasta</code> calculados con <code>addDays</code>.</li>
+      <li>El script construye la hoja <em>Resumen</em> y devuelve <code>{ total, top3 }</code>.</li>
+      <li><strong>Send an email (V2)</strong> con el JSON renderizado en HTML y el archivo adjunto.</li>
+    </ol>
+
+    <div class="tip-box">
+      <p><strong>Truco:</strong> si tu flow se queda corto (timeout 6 min), no partas el script en flows pequeños — sube todo el bucle al script, que tiene 5 min en flows estándar pero ejecuta TS puro a velocidad nativa. Lo que tarda 5 minutos en PA puede tardar 5 segundos en TS.</p>
+    </div>
+  </div>
+
+  <!-- ========== 07 — CLAUDE CODE ========== -->
+  <div class="section" id="claude">
+    <div class="section-header"><div class="section-num" style="background:var(--claude)">07</div><h2>Claude Code como copiloto de Office Scripts</h2></div>
+
+    <div class="ai-spotlight">
+      <h3>Claude Code escribe, refactoriza y traduce TS de Excel</h3>
+      <p>El editor de Office Scripts en la web no tiene IA propia. La forma profesional de trabajar es:</p>
+      <ul>
+        <li><strong>Grabas</strong> con Action Recorder un primer borrador.</li>
+        <li><strong>Pegas el .osts en tu repo local</strong> (es un archivo de texto, vive bien en Git).</li>
+        <li><strong>Pides a Claude Code</strong> que lo refactorice, generalice o traduzca un VBA viejo a Office Scripts.</li>
+        <li><strong>Pegas el resultado de vuelta</strong> en el editor de Excel y ejecutas.</li>
+      </ul>
+      <p style="margin-top:.5rem">Claude conoce la API <code>ExcelScript</code> bien: distingue <code>setValues</code> de <code>setValue</code>, recuerda que <code>getUsedRange</code> puede devolver null en hojas vacías y aplica los patrones de rendimiento sin que se lo pidas.</p>
+    </div>
+
+    <div class="content-grid">
+      <div class="card">
+        <h3>3 prompts que de verdad usarás</h3>
+        <span class="prompt-anchor">Refactor del recorder</span>
+        <p style="font-size:.85rem;color:var(--text-mid)">"Toma este script grabado con Action Recorder, generalízalo para que funcione con cualquier hoja activa (no la específica que grabé) y añade tipos explícitos en lugar de <code>any</code>."</p>
+        <span class="prompt-anchor">Migrar VBA</span>
+        <p style="font-size:.85rem;color:var(--text-mid)">"Traduce esta macro VBA a Office Scripts. Mantén la lógica idéntica pero usa lectura/escritura por matrices en vez de celda a celda. Devuelve solo el TypeScript final."</p>
+        <span class="prompt-anchor">Detector de bugs</span>
+        <p style="font-size:.85rem;color:var(--text-mid)">"Revisa este script y dime: ¿qué pasa si la hoja está vacía, si la columna falta, si hay un valor no numérico? Añade los chequeos mínimos sin sobreingeniería."</p>
+      </div>
+      <div class="card">
+        <h3>Workflow recomendado en S4-miércoles</h3>
+        <ol class="flow-steps">
+          <li>En Excel: graba con <span class="action-pill">Record Actions</span> el flujo manual.</li>
+          <li>Copia el TS al editor de tu IDE (en <code>/sesiones/s4-miercoles/scripts/</code> por ejemplo).</li>
+          <li>Pide a Claude Code el refactor + tipado fuerte.</li>
+          <li>Pide tests mentales: "dame 3 datasets que romperían este script".</li>
+          <li>Versiona el <code>.osts</code> en Git para tener historial real (cosa que Excel no te da).</li>
+          <li>Pegado de vuelta al editor + <span class="action-pill">Save</span>.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="qa-card">
+      <p><strong>Pregunta para abrir debate en clase:</strong> ¿qué te ata a VBA en tu equipo hoy? Si es solo costumbre, este es el momento de migrar. Si es algo concreto (UDFs, acceso al sistema, libros muy grandes en local), Office Scripts no es el reemplazo — y conviene saberlo antes de prometerlo.</p>
+    </div>
+  </div>
+
+  <!-- ========== 08 — TRAMPAS ========== -->
+  <div class="section" id="trampas">
+    <div class="section-header"><div class="section-num" style="background:var(--red)">08</div><h2>Trampas habituales y cierre</h2></div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Síntoma</th><th>Causa real</th><th>Solución</th></tr></thead>
+        <tbody>
+          <tr><td>"No veo la pestaña Automate"</td><td>Política del tenant</td><td>Pedir al admin habilitar Office Scripts en el centro de admin de M365</td></tr>
+          <tr><td>El script tarda minutos en ejecutarse</td><td>Bucle leyendo/escribiendo celda a celda</td><td>Sustituir por <code>getValues</code>/<code>setValues</code> de toda la matriz</td></tr>
+          <tr><td>"Cannot read property 'getValues' of null"</td><td><code>getUsedRange()</code> en hoja vacía</td><td>Comprobar antes con <code>getUsedRange()?.getValues() ?? []</code></td></tr>
+          <tr><td>El script falla solo desde Power Automate</td><td>Permisos sobre el archivo o licencia del usuario que ejecuta</td><td>Ejecutar el flow con un usuario con licencia M365 estándar y permiso Edit sobre el .xlsx</td></tr>
+          <tr><td>Power Automate da timeout (6 min)</td><td>Lógica costosa en el flow</td><td>Mover el bucle entero al script, devolver solo el resultado final</td></tr>
+          <tr><td>"Can't find script .osts"</td><td>Movido o renombrado en OneDrive</td><td>Reapuntar la acción del flow al nuevo path del script</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="info-box">
+      <p><strong>Cierre:</strong> piensa Office Scripts como <strong>el motor de cálculo</strong> que llama tu Power Automate. La regla práctica: si el problema cabe en TypeScript puro y los datos están en un Excel de SharePoint/OneDrive, la respuesta empieza por Office Scripts. Y si tienes un VBA antiguo que vive en la nube ahora — es candidato a migrar.</p>
+    </div>
+
+    <div class="highlight-box">
+      <p><strong>Ejercicio sugerido para S4-miércoles:</strong> el alumno trae un Excel suyo con un proceso manual repetitivo (limpieza, informe, consolidación). En clase: 1) graba con Action Recorder, 2) refactoriza con Claude Code, 3) lo monta en un flow de Power Automate semanal. Resultado: una automatización suya, con su dato, en 30 minutos.</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <strong>Power Fox BI · Formación Claude Code</strong> · S4 · Miércoles · Material complementario sobre Office Scripts
+  </div>
+
+</div>
+
+</body>
+</html>
